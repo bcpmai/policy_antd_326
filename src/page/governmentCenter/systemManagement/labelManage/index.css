@@ -1,0 +1,40 @@
+.labelMange-template .label-manage-table{
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #f5f5f5;
+}
+.labelMange-template .label-manage-table th{
+    background: rgba(224, 224, 224, 0.03);
+    color: #000;
+}
+.labelMange-template .label-manage-table th span{
+    font-weight: normal;
+    color:#ae242b;
+}
+.labelMange-template .label-manage-table th,
+.labelMange-template .label-manage-table td{
+    padding: 8px 20px;
+}
+.labelMange-template .label-manage-table td{
+    border-left: 1px solid #f5f5f5;
+    border-top: 1px solid #f5f5f5;
+}
+.labelMange-template .label-manage-table .title{
+    font-size: 16px;
+    color: #333;
+    width: 150px;
+}
+.main-box .labelMange-template .ant-tag{
+    font-size: 14px;
+    background: #f5f5f5;
+    margin-bottom: 5px;
+}
+.main-box .labelMange-template .site-tag-plus{
+    border: 0px;
+    color:#ae242b;
+    background: #fff;
+}
+.main-box .labelMange-template .ant-tag:hover{
+    color: #ae242b;
+    cursor: pointer;
+}

@@ -1,0 +1,52 @@
+.itemText-template{}
+.itemText-template .itemText-label-box{
+    padding-top: 20px;
+}
+.itemText-template .itemText-descriptions{
+    border:1px solid #efefef;
+    padding: 10px;
+    margin: 10px 0;
+}
+.itemText-template .itemText-content-box{
+    padding-bottom: 20px;
+}
+.itemText-template .itemText-content{
+    margin-top: 20px;
+}
+.itemText-template .itemText-content .itemText-content-title{
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+}
+.itemText-template .itemText-content .itemText-content-text{
+    padding: 10px 0;
+}
+.itemText-template .itemText-infor .itemText-infor-table{
+    width: 96%;
+    margin: 20px auto;
+    border:1px solid #eee;
+}
+.itemText-template .itemText-infor .itemText-infor-table tr td{
+    padding: 5px 10px;
+    border-left:1px solid #eee;
+    border-top:1px solid #eee;
+    text-align: center;
+}
+.itemText-template .itemText-infor .itemText-infor-table tr:nth-child(2n) td{
+    background: #efefef;
+}
+.itemText-template .item-box{
+    margin-top: 20px;
+}
+.itemText-template .collection-butn .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 30px;
+    padding: 0 20px;
+    font-size: 14px;
+    margin: 0px 20px 0px 0px;
+}

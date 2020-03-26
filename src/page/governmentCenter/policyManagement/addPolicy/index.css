@@ -1,0 +1,118 @@
+.addPolicy-template{
+}
+.addPolicy-template .addPolicy-serach{
+    margin-left: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.addPolicy-template .addPolicy-serach .serach-arrow{
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+/*.addPolicy-template .label-box{*/
+    /*padding: 10px;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+.addPolicy-template .label-box .ant-col-2 {
+    text-align: center;
+    color: #333;
+}
+.addPolicy-template .addPolicy-button{
+    text-align: center;
+    margin-top: 20px;
+}
+.addPolicy-template .label-product-box{
+    position: relative;
+}
+.addPolicy-template .label-product-box .more-label{
+    color:#333;
+    position: absolute;
+    right:10px;
+    top:0;
+    cursor: pointer;
+}
+.addPolicy-template .information-title{
+    margin-top: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.addPolicy-template .information-title:before{
+    content: '';
+    width: 5px;
+    height: 20px;
+    float:left;
+    background: #1890ff;
+    margin-right: 5px;
+}
+/*面包屑*/
+/*.addPolicy-template .ant-breadcrumb {*/
+    /*background: #ae242b;*/
+    /*height: 40px;*/
+    /*line-height: 40px;*/
+    /*color: #fff;*/
+    /*font-size: 14px;*/
+    /*padding-left: 30px;*/
+/*}*/
+/*.addPolicy-template .ant-breadcrumb > span:last-child a,*/
+/*.addPolicy-template .ant-breadcrumb a,*/
+/*.addPolicy-template .ant-breadcrumb .ant-breadcrumb-separator {*/
+    /*color: #fff;*/
+/*}*/
+/*.addPolicy-template .title-component-template{*/
+    /*margin-top: 30px;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+.addPolicy-template .addPolicy-button{
+    padding:50px 0
+}
+.addPolicy-template .addPolicy-button .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 35px;
+    padding: 0 45px;
+    font-size: 16px;
+    margin-right: 20px;
+}
+.addPolicy-template .addPolicy-button .ant-btn{
+    color: #333;
+}
+/*.addPolicy-template .label-box{*/
+    /*padding: 40px 10px 60px 100px;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+/*.addPolicy-template .label-box .ant-col-4 {*/
+    /*color: #000;*/
+    /*text-align: left;*/
+/*}*/
+/*.addPolicy-template .label-box .ant-col-4 label{*/
+    /*font-size: 18px;*/
+/*}*/
+/*.addPolicy-template .label-box .ant-col-4:before{*/
+    /*content: '';*/
+    /*width: 12px;*/
+    /*height: 22px;*/
+    /*background: #aa2426;*/
+    /*display: inline-block;*/
+    /*vertical-align: -5px;*/
+    /*margin-right: 10px;*/
+/*}*/
+/*.addPolicy-template .ant-form-item-label > label.ant-form-item-required::before,*/
+/*.addPolicy-template .ant-form-item-label > label::after{*/
+    /*display: none;*/
+/*}*/
+.main-box .addPolicy-template .label-box .ant-col-4{
+    text-align: left;
+}
+.main-box .addPolicy-template .label-box .ant-col-4:before{
+    display: none;
+}
+.main-box .addPolicy-template .label-box .ant-col-4 .ant-form-item-label > label{
+    font-size: 16px;
+}
+.main-box .addPolicy-template .label-box{
+    border: 0;
+}

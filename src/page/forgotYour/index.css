@@ -1,0 +1,58 @@
+.forgotYour-template{
+
+}
+.forgotYour-template .forgotYour-form-box{
+    padding: 50px 0;
+    width: 500px;
+    margin: 0 auto;
+}
+.forgotYour-template .forgotYour-title{
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.forgotYour-template .forgotYour-button .ant-btn{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.forgotYour-template .forgotYour-button p{
+    text-align: right;
+}
+.forgotYour-template .forgotYour-button .ant-btn{
+    width: 95%;
+    margin-bottom: 40px;
+    background: #ae242b;
+    color: #fff;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 40px;
+    padding: 0 45px;
+    font-size: 18px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+.forgotYour-template .forgotYour-button p{
+    text-align: right;
+}
+.forgotYour-template .ant-col-8 {
+    color: #000;
+    text-align: center;
+}
+.forgotYour-template .ant-col-8 label{
+    font-size: 18px;
+}
+.forgotYour-template .ant-form-item-label > label.ant-form-item-required::before,
+.forgotYour-template .ant-form-item-label > label::after{
+    display: none;
+}
+.forgotYour-template a{
+    color: #ae242b;
+}
+.forgotYour-template a:hover{
+    text-decoration: underline;
+}
+.forgotYour-template .ant-form-text:hover{
+    border:1px solid #ae242b;
+    color:#ae242b;
+}

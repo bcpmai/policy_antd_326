@@ -1,0 +1,82 @@
+.declarationItem-template{
+}
+.declarationItem-template .declarationItem-serach{
+    margin-left: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.declarationItem-template .declarationItem-serach .serach-arrow{
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.declarationItem-template .label-box{
+    padding: 0px 100px;
+    margin-bottom: 20px;
+}
+.declarationItem-template .label-product-box{
+    position: relative;
+}
+.declarationItem-template .label-product-box .more-label{
+    color:#333;
+    position: absolute;
+    right:10px;
+    top:0;
+    cursor: pointer;
+}
+.declarationItem-template .label-box .ant-col-4 {
+    color: #000;
+    font-size: 18px;
+}
+.declarationItem-template .label-box .ant-col-4:before{
+    content: '';
+    width: 12px;
+    height: 22px;
+    background: #aa2426;
+    display: inline-block;
+    vertical-align: -5px;
+    margin-right: 10px;
+}
+.declarationItem-template .declarationItem-button{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+.declarationItem-template .declarationItem-button .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 40px;
+    padding: 0 70px;
+    font-size: 18px;
+}
+.declarationItem-template .declarationItem-button .ant-btn:hover{
+    background: #ae242b;
+    color: #fff;
+}
+.declarationItem-template .ant-row{
+    margin-bottom: 20px;
+}
+.declarationItem-template .declarationItem-serach .serach{
+    width: 370px;
+    margin: 80px auto 420px;
+}
+.declarationItem-template .declarationItem-serach .ant-input-group .ant-input{
+    border:1px solid #c8000a;
+    border-radius:15px 0 0 15px;
+    padding:4px 11px;
+}
+.declarationItem-template .declarationItem-serach .ant-input-group .ant-btn{
+    border:1px solid #c8000a;
+    background: #a72329;
+    border-radius:0 15px 15px 0;
+    padding: 3px 18px;
+    height: 35px;
+    font-size: 18px;
+}
+.declarationItem-template .declarationItem-serach .ant-input-group .ant-input-group-addon{
+    background: none;
+}

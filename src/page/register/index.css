@@ -1,0 +1,49 @@
+.register-template .register-form-box{
+    padding: 50px 0;
+}
+.register-template .register-title{
+   text-align: center;
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.register-template .register-button .ant-btn{
+    margin-bottom: 40px;
+    background: #ae242b;
+    color: #fff;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 40px;
+    padding: 0 45px;
+    font-size: 18px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+.register-template .register-button p{
+    text-align: right;
+}
+.register-template .ant-col-8 {
+    color: #000;
+    text-align: left;
+    text-indent: 100px;
+}
+.register-template .ant-col-8 label{
+    font-size: 18px;
+}
+.register-template .ant-form-item-label > label.ant-form-item-required::before,
+.register-template .ant-form-item-label > label::after{
+    display: none;
+}
+.register-template a{
+    color: #ae242b;
+}
+.register-template a:hover{
+    text-decoration: underline;
+}
+.register-template .ant-form-text:hover{
+    border:1px solid #ae242b;
+    color:#ae242b;
+}
+.register-template .top-component-template .ant-col-8{
+    text-indent: 0;
+}

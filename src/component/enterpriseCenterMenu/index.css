@@ -1,0 +1,60 @@
+.enterpriseMenu-component-template{
+    padding-top: 78px;
+}
+.enterpriseMenu-component-template .welcome-box{
+    border-bottom: 1px solid #efefef;
+    padding:5px;
+}
+.enterpriseMenu-component-template .welcome-box .right-button{
+    text-align: right;
+}
+.enterpriseMenu-component-template .logo-box{
+    padding:20px;
+}
+.enterpriseMenu-component-template .logo-box .logo{
+    font-size: 24px;
+    color:#333;
+}
+
+.enterpriseMenu-component-template .ant-menu{
+    border:0px;
+}
+.enterpriseMenu-component-template .ant-menu .ant-menu-item{
+    color: #666;
+    font-size: 17px;
+    border:1px solid #b94147;
+    border-radius: 20px;
+    text-indent:10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.enterpriseMenu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+    background: #fff;
+    color: #ae242b;
+}
+.enterpriseMenu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected a,
+.enterpriseMenu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-active a{
+    color: #ae242b;
+}
+.enterpriseMenu-component-template .ant-menu .ant-menu-inline .ant-menu-item-selected::after{
+    display: none;
+}
+.enterpriseMenu-component-template .ant-menu-submenu-title{
+    background: #ae242b;
+    font-size: 17px;
+    color: #fff;
+    border-radius: 20px;
+    text-indent:5px;
+    margin-bottom: 20px;
+}
+.enterpriseMenu-component-template .ant-menu-submenu-title .ant-menu-submenu-arrow:after,
+.enterpriseMenu-component-template .ant-menu-submenu-title .ant-menu-submenu-arrow:before,
+.enterpriseMenu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:after,
+.enterpriseMenu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:before
+{
+    color: #fff;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+}
+.enterpriseMenu-component-template .ant-menu-submenu-title .anticon{
+    font-size: 20px;
+}

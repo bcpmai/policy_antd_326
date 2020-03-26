@@ -1,0 +1,65 @@
+.policyText-template{}
+.policyText-template .policyText-label-box{
+    padding-top: 20px;
+}
+.policyText-template .policyText-descriptions{
+    padding: 20px;
+    margin: 10px 0;
+}
+.policyText-template .policyText-content-box{
+    padding-bottom: 20px;
+}
+.policyText-template .policyText-content{
+    margin-top: 20px;
+}
+.policyText-template .policyText-content .policyText-content-title{
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+}
+.policyText-template .policyText-content .policyText-content-text{
+    padding: 10px 0;
+}
+/*面包屑*/
+/*.policyText-template .ant-breadcrumb {*/
+    /*background: #ae242b;*/
+    /*height: 50px;*/
+    /*line-height: 50px;*/
+    /*color: #fff;*/
+    /*font-size: 18px;*/
+    /*padding-left: 110px;*/
+/*}*/
+.policyText-template .ant-descriptions-item-label{
+    font-size: 16px;
+    color: #000;
+}
+.policyText-template .ant-descriptions-item-content{
+    font-size: 16px;
+    color: #666;
+}
+/*.policyText-template .ant-breadcrumb > span:last-child a,*/
+/*.policyText-template .ant-breadcrumb .ant-breadcrumb-separator {*/
+    /*color: #fff;*/
+/*}*/
+.policyText-template .labelAdd .ant-descriptions-item-label{
+     vertical-align: top;
+ }
+.policyText-template .labelAdd .ant-descriptions-item-content{
+    display: inline-block;
+    width: 90%;
+}
+.policyText-template .labelAdd .ant-descriptions-item-content .ant-tag{
+    margin-bottom: 10px;
+}
+.policyText-template .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 30px;
+    padding: 0 20px;
+    font-size: 14px;
+    margin: 0px 40px 0px 10px;
+}

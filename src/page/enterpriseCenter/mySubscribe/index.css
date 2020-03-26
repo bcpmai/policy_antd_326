@@ -1,0 +1,55 @@
+.mySubscribe-template{
+}
+.mySubscribe-template .mySubscribe-title{
+    margin-top: 20px;
+    color: #333;
+}
+.mySubscribe-template .mySubscribe-title:before{
+    content: '';
+    width: 5px;
+    height: 20px;
+    float:left;
+    background: #1890ff;
+    margin-right: 5px;
+}
+.mySubscribe-template .mySubscribe-title-h1{
+    font-size: 24px;
+    color: #333;
+    margin: 10px 0;
+}
+.mySubscribe-template .button-edit{
+    float:right;
+}
+.mySubscribe-template .button-mySubscribe{
+    margin-left: 10px;
+    vertical-align: 3px;
+}
+.mySubscribe-template .mySubscribe-form{
+    border:1px solid #efefef;
+    margin-top: 20px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+.mySubscribe-template .mySubscribe-form .mySubscribe-title{
+    margin-bottom: 10px;
+}
+.mySubscribe-template .ant-tabs-tabpane{
+    display: none;
+}
+/*.mySubscribe-template .title-component-template{*/
+    /*margin-top: 80px;*/
+    /*margin-bottom: 60px;*/
+/*}*/
+.mySubscribe-template .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 32px;
+    padding: 0 20px;
+    font-size: 16px;
+}
+.mySubscribe-template .ant-btn:hover{
+    background: #ae242b;
+    color: #fff;
+}

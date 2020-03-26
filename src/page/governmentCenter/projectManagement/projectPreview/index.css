@@ -1,0 +1,61 @@
+.policyPreview-template{}
+.policyPreview-template .policyPreview-label-box{
+    background: #e5e5e5;
+}
+.policyPreview-template .policyPreview-label-box .max-weight-box{
+    background: #fff;
+    border-top:50px solid #ae242b;
+}
+.policyPreview-template .policyPreview-descriptions{
+    padding: 40px 35px 30px;
+    margin: 10px 0;
+    border-bottom: 1px dotted #e6e6e6;
+}
+.policyPreview-template .policyPreview-content-box{
+    padding-bottom: 20px;
+}
+.policyPreview-template .policyPreview-content{
+    margin-top: 20px;
+}
+.policyPreview-template .policyPreview-content .policyPreview-content-title{
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+}
+.policyPreview-template .policyPreview-content .policyPreview-content-text{
+    padding: 80px 70px;
+    font-size: 14px;
+    color: #000;
+    line-height: 30px;
+}
+.policyPreview-template .policyPreview-content .policyPreview-content-text div{
+    text-indent: 30px;
+    margin-bottom: 20px;
+}
+.policyPreview-template .title-component-template{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.policyPreview-template .ant-descriptions-item-label{
+    font-size: 16px;
+    color: #000;
+}
+.policyPreview-template .ant-descriptions-item-content{
+    font-size: 16px;
+    color: #666;
+}
+.policyPreview-template .ant-descriptions-row > td{
+    padding-bottom: 20px;
+}
+.policyPreview-template .labelAdd .ant-descriptions-item-label{
+    vertical-align: top;
+}
+.policyPreview-template .labelAdd .ant-descriptions-item-content{
+    display: inline-block;
+    width: 90%;
+}
+.policyPreview-template .labelAdd .ant-descriptions-item-content .ant-tag{
+    margin-bottom: 10px;
+}

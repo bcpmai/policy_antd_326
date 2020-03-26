@@ -1,0 +1,54 @@
+.policyUser-template{
+}
+.policyUser-template .policyUser-serach{
+    margin-left: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.policyUser-template .policyUser-serach .serach-arrow{
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+/*.policyUser-template .label-box{*/
+    /*border:1px solid #efefef;*/
+    /*padding: 10px;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+/*.policyUser-template .label-box .ant-col-2 {*/
+    /*text-align: center;*/
+    /*color: #333;*/
+/*}*/
+.policyUser-template .policyUser-button{
+    text-align: center;
+    margin-top: 20px;
+}
+.policyUser-template .label-product-box{
+    position: relative;
+}
+.policyUser-template .label-product-box .more-label{
+    color:#333;
+    position: absolute;
+    right:10px;
+    top:0;
+    cursor: pointer;
+}
+.policyUser-template .information-title{
+    margin-top: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.policyUser-template .information-title:before{
+    content: '';
+    width: 5px;
+    height: 20px;
+    float:left;
+    background: #1890ff;
+    margin-right: 5px;
+}
+.policyUser-template .policyUser-search{
+    padding: 20px;
+    width: 70%;
+    margin: 0 auto;
+}

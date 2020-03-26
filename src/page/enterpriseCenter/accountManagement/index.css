@@ -1,0 +1,61 @@
+.accountManagement-template{
+}
+.accountManagement-template .accountManagement-title{
+    margin-top: 20px;
+    color: #000;
+    font-size: 16px;
+}
+.accountManagement-template .accountManagement-title:before{
+    content: '';
+    width: 5px;
+    height: 18px;
+    float:left;
+    background: #aa2426;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+.accountManagement-template .accountManagement-title-h1{
+    font-size: 24px;
+    color: #333;
+    margin: 10px 0;
+}
+.accountManagement-template .button-edit{
+    float:right;
+}
+.accountManagement-template .button-matching{
+    margin-left: 10px;
+    vertical-align: 3px;
+}
+.accountManagement-template .accountManagement-form{
+    margin-top: 20px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+.accountManagement-template .accountManagement-form .accountManagement-title{
+    margin-bottom: 10px;
+}
+/*.accountManagement-template .title-component-template{*/
+    /*margin-top: 80px;*/
+    /*margin-bottom: 60px;*/
+/*}*/
+.accountManagement-template .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 40px;
+    padding: 0 40px;
+    font-size: 16px;
+}
+.accountManagement-template .ant-btn:hover{
+    background: #ae242b;
+    color: #fff;
+}
+.accountManagement-template .ant-form-text{
+    padding: 0 10px;
+    font-size: 14px;
+    height: 34px;
+    border-radius: 10px;
+    background: #ae242b;
+    color: #fff;
+}

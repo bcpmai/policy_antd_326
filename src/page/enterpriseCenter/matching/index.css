@@ -1,0 +1,52 @@
+.matching-template{
+}
+.matching-template .matching-title{
+    margin-top: 20px;
+    color: #333;
+}
+.matching-template .matching-title:before{
+    content: '';
+    width: 5px;
+    height: 20px;
+    float:left;
+    background: #1890ff;
+    margin-right: 5px;
+}
+.matching-template .matching-title-h1{
+    font-size: 20px;
+    color: #333;
+    margin: 10px 0;
+}
+.matching-template .button-edit{
+    float:right;
+}
+.matching-template .button-matching{
+    margin-left: 10px;
+    vertical-align: 3px;
+}
+.matching-template .matching-form{
+    border:1px solid #efefef;
+    margin-top: 20px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+.matching-template .matching-form .matching-title{
+    margin-bottom: 10px;
+}
+/*.matching-template .title-component-template{*/
+    /*margin-top: 80px;*/
+    /*margin-bottom: 60px;*/
+/*}*/
+.matching-template .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 32px;
+    padding: 0 20px;
+    font-size: 14px;
+}
+.matching-template .ant-btn:hover{
+    background: #ae242b;
+    color: #fff;
+}

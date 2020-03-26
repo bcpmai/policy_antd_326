@@ -1,0 +1,208 @@
+.top-component-template{
+
+}
+.top-component-template .welcome-box{
+    background: #a72329;
+    padding:0 5px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color:#fff;
+    box-shadow: 1px 3px 3px #d8d3d5;
+}
+.top-component-template .welcome-box .ant-btn{
+    background: none;
+    border:0px;
+    color:#fff;
+    cursor: pointer;
+}
+.top-component-template .welcome-box .line-u{
+    margin: 0 0 0 15px;
+    text-decoration: none;
+}
+.top-component-template .welcome-box .right-button{
+    text-align: right;
+}
+.top-component-template .logo-box{
+    padding:156px 0 0;
+    background: url('./img/banner_bg.jpg') left bottom no-repeat;
+}
+.top-component-template .logo-box .logo{
+    font-size: 48px;
+    color:#c8000a;
+    display: block;
+    text-align: center;
+}
+.top-component-template .logo-box .serach{
+    width: 370px;
+    margin: 80px auto 420px;
+}
+.top-component-template .logo-box .ant-input-group .ant-input{
+    border:1px solid #c8000a;
+    border-radius:15px 0 0 15px;
+    padding:3px 11px;
+}
+.top-component-template .logo-box .ant-input-group .ant-btn{
+    border:1px solid #c8000a;
+    background: #a72329;
+    border-radius:0 15px 15px 0;
+    padding: 0px 10px;
+    height: 30px;
+    font-size: 20px;
+}
+.top-component-template .logo-box .ant-input-group .ant-input-group-addon{
+    background: none;
+}
+.top-component-template .menu-box{
+    position: relative;
+    z-index: 1;
+    height: 130px;
+}
+.top-component-template .menu-box .menu-bg{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width:100%;
+    height: 130px;
+    background: #fff;
+    opacity: 0.57;
+}
+.top-component-template .menu-box .ant-menu-dark{
+    background: none;
+}
+.top-component-template .menu-box .ant-menu{
+    width: 1400px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+.top-component-template .ant-menu-dark .ant-menu-item{
+    padding: 0 140px;
+    border-left:1px solid #7f7e90;
+    margin-top: 15px;
+}
+.top-component-template .ant-menu-dark .ant-menu-item a{
+    font-size: 16px;
+    color: #333;
+    line-height: 17px;
+}
+.top-component-template .ant-menu-dark .ant-menu-item-selected{
+    background: none;
+}
+.top-component-template .ant-menu-dark .ant-menu-item-selected a{
+    color: #c8000a;
+    position: relative;
+    z-index: 1;
+}
+.top-component-template .ant-menu-dark .ant-menu-item-selected a:after{
+    content: '';
+    border-bottom: #c8000a;
+    display: block;
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    bottom:0px;
+    z-index: 2;
+    background: #c8000a;
+}
+.top-component-template .ant-menu-dark .ant-menu-item:nth-child(2){
+    border:0;
+}
+/*二级顶部加了min样式*/
+.top-component-template .min-logo-box{
+    height: 130px;
+    padding-top: 0px;
+    background: url('./img/bg.jpg') left bottom no-repeat;
+}
+.top-component-template .min-logo-box .max-weight-box{
+    background: url('./img/logo.png') left 10px no-repeat;
+    height: 90px;
+    padding-top: 20px;
+}
+.top-component-template .min-logo-box .logo{
+    font-size: 22px;
+    display: inline-block;
+    margin-left: 120px;
+    font-weight: bold;
+    margin-top: 6px;
+}
+.top-component-template .min-logo-box .serach{
+    margin: 5px 40px 0 0;
+    float:right
+}
+.top-component-template .min-menu-box{
+    height: 40px;
+    margin-top: 0px;
+}
+.top-component-template .min-menu-box .menu-bg{
+    height: 40px;
+}
+.top-component-template .min-menu-box .ant-menu{
+    padding-top: 0;
+    line-height: 28px;
+}
+.top-component-template .min-menu-box .ant-menu-dark .ant-menu-item{
+    margin-top: 0;
+    height: 15px;
+}
+/**/
+.top-component-template .welcome-box{
+    height: 70px;
+    line-height: 60px;
+}
+.welcome-box .ant-menu-dark{
+    background: none;
+}
+.top-component-template .welcome-box .ant-menu-horizontal{
+    line-height: 45px;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item{
+    margin-top: 0;
+    padding: 0 20px;
+    border:0px;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item a{
+    color: #fff;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item a:hover{
+    text-shadow: 1px 1px 10px #fff;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item-selected a{
+    color: #fff;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item-selected a:after{
+    /*display: none;*/
+    border-bottom: 1px solid #fff;
+}
+.top-component-template .welcome-box .serach{
+    width: 300px;
+    margin: 20px 0 0 100px;
+}
+.top-component-template .welcome-box .ant-input-group .ant-input{
+    border:1px solid #fff;
+    border-radius:15px 0 0 15px;
+    padding:3px 11px;
+    text-indent: 0;
+}
+.top-component-template .welcome-box .ant-input-group .ant-btn{
+    border:1px solid #fff;
+    background: #fff;
+    border-radius:0 15px 15px 0;
+    padding: 0px 10px;
+    height: 30px;
+    font-size: 20px;
+    color:#a72329;
+}
+.top-component-template .welcome-box .ant-input:focus,
+.top-component-template .welcome-box .ant-input:hover{
+    border:1px solid #fff!important;
+    background: #fff!important;
+    box-shadow: none!important;
+}
+.top-component-template .welcome-box .ant-input-group .ant-input-group-addon{
+    background: none;
+}
+.top-component-template .welcome-box .right-button{
+    margin-top: 5px;
+}

@@ -1,0 +1,26 @@
+.Label-component-template{
+    margin-top: 10px;
+}
+.Label-component-template .ant-col-2{
+    text-align: right;
+    color: #333;
+}
+.Label-component-template .ant-btn{
+    font-size: 14px;
+    color: #515157;
+    padding: 3px 20px 5px 20px;
+    margin:0 20px 20px 0;
+    background: #e6e5e5;
+    border:1px solid #e6e5e5;
+    height: auto;
+}
+.Label-component-template .label-item-minLabel{
+    height: 45px;
+    overflow: hidden;
+}
+.Label-component-template .ant-btn:hover{
+    border:1px solid #cc0000;
+}
+.Label-component-template .select-button{
+    color: #cc0000;
+}

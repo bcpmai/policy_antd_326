@@ -1,0 +1,69 @@
+.carouselManage-template{
+}
+.carouselManage-template .carouselManage-serach{
+    margin-left: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.carouselManage-template .carouselManage-serach .serach-arrow{
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+/*.carouselManage-template .label-box{*/
+    /*border:1px solid #efefef;*/
+    /*padding: 10px;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+/*.carouselManage-template .label-box .ant-col-2 {*/
+    /*text-align: center;*/
+    /*color: #333;*/
+/*}*/
+.carouselManage-template .carouselManage-button{
+    text-align: center;
+    margin-top: 20px;
+}
+.carouselManage-template .label-product-box{
+    position: relative;
+}
+.carouselManage-template .label-product-box .more-label{
+    color:#333;
+    position: absolute;
+    right:10px;
+    top:0;
+    cursor: pointer;
+}
+.carouselManage-template .information-title{
+    margin-top: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.carouselManage-template .information-title:before{
+    content: '';
+    width: 5px;
+    height: 20px;
+    float:left;
+    background: #1890ff;
+    margin-right: 5px;
+}
+.carouselManage-template .carouselManage-search{
+    padding: 20px;
+    width: 70%;
+    margin: 0 auto;
+}
+.carouselManage-template .img-list{
+    padding: 20px;
+}
+.carouselManage-template .img-list img{
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+}
+.carouselManage-template .img-list a{
+    color: #ae242b;
+    text-decoration: underline;
+}
+.carouselManage-template .operation-button{
+    padding-bottom: 30px;
+}

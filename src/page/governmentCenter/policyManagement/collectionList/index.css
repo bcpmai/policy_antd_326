@@ -1,0 +1,104 @@
+.collectionList-template{
+}
+.collectionList-template .collectionList-serach{
+    margin-left: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.collectionList-template .collectionList-serach .serach-arrow{
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.collectionList-template .label-box{
+    padding: 40px 10px 60px 100px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ae242b;
+}
+.collectionList-template .collectionList-button{
+    text-align: center;
+    margin-top: 20px;
+}
+.collectionList-template .label-product-box{
+    position: relative;
+}
+.collectionList-template .label-product-box .more-label{
+    color:#333;
+    position: absolute;
+    right:10px;
+    top:0;
+    cursor: pointer;
+}
+.collectionList-template .information-title{
+    margin-top: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.collectionList-template .information-title:before{
+    content: '';
+    width: 5px;
+    height: 20px;
+    float:left;
+    background: #1890ff;
+    margin-right: 5px;
+}
+/*.collectionList-template .ant-breadcrumb {*/
+    /*background: #ae242b;*/
+    /*height: 50px;*/
+    /*line-height: 50px;*/
+    /*color: #fff;*/
+    /*font-size: 18px;*/
+    /*padding-left: 110px;*/
+/*}*/
+/*.collectionList-template .ant-breadcrumb > span:last-child a,*/
+/*.collectionList-template .ant-breadcrumb a,*/
+/*.collectionList-template .ant-breadcrumb .ant-breadcrumb-separator {*/
+    /*color: #fff;*/
+/*}*/
+/*.collectionList-template .title-component-template{*/
+    /*margin-top: 60px;*/
+    /*margin-bottom: 40px;*/
+/*}*/
+/*.collectionList-template .label-box .ant-col-4 {*/
+    /*color: #000;*/
+    /*font-size: 18px;*/
+/*}*/
+/*.collectionList-template .label-box .ant-col-4:before{*/
+    /*content: '';*/
+    /*width: 12px;*/
+    /*height: 22px;*/
+    /*background: #aa2426;*/
+    /*display: inline-block;*/
+    /*vertical-align: -5px;*/
+    /*margin-right: 10px;*/
+/*}*/
+/*.collectionList-template .ant-row{*/
+    /*margin-bottom: 30px;*/
+/*}*/
+/*.collectionList-template .collectionList-button{*/
+    /*text-align: center;*/
+    /*margin-top: 20px;*/
+/*}*/
+
+/*.collectionList-template .collectionList-button .ant-btn,*/
+/*.collectionList-template .operation-button .ant-btn{*/
+    /*background: #fff;*/
+    /*color: #ae242b;*/
+    /*border:1px solid #ae242b;*/
+    /*border-radius: 20px;*/
+    /*height: 40px;*/
+    /*padding: 0 70px;*/
+    /*font-size: 18px;*/
+    /*margin: 20px 40px 0px 40px;*/
+/*}*/
+.collectionList-template .operation-button{
+    margin-bottom: 20px;
+    margin-top: 27px;
+}
+.collectionList-template .operation-button .ant-btn{
+    color: #333;
+    padding: 0 25px;
+    margin-right: 0;
+    margin-left: 20px;
+}

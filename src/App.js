@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import './App.css';
 
 function App() {
