@@ -1,8 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
-// import "core-js/stable";
-// import "regenerator-runtime/runtime";
-import "@babel/polyfill"
+import 'core-js';
+import 'core-js/es/map';
+import 'core-js/es/set';
+import 'core-js/es/weak-map';
+import 'core-js/es/weak-set';
 import './App.css';
 
 function App() {
