@@ -1,13 +1,16 @@
 .index-template .carousel-box{
     /*height: 735px;*/
     overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 .index-template .carousel-box .ant-carousel .slick-slide{
     text-align: center;
 }
 .index-template .carousel-box .ant-carousel .slick-slide img{
     /*height: 730px;*/
-    width: 100%;
+    /*width: 100%;*/
     margin: 0 auto;
 }
 .index-template .item-box{
@@ -260,3 +263,14 @@
     padding: 30px 0;
     font-size: 16px;
 }
+/*.ant-carousel .slick-slide {*/
+    /*text-align: center;*/
+    /*height: 160px;*/
+    /*line-height: 160px;*/
+    /*background: #364d79;*/
+    /*overflow: hidden;*/
+/*}*/
+
+/*.ant-carousel .slick-slide h3 {*/
+    /*color: #fff;*/
+/*}*/

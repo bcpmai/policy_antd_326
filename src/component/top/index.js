@@ -97,10 +97,10 @@ class Top extends Component {
             <div className="top-component-template">
                 <div className="welcome-box">
                 <Row className="max-weight-box">
-                    <Col span={4}><div>
+                    <Col span={5}><div className="top-name">
                         {/*<img src={Logo} style={{width:"35px",marginRIght:"10px",borderRadius: "5px"}} />*/}
                         政策与企业匹配服务平台</div></Col>
-                    <Col span={9}>
+                    <Col span={8}>
                         <Menu onClick={this.handleClick} selectedKeys={[current || "home"]} mode="horizontal" theme="dark">
                             <Menu.Item key="home">
                                 <a href="/">首页</a>
@@ -116,14 +116,14 @@ class Top extends Component {
                             </Menu.Item>
                         </Menu>
                     </Col>
-                    <Col span={8}>
+                    <Col span={7}>
                         <div className="serach"><Search placeholder="请输入关键字查找申报政策" onSearch={this.serachLatestPolicy} enterButton /></div>
                     </Col>
-                    {!isLogin ? <Col span={3} className="right-button">
-                        <Link to="/login"><Button size="small" icon={<Icon type="user" />}>登录</Button></Link>
+                    {!isLogin ? <Col span={4} className="right-button">
+                        <Link to="/login"><Button size="small" icon="user">登录</Button></Link>
                         <u className="line-u">|</u>
                         <Link to="/register"><Button size="small" className="ml15 mr15">注册</Button></Link>
-                    </Col> : <Col span={3} className="right-button"><span title={cookie.load('userName')}>{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon={<Icon type="export" />} size="small" className="mr15" onClick={this.removeCookie}>退出</Button></Col>}
+                    </Col> : <Col span={4} className="right-button"><span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="export" size="small" className="mr15" onClick={this.removeCookie}>退出</Button></Col>}
 
                 </Row>
                 </div>

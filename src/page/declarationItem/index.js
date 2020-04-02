@@ -3,8 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Table, Tag, Input, Row, Col, Button, Select, DatePicker, Modal,Form,Icon } from 'antd';
-// import { ArrowUpOutlined,ArrowDownOutlined,PlusOutlined,MinusOutlined } from '@ant-design/icons';
+import { Table, Input, Row, Col, Button, Select, DatePicker, Modal,Form,Icon } from 'antd';
 import Top from './../../component/top';
 import Label from "../../component/label";
 import './index.css';
@@ -20,16 +19,6 @@ const layout = {
     wrapperCol: {span: 18},
 };
 
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
 class DeclarationItem extends Component {
     constructor(props){
         super(props);
@@ -250,25 +239,30 @@ class DeclarationItem extends Component {
     onSearchTitle = (value) =>{
         this.getTableData({title:value});
     }
-    onFinish = async (values) => {
-        const {release_date,policy_theme_label_list,organization_label_list,use_type_list,created_date} = this.state;
-        if(policy_theme_label_list!=null){
-            values["policy_theme_label_list"] = policy_theme_label_list;
-        }
-        if(organization_label_list!=null){
-            values["organization_label_list"] = organization_label_list;
-        }
-        if(use_type_list!=null){
-            values["use_type_list"] = use_type_list;
-        }
-        if(release_date!=null){
-            values["release_date"] = release_date;
-        }
-        if(created_date!=null){
-            values["created_date"] = created_date;
-        }
+    onFinish = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.props.form.validateFields(async(err, values) => {
+            const title = _this.refs.seachInput.props.children.props.value;
+            const {release_date, policy_theme_label_list, organization_label_list, use_type_list, created_date} = this.state;
+            if (policy_theme_label_list != null) {
+                values["policy_theme_label_list"] = policy_theme_label_list;
+            }
+            if (organization_label_list != null) {
+                values["organization_label_list"] = organization_label_list;
+            }
+            if (use_type_list != null) {
+                values["use_type_list"] = use_type_list;
+            }
+            if (release_date != null) {
+                values["release_date"] = release_date;
+            }
+            if (created_date != null) {
+                values["created_date"] = created_date;
+            }
 
-        this.getTableData({...values,...this.refs.seachForm.getFieldValue()});
+            this.getTableData({...values, title});
+        });
     }
     onReset = () => {
         this.setState({
@@ -280,8 +274,7 @@ class DeclarationItem extends Component {
             release_date:null,
             created_date:null
         },()=>{
-            this.refs.form.resetFields();
-            this.refs.seachForm.resetFields();
+            this.props.form.resetFields();
         })
     };
     //label 主题
@@ -310,6 +303,7 @@ class DeclarationItem extends Component {
     }
 
     render() {
+        const { getFieldDecorator } = this.props.form;
         const {arrdown,record,labelType,labelProduct,arrProduct,belongData,industryData,labelTheme,labelDate,tableData,formValues,policy_theme_label_list,organization_label_list,use_type_list,created_date} = this.state;
         const pagination = {
             current:formValues && formValues.page ? formValues.page : 1,
@@ -329,12 +323,13 @@ class DeclarationItem extends Component {
                     <Row className="declarationItem-serach">
                         <Col span={12}>
                             <Form ref="seachForm">
-                                <Form.Item name="title">
-                                    <Search
-                                        enterButton="查询"
-                                        size="large"
-                                        onSearch={value => this.onSearchTitle(value)}
-                                    />
+                                <Form.Item name="title" ref="seachInput">
+                                    {getFieldDecorator('title')(
+                                        <Search
+                                            enterButton="查询"
+                                            size="large"
+                                            onSearch={value => this.onSearchTitle(value)}
+                                        />)}
                                 </Form.Item>
                             </Form>
                         </Col>
@@ -349,17 +344,19 @@ class DeclarationItem extends Component {
                         </Col>
                     </Row>
                     <div className="label-box" style={!arrdown ? {display:"none"} : {}}>
-                        <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}>
+                        <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                         {labelTheme ?
                             <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:4,label:20}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
                         <Row className="mt10">
                             <Col span={4}>所属层级</Col>
                             <Col span={20}>
-                                <Form.Item name="belong">
-                                <Select style={{width: 300}} onChange={this.belongChange}>
-                                    {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                        key={item.id}>{item.name}</Option>) : ''}
-                                </Select>
+                                <Form.Item>
+                                    {getFieldDecorator('belong')(
+                                        <Select style={{width: 300}} onChange={this.belongChange}>
+                                            {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                key={item.id}>{item.name}</Option>) : ''}
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -383,11 +380,13 @@ class DeclarationItem extends Component {
                         <Row className="mt10">
                             <Col span={4}>所属行业</Col>
                             <Col span={20}>
-                                <Form.Item name="industry_label_id_list">
-                                <Select style={{width: 300}}>
-                                    {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                            key={item.id}>{item.name}</Option>) : ''}
-                                </Select>
+                                <Form.Item>
+                                    {getFieldDecorator('industry_label_id_list')(
+                                        <Select style={{width: 300}}>
+                                            {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                    key={item.id}>{item.name}</Option>) : ''}
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -438,4 +437,4 @@ class DeclarationItem extends Component {
     };
 }
 
-export default DeclarationItem;
+export default Form.create()(DeclarationItem);

@@ -27,7 +27,7 @@
     color:#333;
     position: absolute;
     right:-10px;
-    top:5px;
+    top:2px;
     cursor: pointer;
 }
 .latestPolicy-template .latestPolicy-serach .serach{
@@ -38,6 +38,7 @@
     border:1px solid #c8000a;
     border-radius:15px 0 0 15px;
     padding:4px 11px;
+    height: 35px;
 }
 .latestPolicy-template .latestPolicy-serach .ant-input-group .ant-btn{
     border:1px solid #c8000a;

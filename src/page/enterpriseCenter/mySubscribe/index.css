@@ -45,9 +45,9 @@
     color: #ae242b;
     border:1px solid #ae242b;
     border-radius: 20px;
-    height: 32px;
-    padding: 0 20px;
-    font-size: 16px;
+    height: 30px;
+    padding: 0 15px;
+    font-size: 14px;
 }
 .mySubscribe-template .mySubscribe-form-box .ant-btn:hover{
     background: #ae242b;
@@ -66,8 +66,8 @@
 .mySubscribe-template .ant-tabs-nav{
 }
 .mySubscribe-template .ant-tabs-nav .ant-tabs-tab-active,.mySubscribe-template .ant-tabs-nav .ant-tabs-tab:hover{
-    color: #f0ac41;
+    color: #ae242b;
 }
 .mySubscribe-template .ant-tabs-ink-bar{
-    background: #f0ac41;
+    background: #ae242b;
 }

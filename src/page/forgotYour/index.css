@@ -57,6 +57,12 @@
     border:1px solid #ae242b;
     color:#ae242b;
 }
+.forgotYour-template .ant-form-disabled,
+.forgotYour-template .ant-form-disabled:hover{
+    border:1px solid #d9d9d9;
+    color: #c3c3c3;
+    background: #efefef;
+}
 .forgotYour-template .login-max-weight{
     position: relative;
     z-index: 1;
@@ -92,5 +98,6 @@
     font-size: 20px;
 }
 .forgotYour-template .ant-form-item{
-    margin-top: 30px;
+    min-height: 65px;
+    margin: 0;
 }

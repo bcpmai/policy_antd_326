@@ -49,6 +49,12 @@
     border:1px solid #ae242b;
     color:#ae242b;
 }
+.register-template .ant-form-disabled,
+.register-template .ant-form-disabled:hover{
+    border:1px solid #d9d9d9;
+    color: #c3c3c3;
+    background: #efefef;
+}
 .register-template .top-component-template .ant-col-8{
     text-indent: 0;
 }
@@ -83,4 +89,8 @@
 .register-template .ant-divider-horizontal.ant-divider-with-text-center::before,
 .register-template .ant-divider-horizontal.ant-divider-with-text-center::after{
     border-top:1px solid #a72329;
+}
+.register-template .ant-form-item{
+   min-height: 60px;
+    margin-bottom: 0px;
 }

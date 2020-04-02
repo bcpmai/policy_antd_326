@@ -240,10 +240,10 @@ class MySubscribe extends Component {
                             <EnterpriseMenu menuKey="mySubscribe" />
                         </Col>
                         <Col span={20}>
-                        <Title name="我的订阅" />
-                            <div align="right">
-                                <Button onClick={this.subscribeVisble}>订阅编辑</Button>
-                            </div>
+                            <div>
+                                <Button style={{float:"right"}} onClick={this.subscribeVisble}>订阅编辑</Button>
+                                <Title name="我的订阅" />
+                                </div>
                     <div>
                         <Tabs onChange={this.tabsChange} defaultActiveKey="1" tabPosition={mode}>
                             <TabPane tab="全部" key={null}>

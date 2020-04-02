@@ -11,6 +11,7 @@ import Title from "../../../../component/title/index";
 import './index.css';
 import {request} from "../../../../utils/request";
 import cookie from "react-cookies";
+import AddUser from "./addUser.js";
 
 const { Option } = Select;
 const layout = {
@@ -18,16 +19,6 @@ const layout = {
     wrapperCol: {span: 16},
 };
 
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
 class enterprise extends Component {
     constructor(props){
         super(props);
@@ -233,12 +224,36 @@ class enterprise extends Component {
         })
         console.log(value);
     }
-    onSearchFinish = (values) =>{
-        console.log(values);
-        this.getTableData({...this.state.formValues,...values,status:this.state.serarchStatus == -1 ? undefined : this.state.serarchStatus});
+    onSearchFinish = (e) =>{
+        e.preventDefault();
+        this.props.form.validateFields(async (err, values) => {
+            if (!err) {
+                this.getTableData({
+                    ...this.state.formValues, ...values,
+                    status: this.state.serarchStatus == -1 ? undefined : this.state.serarchStatus
+                });
+            }
+        });
+    }
+    onReset = () => {
+        this.setState({
+            status:null
+        },()=>{
+            this.props.form.resetFields();
+        })
+    };
+    userCallback = () =>{
+        this.setState({
+            addVisible: false,
+            record: null
+        });
+        setTimeout(() => {
+            this.getTableData(this.state.formValues);
+        }, 1000);
     }
     render() {
         const {labelStatus,status,industryData,formValues,tableData,record} = this.state;
+        const { getFieldDecorator } = this.props.form;
         const pagination = {
             current:formValues && formValues.page ? formValues.page : 1,
             showSizeChanger: true,
@@ -265,13 +280,15 @@ class enterprise extends Component {
                         <Breadcrumb.Item href="">企业用户</Breadcrumb.Item>
                     </Breadcrumb>
                         <div className="label-box">
-                            <Form ref="searchForm" {...layout} name="dynamic_rule" onFinish={this.onSearchFinish} validateMessages={validateMessages}>
+                            <Form ref="searchForm" {...layout} name="dynamic_rule" onSubmit={this.onSearchFinish}>
                                     <div>
                                         <Row>
                                             <Col span={4}>企业名称</Col>
                                             <Col span={18}>
-                                                <Form.Item name="company_name">
-                                                    <Input />
+                                                <Form.Item>
+                                                    {getFieldDecorator('company_name')(
+                                                        <Input />
+                                                    )}
                                                 </Form.Item>
 
                                             </Col>
@@ -279,8 +296,10 @@ class enterprise extends Component {
                                         <Row>
                                             <Col span={4}>统一社会信用代码</Col>
                                             <Col span={18}>
-                                                <Form.Item name="code">
-                                                    <Input />
+                                                <Form.Item>
+                                                    {getFieldDecorator('code')(
+                                                        <Input />
+                                                    )}
                                                 </Form.Item>
 
                                             </Col>
@@ -340,106 +359,10 @@ class enterprise extends Component {
                         color: "#6e6e6e"
                     }}>确认重置密码？确认后，初始密码为123abc，请及时通知联系人。</p>
                 </Modal>
-
-                {this.state.addVisible ? <Modal
-                        title={record ? "修改角色" :"添加角色"}
-                        visible
-                        onOk={this.handleOk}
-                        width={550}
-                        onCancel={(type)=>this.handleCancel("addVisible")}
-                        footer={[
-                            <Button key="back" onClick={this.handleOk}>
-                                确认
-                            </Button>,
-                            <Button key="submit" type="primary" onClick={(type)=>this.handleCancel("addVisible")}>
-                                取消
-                            </Button>
-                        ]}
-                    >
-                    <Form ref="form" {...layout} name="dynamic_rule" validateMessages={validateMessages}>
-                        <Row className="mt10">
-                            <Col span={23}>
-                                <Form.Item label="用户名" name="username" rules={record && record.username ? [] : [
-                                    {
-                                        required: true,
-                                        message: '请输入用户名'
-                                    },
-                                    ({ getFieldValue }) => ({
-                                        async validator(rule, value) {
-                                            const responest = await request('/common/check-user','POST',{username:value});
-                                            console.log(responest)
-                                            if(responest.status == 200 && responest.data.success){
-                                                return Promise.reject(responest.data.msg);
-                                            }
-                                            return Promise.resolve();
-                                        },
-                                    }),
-                                ]}>
-                                    {record && record.username ? <span>{record.username}</span> : <Input />}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={23}>
-                                <Form.Item label="手机号" name="mobile" rules={[
-                                    {
-                                        required: true,
-                                        message: '请输入手机号'
-                                    },
-                                    ({ getFieldValue }) => ({
-                                        async validator(rule, value) {
-                                            const responest = await request('/common/check-mobile','POST',{mobile:value});
-                                            if(responest.status == 200 && responest.data.success){
-                                                return Promise.reject(responest.data.msg);
-                                            }
-                                            return Promise.resolve();
-                                        },
-                                    }),
-                                ]}>
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={23}>
-                                <Form.Item label="企业名称" name="company_name" rules={[{required: true}]}>
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={23}>
-                                <Form.Item label="统一社会信用代码" name="code" rules={[{required: true}]}>
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={23}>
-                                <Form.Item label="所属行业" name="industry_label_id" rules={[{required: true}]}>
-                                    <Select
-                                        style={{ width: '100%' }}
-                                        onChange={this.handleChange}
-                                    >
-                                        {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                key={item.id}>{item.name}</Option>) : ''}
-
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={23}>
-                                <Form.Item label="初始密码" name="password" rules={[{required: true}]}>
-                                    <Input.Password />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Modal> : null}
+                {this.state.addVisible ? <AddUser record={record} callback={()=>this.userCallback()} handleCancel={this.handleCancel} /> : null}
             </div>
         );
     };
 }
 
-export default enterprise;
+export default Form.create()(enterprise);

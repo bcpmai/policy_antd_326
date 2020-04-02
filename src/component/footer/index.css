@@ -19,7 +19,21 @@
     margin-top: 5px;
 }
 .footer-component-template .max-weight-box{
-    font-size: 14px;
-    background: url("./img/footer_logo.jpg") 1200px center no-repeat;
+    font-size: 16px;
+    background: url("./img/footer_logo.jpg") 0px center no-repeat;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+.footer-component-template .max-weight-box:before{
+    content: "";
+    position: absolute;
+    left: 110px;
+    top: 12px;
+    width: 1px;
+    height: 65px;
+    display: inline-block;
+    background: #fff;
+    opacity: 0.4;
 }
 

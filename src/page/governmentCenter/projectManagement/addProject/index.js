@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Form,Upload,Icon, message, Modal, Table, Tooltip, Checkbox, Switch,Tag} from 'antd';
 import moment from 'moment';
-// import { UploadOutlined,PlusOutlined} from '@ant-design/icons';
 import {request} from '../../../../utils/request';
 import Top from '../../../../component/top/index';
 import cookie from 'react-cookies';
@@ -25,17 +24,6 @@ const layout = {
 };
 
 const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
-
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
 
 const { RangePicker } = DatePicker;
 
@@ -261,7 +249,7 @@ class AddProject extends Component {
                 declare.d_industry_label_ids = d_industry_label_ids;
                 declare.industry_label_ids = industry_label_ids;
 
-                this.refs.form.setFieldsValue(declare);
+                this.props.form.setFieldsValue(declare);
 
                 //editor.txt.html(policy.content);
                 this.belongChange(declare.belong); //请求发布机构
@@ -307,65 +295,88 @@ class AddProject extends Component {
     }
 
     onSubmit = async(values,url) => {
-        const {id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date} = this.state;
-        if(addressArr && addressArr.length) {
-            let register_address = addressArr.map((aitem, aidx) => aitem.province + "," + aitem.city + "," + aitem.area);
-            values.register_address = register_address.join("|"); //地址
-        }
-        if(selectedRowKeys && selectedRowKeys.length) {
-            values.policy_id = selectedRowKeys[0]; //政策id
-        }
-        values.support_direction = support_direction;
-        values.declare_condition = declare_condition;
-        values.support_content = support_content;
-        values.declare_material = declare_material;
-        values.declare_process = declare_process;
-        values.review_process = review_process;
-        values.declare_start_date = declare_start_date;
-        values.declare_end_date = declare_end_date;
-        values.d_industry_label_list = values.d_industry_label_ids;
-        if(fileList && fileList.length) {
-            console.log(fileList);
-            values.upload_file_list = fileList.map((item, idx) => {
-                if(item.response){
-                    return item.response.data.id
-                }else{
-                    return item.id
-                }
-            }); //附件
-        }
-        if(id){
-            values.id = id;
-        }
-        const data = await request(this.state.id ? '/declare/update' : '/declare/add', 'POST',values);
-        if(data.data && data.data.success){
-            message.success(data.data.msg);
-            setTimeout(()=>{
-                window.open(url ? url+"/"+data.data.data.id : '/projectList');
-                // this.props.history.push(url ? url+"/"+data.data.data.id : '/projectList');
-            },2000);
-        }else{
-            message.error(data.data.msg);
-        }
-    }
-    onFinish = async (values) => {
-        console.log(values,this);
-        values.status = 2;
-        this.onSubmit(values);
+        const {policyTitle,id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date} = this.state;
+        if(policyTitle,support_direction && declare_condition && support_content && declare_material && declare_process) {
 
+            if (addressArr && addressArr.length) {
+                let register_address = addressArr.map((aitem, aidx) => aitem.province + "," + aitem.city + "," + aitem.area);
+                values.register_address = register_address.join("|"); //地址
+            }
+            if (selectedRowKeys && selectedRowKeys.length) {
+                values.policy_id = selectedRowKeys[0]; //政策id
+            }
+            values.support_direction = support_direction;
+            values.declare_condition = declare_condition;
+            values.support_content = support_content;
+            values.declare_material = declare_material;
+            values.declare_process = declare_process;
+            values.review_process = review_process;
+            values.declare_start_date = declare_start_date;
+            values.declare_end_date = declare_end_date;
+            values.d_industry_label_list = values.d_industry_label_ids;
+            if (fileList && fileList.length) {
+                console.log(fileList);
+                values.upload_file_list = fileList.map((item, idx) => {
+                    if (item.response) {
+                        return item.response.data.id
+                    } else {
+                        return item.id
+                    }
+                }); //附件
+            }
+            if (id) {
+                values.id = id;
+            }
+            const data = await request(this.state.id ? '/declare/update' : '/declare/add', 'POST', values);
+            if (data.data && data.data.success) {
+                message.success(data.data.msg);
+                setTimeout(() => {
+                    window.open(url ? url + "/" + data.data.data.id : '/projectList');
+                    // this.props.history.push(url ? url+"/"+data.data.data.id : '/projectList');
+                }, 2000);
+            } else {
+                message.error(data.data.msg);
+            }
+        }
     }
-    onSave = async () => {
-        let values = this.refs.form.getFieldsValue();
-        // const {addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process} = this.state;
-        // console.log(values,selectedRowKeys,addressArr,support_direction,declare_condition,support_content,declare_material,declare_process,review_process);
-        values.status = 1;
-        this.onSubmit(values);
-
+    onFinish = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.setState({
+            state:true
+        });
+        this.props.form.validateFields(async (err, values) => {
+            if(!err) {
+                values.status = 2;
+                this.onSubmit(values);
+            }
+        });
     }
-    onView = () =>{
-        let values = this.refs.form.getFieldsValue();
-        values.status = 1;
-        this.onSubmit(values,"/projectPreview");
+    onSave = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.setState({
+            state:true
+        });
+        this.props.form.validateFields(async (err, values) => {
+            if(!err) {
+                values.status = 1;
+                this.onSubmit(values);
+            }
+        });
+    }
+    onView = (e) =>{
+        e.preventDefault();
+        const _this = this;
+        this.setState({
+            state:true
+        });
+        this.props.form.validateFields(async (err, values) => {
+            if(!err) {
+                values.status = 1;
+                this.onSubmit(values, "/projectPreview");
+            }
+        });
     }
     belongChange = async (value) => {
         const labelProductData = await request('/common/get-all-organization-label', 'POST', {belong_id: value}); //发布机构
@@ -585,8 +596,9 @@ class AddProject extends Component {
     }
     render() {
         const {industryData,policyTitle,belongData,typeData,productData,id,tableData,selectedRowKeys,formValues,post_material,declare_net,set_up=true,knowledge=true,invention=true,declare=true,industry_label=true,social=true,isSelectPolicy,
-            support_direction,declare_condition,support_content,declare_material,declare_process,review_process
+            support_direction,declare_condition,support_content,declare_material,declare_process,review_process,state
         } = this.state;
+        const { getFieldDecorator } = this.props.form;
         const props = {
             //action: 'http://58.144.217.13:5002/api/common/upload-file',
             action:uploadUrl,
@@ -631,152 +643,145 @@ class AddProject extends Component {
                         <Breadcrumb.Item>{id ? "编辑项目" : "添加项目"} </Breadcrumb.Item>
                     </Breadcrumb>
                     <div className="label-box">
-                        <Form.Provider>
-                        <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}
-                              initialValues={{
-                                  set_up_sign:"-1,0",
-                                  set_up_value:2000,
-                                  knowledge_sign:"-1,0",
-                                  knowledge_value:0,
-                                  invention_sign:"-1,0",
-                                  invention_value:0,
-                                  develop_sign:"-1,0",
-                                  develop_value:0,
-                                  declare_sign:"-1,0",
-                                  declare_value:0,
-                                  develop_assets_sign:"-1,0",
-                                  develop_assets_value:0,
-                                  social_people_sign:"-1,0",
-                                  social_people_value:0,
-                                  develop_people_sign:"-1,0",
-                                  develop_people_value: 0
-                              }}
+                        <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}
                         >
-                            <Form.Item name="title" label="项目标题" rules={[{required: true}]}>
-                                <Input />
+                            <Form.Item label="项目标题">
+                                {getFieldDecorator('title', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请输入项目标题'
+                                    }]
+                                })(
+                                    <Input/>
+                                )}
                             </Form.Item>
-                            <Form.Item name="policy_id" label="关联政策" required rules={[
-                                ({ getFieldValue }) => ({
-                                    async validator(rule, value) {
-                                        if(!policyTitle){
-                                            return Promise.reject("请选择关联政策");
-                                        }
-                                        return Promise.resolve();
-                                    },
-                                }),
-                            ]}>
+                            <Form.Item name="policy_id" label="关联政策"
+                                       required
+                                       validateStatus={!policyTitle && state ? "error" : ""}
+                                       help={!policyTitle && state ? "请选择关联政策" : ""}>
                                 {isSelectPolicy ? <span>{this.state.policyTitle}</span> : null}
                                 <Button onClick={this.showPolicy}>选择政策</Button>
                             </Form.Item>
-                            <Form.Item name="belong" label="所属层级" rules={[{required: true}]}>
-                                <Select onChange={this.belongChange}>
-                                    {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                        key={item.id}>{item.name}</Option>) : ''}
-                                </Select>
-                            </Form.Item>
-                            <Form.Item name="organization_label_ids" label="发布机构" rules={[{required: true}]}>
-                                <Select
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                    onChange={this.handleChange}
-                                >
-                                    {productData ? productData.map((item, idx) => <Option value={item.id}
-                                                                                          key={item.id}>{item.name}</Option>) : ''}
-                                </Select>
-                            </Form.Item>
-                            <Form.Item name="web_url" label="官文网址" rules={[{required: true}]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item name="declare_start_date" label="申报时间">
-                                <RangePicker onChange={this.onDateChange} />
-                            </Form.Item>
-                            <Form.Item name="use_type" label="应用类型" rules={[{required: true}]}>
-                                <Select
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                    onChange={this.handleChange}
-                                >
-                                    {typeData ? typeData.map((item, idx) => <Option value={item.id}
-                                                                                    key={item.id}>{item.name}</Option>) : ''}
-
-                                </Select>
-                            </Form.Item>
-                            <Form.Item name="d_industry_label_ids" label="所属行业" rules={[{required: true}]}>
-                                <Select
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                    onChange={this.handleChange}
-                                >
-                                    {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                            <Form.Item label="所属层级">
+                                {getFieldDecorator('belong', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请选择所属层级'
+                                    }]
+                                })(
+                                    <Select onChange={this.belongChange}>
+                                        {belongData ? belongData.map((item, idx) => <Option value={item.id}
                                                                                             key={item.id}>{item.name}</Option>) : ''}
-
-                                </Select>
+                                    </Select>
+                                )}
                             </Form.Item>
-                            <Form.Item name="content" label="扶持方向" required rules={[
-                                ({ getFieldValue }) => ({
-                                    async validator(rule, value) {
-                                        if(!support_direction){
-                                            return Promise.reject("必填项");
-                                        }
-                                        return Promise.resolve();
-                                    },
-                                })
-                            ]}>
+                            <Form.Item label="发布机构">
+                                {getFieldDecorator('organization_label_ids', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请选择发布机构'
+                                    }]
+                                })(
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        onChange={this.handleChange}
+                                    >
+                                        {productData ? productData.map((item, idx) => <Option value={item.id}
+                                                                                              key={item.id}>{item.name}</Option>) : ''}
+                                    </Select>
+                                )}
+                            </Form.Item>
+                            <Form.Item label="官文网址">
+                                {getFieldDecorator('web_url', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请输入官文网址'
+                                    }]
+                                })(
+                                    <Input />
+                                )}
+                            </Form.Item>
+                            <Form.Item label="申报时间">
+                                {getFieldDecorator('declare_start_date')(
+                                    <RangePicker onChange={this.onDateChange} />
+                                )}
+                            </Form.Item>
+                            <Form.Item label="应用类型">
+                                {getFieldDecorator('use_type', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请选择应用类型'
+                                    }]
+                                })(
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        onChange={this.handleChange}
+                                    >
+                                        {typeData ? typeData.map((item, idx) => <Option value={item.id}
+                                                                                        key={item.id}>{item.name}</Option>) : ''}
+
+                                    </Select>
+                                )}
+                            </Form.Item>
+                            <Form.Item label="所属行业">
+                                {getFieldDecorator('d_industry_label_ids', {
+                                    rules: [{
+                                        required: true,
+                                        message: '请选择所属行业'
+                                    }]
+                                })(
+                                    <Select
+                                        mode="multiple"
+                                        style={{ width: '100%' }}
+                                        onChange={this.handleChange}
+                                    >
+                                        {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                key={item.id}>{item.name}</Option>) : ''}
+
+                                    </Select>
+                                )}
+                            </Form.Item>
+                            <Form.Item name="content" label="扶持方向"
+                                       required
+                                       validateStatus={!support_direction && state ? "error" : ""}
+                                       help={!support_direction && state ? "必填项" : ""}>
                                 <div ref="editorElem1">
                                 </div>
                             </Form.Item>
-                            <Form.Item name="content" label="申报条件"  required rules={[
-                                ({ getFieldValue }) => ({
-                                    async validator(rule, value) {
-                                        if(!declare_condition){
-                                            return Promise.reject("必填项");
-                                        }
-                                        return Promise.resolve();
-                                    },
-                                })
-                            ]}>
+                            <Form.Item name="content" label="申报条件" required
+                                       validateStatus={!declare_condition && state ? "error" : ""}
+                                       help={!declare_condition && state ? "必填项" : ""}
+                            >
                                 <div ref="editorElem2">
                                 </div>
                             </Form.Item>
-                            <Form.Item name="content" label="扶持内容"  required rules={[
-                                ({ getFieldValue }) => ({
-                                    async validator(rule, value) {
-                                        if(!support_content){
-                                            return Promise.reject("必填项");
-                                        }
-                                        return Promise.resolve();
-                                    },
-                                })
-                            ]}>
+                            <Form.Item name="content" label="扶持内容"
+                                       required
+                                       validateStatus={!support_content && state ? "error" : ""}
+                                       help={!support_content && state ? "必填项" : ""}
+                                       >
                                 <div ref="editorElem3">
                                 </div>
                             </Form.Item>
-                            <Form.Item name="contact" label="联系方式">
-                                <Input />
+                            <Form.Item label="联系方式">
+                                {getFieldDecorator('contact')(
+                                    <Input />
+                                )}
                             </Form.Item>
-                            <Form.Item name="content" label="申报材料"  required rules={[
-                                ({ getFieldValue }) => ({
-                                    async validator(rule, value) {
-                                        if(!declare_material){
-                                            return Promise.reject("必填项");
-                                        }
-                                        return Promise.resolve();
-                                    },
-                                })
-                            ]}>
+                            <Form.Item name="content" label="申报材料"
+                                       required
+                                       validateStatus={!declare_material && state ? "error" : ""}
+                                       help={!declare_material && state ? "必填项" : ""}
+                                       >
                                 <div ref="editorElem4">
                                 </div>
                             </Form.Item>
-                            <Form.Item name="content" label="申报流程" required rules={[
-                                ({ getFieldValue }) => ({
-                                    async validator(rule, value) {
-                                        if(!declare_process){
-                                            return Promise.reject("必填项");
-                                        }
-                                        return Promise.resolve();
-                                    },
-                                })
-                            ]}>
+                            <Form.Item name="content" label="申报流程"
+                                       required
+                                       validateStatus={!declare_process && state ? "error" : ""}
+                                       help={!declare_process && state ? "必填项" : ""}>
                                 <div ref="editorElem5">
                                 </div>
                             </Form.Item>
@@ -797,14 +802,20 @@ class AddProject extends Component {
                             <p style={{fontWight:"bold",color:"#000",fontSize:"16px"}}><span style={{color: "#ff4d4f"}}>*</span>请选择申报方式（可多选）</p>
                             <Row>
                                 <Col span={4}><Checkbox value="declare_net" checked={this.state.declare_net ? true : false} onChange={this.setCheckBox}>网上申报</Checkbox></Col>
-                                <Col span={10}><Form.Item name="declare_net">
-                                    <Input disabled={!declare_net}/>
+                                <Col span={10}><Form.Item>
+                                    {getFieldDecorator('declare_net')(
+                                        <Input disabled={!declare_net}/>
+                                    )}
                                 </Form.Item></Col>
                             </Row>
                             <Row>
-                                <Col span={4}><Checkbox value="post_material" checked={this.state.post_material ? true : false} onChange={this.setCheckBox}>纸质材料提交至</Checkbox></Col>
-                                <Col span={20}><Form.Item name="post_material">
-                                    <TextArea disabled={!post_material} rows={4}/>
+                                <Col span={4}>
+                                    <Checkbox value="post_material" checked={this.state.post_material ? true : false} onChange={this.setCheckBox}>纸质材料提交至</Checkbox>
+                                </Col>
+                                <Col span={20}><Form.Item>
+                                    {getFieldDecorator('post_material')(
+                                        <TextArea disabled={!post_material} rows={4}/>
+                                    )}
                                 </Form.Item></Col>
                             </Row>
                             <Row>
@@ -824,20 +835,28 @@ class AddProject extends Component {
                                         <td>
                                             <Row>
                                                 <Col span={4}>
-                                                    <Form.Item name="set_up_sign">
-                                                    <Select
-                                                        style={{ width: '90%' }}
-                                                        disabled={!set_up}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('set_up_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                style={{ width: '90%' }}
+                                                                disabled={!set_up}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={19}>
-                                                    <Form.Item name="set_up_value">
-                                                        <Input disabled={!set_up}/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('set_up_value',{
+                                                            initialValue:2000
+                                                        })(
+                                                            <Input disabled={!set_up}/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
@@ -856,20 +875,28 @@ class AddProject extends Component {
                                         <td>
                                             <Row>
                                                 <Col span={4}>
-                                                    <Form.Item name="knowledge_sign">
-                                                    <Select
-                                                        disabled={!knowledge}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('knowledge_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!knowledge}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={19}>
-                                                    <Form.Item name="knowledge_value">
-                                                    <Input disabled={!knowledge} suffix="个"/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('knowledge_value',{
+                                                            initialValue:0
+                                                        })(
+                                                            <Input disabled={!knowledge} suffix="个"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
@@ -881,20 +908,28 @@ class AddProject extends Component {
                                         <td>
                                             <Row>
                                                 <Col span={4}>
-                                                    <Form.Item name="invention_sign">
-                                                    <Select
-                                                        disabled={!invention}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('invention_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!invention}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={19}>
                                                     <Form.Item name="invention_value">
-                                                    <Input disabled={!invention} suffix="个"/>
+                                                        {getFieldDecorator('invention_value',{
+                                                            initialValue:0
+                                                        })(
+                                                            <Input disabled={!invention} suffix="个"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
@@ -904,17 +939,19 @@ class AddProject extends Component {
                                     <tr>
                                         <td>所属行业</td>
                                         <td>
-                                            <Form.Item name="industry_label_ids">
-                                            <Select
-                                                disabled={!industry_label}
-                                                mode="multiple"
-                                                style={{ width: '100%' }}
-                                                onChange={this.handleChange}
-                                            >
-                                                {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                        key={item.id}>{item.name}</Option>) : ''}
+                                            <Form.Item>
+                                                {getFieldDecorator('industry_label_ids')(
+                                                    <Select
+                                                        disabled={!industry_label}
+                                                        mode="multiple"
+                                                        style={{ width: '100%' }}
+                                                        onChange={this.handleChange}
+                                                    >
+                                                        {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                                key={item.id}>{item.name}</Option>) : ''}
 
-                                            </Select>
+                                                    </Select>
+                                                )}
                                             </Form.Item>
                                         </td>
                                         <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"industry_label")}/></td>
@@ -925,60 +962,84 @@ class AddProject extends Component {
                                             <Row>
                                                 <Col span={7}>研发投入</Col>
                                                 <Col span={4}>
-                                                    <Form.Item name="develop_sign">
-                                                    <Select
-                                                        disabled={!declare}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('develop_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!declare}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={10}>
-                                                    <Form.Item name="develop_value">
-                                                    <Input disabled={!declare} suffix="万元"/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('develop_value',{
+                                                            initialValue:0
+                                                        })(
+                                                            <Input disabled={!declare} suffix="万元"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
                                             <Row className="mt10">
                                                 <Col span={7}>企业报税收入</Col>
                                                 <Col span={4}>
-                                                    <Form.Item name="declare_sign">
-                                                    <Select
-                                                        disabled={!declare}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('declare_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!declare}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={10}>
-                                                    <Form.Item name="declare_value">
-                                                    <Input disabled={!declare} suffix="万元"/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('declare_value',{
+                                                            initialValue:0
+                                                        })(
+                                                            <Input disabled={!declare} suffix="万元"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
                                             <Row className="mt10">
                                                 <Col span={7}>研发资产总额</Col>
                                                 <Col span={4}>
-                                                    <Form.Item name="develop_assets_sign">
-                                                    <Select
-                                                        disabled={!declare}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('develop_assets_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!declare}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={10}>
-                                                    <Form.Item name="develop_assets_value">
-                                                    <Input disabled={!declare} suffix="万元"/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('develop_assets_value',{
+                                                            initialValue:0
+                                                        })(
+                                                            <Input disabled={!declare} suffix="万元"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
@@ -991,40 +1052,56 @@ class AddProject extends Component {
                                             <Row className="mt10">
                                                 <Col span={7}>最近一年缴纳社保人数</Col>
                                                 <Col span={4}>
-                                                    <Form.Item name="social_people_sign">
-                                                    <Select
-                                                        disabled={!social}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('social_people_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!social}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={10}>
-                                                    <Form.Item name="social_people_value">
-                                                    <Input disabled={!social} suffix="人"/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('social_people_value',{
+                                                            initialValue:0
+                                                        })(
+                                                            <Input disabled={!social} suffix="人"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
                                             <Row className="mt10">
                                                 <Col span={7}>研发人员</Col>
                                                 <Col span={4}>
-                                                    <Form.Item name="develop_people_sign">
-                                                    <Select
-                                                        disabled={!social}
-                                                        style={{ width: '90%' }}
-                                                    >
-                                                        <Option value="-1,0" key="≥">≥</Option>
-                                                        <Option value="0" key="=">=</Option>
-                                                        <Option value="0,1" key="≤">≤</Option>
-                                                    </Select>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('develop_people_sign',{
+                                                            initialValue:"-1,0"
+                                                        })(
+                                                            <Select
+                                                                disabled={!social}
+                                                                style={{ width: '90%' }}
+                                                            >
+                                                                <Option value="-1,0" key="≥">≥</Option>
+                                                                <Option value="0" key="=">=</Option>
+                                                                <Option value="0,1" key="≤">≤</Option>
+                                                            </Select>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                                 <Col span={10}>
-                                                    <Form.Item name="develop_people_value">
-                                                    <Input disabled={!social} suffix="人"/>
+                                                    <Form.Item>
+                                                        {getFieldDecorator('develop_people_value',{
+                                                            initialValue:0
+                                                        },)(
+                                                            <Input disabled={!social} suffix="人"/>
+                                                        )}
                                                     </Form.Item>
                                                 </Col>
                                             </Row>
@@ -1037,12 +1114,11 @@ class AddProject extends Component {
                             </Row>
                             <div className="addProject-button">
                                 <Button type="primary" htmlType="submit" ref="finish">发布</Button>
-                                <Button type="primary" className="ml15" ref="save" onClick={()=>this.onSave()}>存为草稿</Button>
-                                <Button type="primary" className="ml15" onClick={()=>this.onView()}>预览</Button>
+                                <Button type="primary" className="ml15" ref="save" onClick={this.onSave}>存为草稿</Button>
+                                <Button type="primary" className="ml15" onClick={this.onView}>预览</Button>
                                 <Button className="ml15" onClick={()=>window.history.back()}>返回</Button>
                             </div>
                         </Form>
-                        </Form.Provider>
                     </div>
                     </Col>
                 </Row>
@@ -1067,4 +1143,4 @@ class AddProject extends Component {
     };
 }
 
-export default AddProject;
+export default Form.create()(AddProject);

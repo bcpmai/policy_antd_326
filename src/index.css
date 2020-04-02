@@ -18,7 +18,7 @@ code {
 }
 .max-weight-box{
   width: 1280px;
-  margin: 0 auto;
+  margin: 0 auto!important;
 }
 .ml15{
   margin-left: 15px;

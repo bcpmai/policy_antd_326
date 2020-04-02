@@ -3,8 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Button, Form, Input, Row, Col, Select, DatePicker, Menu, Modal,Icon} from 'antd';
-// import {EditOutlined, AppstoreOutlined, MailOutlined, SettingOutlined} from '@ant-design/icons';
+import {Button, Form, Input, Row, Col, Select, DatePicker, Menu, Modal,Icon,Alert} from 'antd';
 import Top from '../../../component/top/index';
 import Title from "../../../component/title/index";
 import './index.css';
@@ -78,7 +77,7 @@ class Information extends Component {
                 if(data.set_up_value) {
                     data.set_up_value = moment(data.set_up_value, 'YYYY-MM');
                 }
-                this.refs.form.setFieldsValue(data);
+                this.props.form.setFieldsValue(data);
             });
 
         }
@@ -156,27 +155,33 @@ class Information extends Component {
             addressArr
         });
     }
-    onFinish = async (values) => {
-        const {addressArr,set_up_value,register_address}= this.state;
-        if(addressArr) {
-            values.register_address =addressArr.province+","+addressArr.city+","+addressArr.area;
-        }else if(register_address){
-            values.register_address = register_address.join(",");
-        }
-        if(set_up_value) {
-            values.set_up_value = (set_up_value+"").replace("-", "");
-        }
-        values.member_id = cookie.load('userId');
-        const responest = await request('/company/update_info', 'POST', values);
-        const data = responest.data;
-        if (data && data.success) {
-            message.success(data.msg);
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        } else {
-            message.error(data.msg);
-        }
+    onFinish = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.props.form.validateFields(async(err, values) => {
+            if (!err) {
+                const {addressArr, set_up_value, register_address} = this.state;
+                if (addressArr) {
+                    values.register_address = addressArr.province + "," + addressArr.city + "," + addressArr.area;
+                } else if (register_address) {
+                    values.register_address = register_address.join(",");
+                }
+                if (set_up_value) {
+                    values.set_up_value = (set_up_value + "").replace("-", "");
+                }
+                values.member_id = cookie.load('userId');
+                const responest = await request('/company/update_info', 'POST', values);
+                const data = responest.data;
+                if (data && data.success) {
+                    message.success(data.msg);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    message.error(data.msg);
+                }
+            }
+        });
     }
     setEdit = () =>{
         this.setState({
@@ -203,10 +208,11 @@ class Information extends Component {
 
     render() {
         const {provinceSelect, citySelect, areaSelect, industryData,isEdit,register_address} = this.state;
+        const { getFieldDecorator } = this.props.form;
         return (
             <div className="information-template">
                 <Top/>
-                <Form ref="form" {...layout} name="nest-messages" onFinish={this.onFinish}
+                <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}
                       validateMessages={validateMessages}>
                     <div className="information-form-box max-weight-box">
                         <Row>
@@ -216,11 +222,14 @@ class Information extends Component {
                             <Col span={20}>
                                 <Title name="企业信息"/>
                                 <div className="information-title-h1">
-                                    <span>您可完善企业信息，精准匹配申报政策</span>
-                                    <Button onClick={() => {
-                                        window.location.href = "/matching"
-                                    }} type="primary" className="button-matching">精准匹配</Button>
-                                    { isEdit ? <Button type="primary" icon={<Icon type="edit" />} className="button-edit" onClick={this.setEdit}>编辑</Button> : null}
+                                    <div className="alert-box">
+                                        <Icon type="exclamation-circle" theme="filled" />
+                                        <span>您可完善企业信息，精准匹配申报政策</span>
+                                        <Button onClick={() => {
+                                            window.location.href = "/matching"
+                                        }} type="primary" className="button-matching">精准匹配</Button>
+                                    </div>
+                                    { isEdit ? <Button type="primary" icon="edit" className="button-edit" onClick={this.setEdit}>编辑</Button> : null}
                                     { !isEdit ? <Button type="primary" onClick={this.onCancel} className="button-edit ml15">取消</Button> : null}
                                     { !isEdit ? <Button type="primary" htmlType="submit" className="button-edit">保存</Button> : null}
                                 </div>
@@ -228,12 +237,14 @@ class Information extends Component {
                                     <div className="information-title">基本信息</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="company_name" label="企业名称">
-                                                <Input disabled placeholder="请输入用户名" defaultValue="xxxx有限公司"/>
+                                            <Form.Item label="企业名称">
+                                                {getFieldDecorator('company_name')(
+                                                    <Input disabled placeholder="请输入企业名称" defaultValue="xxxx有限公司"/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                         <Col span={14}>
-                                            <Form.Item name="username" label="注册地址">
+                                            <Form.Item className="text-right" label="注册地址">
                                                 {provinceSelect ? <Select defaultValue={register_address ? parseInt(register_address[0]) : null} disabled={isEdit} placeholder="请选择省份" style={{width: 127}}
                                                         onChange={(value, option) => this.onProvinceChange(value, option)}>
                                                         {provinceSelect.map((item, idx) => <Option
@@ -255,30 +266,38 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="set_up_value" label="成立时间">
-                                                <MonthPicker disabled={isEdit} onChange={this.onChange} format="YYYY-MM" picker="month"/>
+                                            <Form.Item label="成立时间">
+                                                {getFieldDecorator('set_up_value')(
+                                                    <MonthPicker disabled={isEdit} onChange={this.onChange} format="YYYY-MM" picker="month"/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                         <Col span={14}>
-                                            <Form.Item name="industry_label_id" label="所属行业" rules={[{required: true}]}>
-                                                <Select disabled={isEdit} placeholder="请选择所属行业">
-                                                    {industryData ? industryData.map((item, idx) => <Option
-                                                        value={item.id}
-                                                        key={item.id}>{item.name}</Option>) : ''}
-                                                </Select>
+                                            <Form.Item className="text-right" label="所属行业">
+                                                {getFieldDecorator('industry_label_id')(
+                                                    <Select disabled={isEdit} placeholder="请选择所属行业">
+                                                        {industryData ? industryData.map((item, idx) => <Option
+                                                            value={item.id}
+                                                            key={item.id}>{item.name}</Option>) : ''}
+                                                    </Select>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <div className="information-title">知识产权情况</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="knowledge_value" label="知识产权数量">
-                                                <Input disabled={isEdit} suffix="个" style={{width: 200}}/>
+                                            <Form.Item label="知识产权数量">
+                                                {getFieldDecorator('knowledge_value')(
+                                                    <Input disabled={isEdit} suffix="个" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                         <Col span={14}>
-                                            <Form.Item name="invention_value" label="其中，发明专利数量">
-                                                <Input disabled={isEdit} suffix="个" style={{width: 200}}/>
+                                            <Form.Item className="text-right" label="其中，发明专利数量">
+                                                {getFieldDecorator('invention_value')(
+                                                    <Input disabled={isEdit} suffix="个" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -286,22 +305,28 @@ class Information extends Component {
                                     <div className="information-title">财务数据情况</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="develop_value" label="研发投入">
-                                                <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                            <Form.Item label="研发投入">
+                                                {getFieldDecorator('develop_value')(
+                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="declare_value" label="企业报税收入">
-                                                <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                            <Form.Item label="企业报税收入">
+                                                {getFieldDecorator('declare_value')(
+                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="develop_assets_value" label="研发资产总额">
-                                                <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                            <Form.Item label="研发资产总额">
+                                                {getFieldDecorator('develop_assets_value')(
+                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -309,15 +334,19 @@ class Information extends Component {
                                     <div className="information-title">人员情况</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="social_people_value" label="最近一年缴纳社保人数">
-                                                <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
+                                            <Form.Item label="近一年缴纳社保数">
+                                                {getFieldDecorator('social_people_value')(
+                                                    <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item name="develop_people_value" label="研发人员">
-                                                <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
+                                            <Form.Item label="研发人员">
+                                                {getFieldDecorator('develop_people_value')(
+                                                    <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
+                                                )}
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -347,4 +376,4 @@ class Information extends Component {
     };
 }
 
-export default Information;
+export default Form.create()(Information);

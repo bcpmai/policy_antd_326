@@ -22,16 +22,6 @@ const layout = {
     wrapperCol: {span: 16},
 };
 
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
 
 class MyCollection extends Component {
     constructor(props){
@@ -170,7 +160,7 @@ class MyCollection extends Component {
         }
     }
     onSearchTitle = (value) =>{
-        this.getTableData({title:value,...this.state.formValues});
+        this.getTableData({...this.state.formValues,title:value});
     }
     render() {
         const {mode,tabTitle,tableData,formValues,record} = this.state;

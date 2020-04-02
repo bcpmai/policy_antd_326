@@ -4,7 +4,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { Table, Input, Row, Col, Button, Select, DatePicker, Breadcrumb, Modal,message, Form,Tooltip,Icon } from 'antd';
-// import { ArrowUpOutlined,ArrowDownOutlined,PlusOutlined,MinusOutlined } from '@ant-design/icons';
 import Top from '../../../../component/top/index';
 import Label from "../../../../component/label/index";
 import PolicyManagementMenu from "../../../../component/policyManagementMenu/index";
@@ -18,17 +17,6 @@ const { RangePicker } = DatePicker;
 const layout = {
     labelCol: {span: 4},
     wrapperCol: {span: 18},
-};
-
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
 };
 
 class CollectionList extends Component {
@@ -46,7 +34,7 @@ class CollectionList extends Component {
                 key: 'title',
                 width:400,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.props.history.push(`/policyText/${record.id}`)} target="_blank">{text.length < 25 ? text : text.substr(0,25)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`/policyText/${record.id}`} target="_blank">{text.length < 25 ? text : text.substr(0,25)+"..."}</a></Tooltip>
                 }
             },
             {
@@ -84,11 +72,6 @@ class CollectionList extends Component {
         const industryData = selectIndustryData.data;
 
         if (themData && themData.success && typeData && themData.success && belongData && belongData.success && industryData && industryData.success) {
-            // const allItem = {id: 0,name: "全部"};
-            // themData.data.unshift(allItem);
-            // typeData.data.unshift(allItem);
-            // belongData.data.unshift(allItem);
-            // industryData.data.unshift(allItem);
             this.setState({
                 labelTheme: {
                     title: "政策主题",
@@ -116,15 +99,21 @@ class CollectionList extends Component {
         }
     }
     //搜索
-    onFinish = async (values) => {
-        const {organization_label_list_arr,release_date} = this.state;
-        if(organization_label_list_arr!=null){
-            values["organization_label_list"] = organization_label_list_arr;
-        }
-        if(release_date!=null){
-            values["release_date"] = release_date;
-        }
-        this.getTableData(values);
+    onFinish = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.props.form.validateFields(async (err, values) => {
+            if (!err) {
+                const {organization_label_list_arr, release_date} = this.state;
+                if (organization_label_list_arr != null) {
+                    values["organization_label_list"] = organization_label_list_arr;
+                }
+                if (release_date != null) {
+                    values["release_date"] = release_date;
+                }
+                this.getTableData(values);
+            }
+        });
     }
     //label 发布机构
     onSelectProduct = (value) =>{
@@ -234,7 +223,7 @@ class CollectionList extends Component {
             source:null,
             organization_label_list_arr:null,
         },()=>{
-            this.refs.form.resetFields();
+            this.props.form.resetFields();
         })
     };
     //发文日期
@@ -244,6 +233,7 @@ class CollectionList extends Component {
         })
     }
     render() {
+        const {getFieldDecorator} = this.props.form;
         const {labelProduct,organization_label_list_arr,arrProduct,industryData,labelType,selectedRowKeys,belongData,belongDataModal,labelTheme,tableData,formValues,labelProductModal} = this.state;
         const rowSelection = {
             selectedRowKeys,
@@ -275,23 +265,27 @@ class CollectionList extends Component {
                         <Breadcrumb.Item href="">采集列表</Breadcrumb.Item>
                     </Breadcrumb>
                     <div className="label-box">
-                        <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}>
+                        <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                         <Row className="mt10">
                             <Col span={4}>政策标题</Col>
                             <Col span={20}>
-                                <Form.Item name="title">
-                                    <Input />
+                                <Form.Item>
+                                    {getFieldDecorator('title')(
+                                        <Input />
+                                    )}
                                 </Form.Item>
                             </Col>
                         </Row>
                         <Row className="mt10">
                             <Col span={4}>所属层级</Col>
                             <Col span={20}>
-                                <Form.Item name="industry_label_id_list">
-                                <Select style={{ width: 300 }} onChange={this.belongChange}>
-                                    {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                        key={item.id}>{item.name}</Option>) : ''}
-                                </Select>
+                                <Form.Item>
+                                    {getFieldDecorator('industry_label_id_list')(
+                                        <Select style={{ width: 300 }} onChange={this.belongChange}>
+                                            {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                key={item.id}>{item.name}</Option>) : ''}
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -311,8 +305,10 @@ class CollectionList extends Component {
                         <Row className="mt10">
                             <Col span={4}>发文日期</Col>
                             <Col span={20}>
-                                <Form.Item name="release_date">
-                                    <DatePicker onChange={this.onDateChange} />
+                                <Form.Item>
+                                    {getFieldDecorator('release_date')(
+                                        <DatePicker onChange={this.onDateChange} />
+                                    )}
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -417,4 +413,4 @@ class CollectionList extends Component {
     };
 }
 
-export default CollectionList;
+export default Form.create()(CollectionList);

@@ -11,23 +11,9 @@ import './index.css';
 import {message} from "antd/lib/index";
 import {request} from "../../../../utils/request";
 import cookie from "react-cookies";
+import AddUser from "./addUser.js";
 
 const { Search } = Input;
-const layout = {
-    labelCol: {span: 4},
-    wrapperCol: {span: 18},
-};
-
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
 class policyUser extends Component {
     constructor(props){
         super(props);
@@ -117,34 +103,6 @@ class policyUser extends Component {
         });
     };
 
-    handleOk = async (e) => {
-
-        this.refs.form.validateFields().then(async(values) => {
-           console.log(values,"values")
-            let url = '/admin/register';
-            if(this.state.record){
-                url = '/admin/update_user';
-                values.username = this.state.record.username;
-                values.member_id = this.state.record.id;
-            }
-            const deleteData = await request(url, 'POST', values); //添加用户
-            if (deleteData.data && deleteData.data.success) {
-                message.success(deleteData.data.msg);
-                this.setState({
-                    addVisible: false,
-                    record: null
-                });
-                setTimeout(() => {
-                    this.getTableData(this.state.formValues);
-                }, 1000);
-            } else {
-                message.error(deleteData.data.msg);
-            }
-        }).catch(errorInfo => {
-           console.log(errorInfo,"errror")
-        });
-    };
-
     handleCancel = type => {
         this.setState({
             [type]: false,
@@ -185,6 +143,15 @@ class policyUser extends Component {
         } else {
             message.error(res.data.msg);
         }
+    }
+    userCallback = () =>{
+        this.setState({
+            addVisible: false,
+            record: null
+        });
+        setTimeout(() => {
+            this.getTableData(this.state.formValues);
+        }, 1000);
     }
     render() {
         const {formValues,tableData,record} = this.state;
@@ -263,80 +230,8 @@ class policyUser extends Component {
                     }}>确认重置密码？确认后，初始密码为123abc，请及时通知联系人。</p>
                 </Modal>
 
-                {this.state.addVisible ? <Modal
-                    title={record ? "修改角色" :"添加角色"}
-                    visible
-                    onOk={this.handleOk}
-                    onCancel={(type)=>this.handleCancel("addVisible")}
-                    footer={[
-                        <Button key="back" onClick={this.handleOk}>
-                            确认
-                        </Button>,
-                        <Button key="submit" type="primary" onClick={(type)=>this.handleCancel("addVisible")}>
-                            取消
-                        </Button>
-                    ]}
-                >
-                    <Form ref="form" {...layout} name="dynamic_rule" validateMessages={validateMessages}>
-                        <Row className="mt10">
-                            <Col span={24}>
-                                <Form.Item label="用户名" name="username" rules={record && record.username ? [] : [
-                                    {
-                                        required: true,
-                                        message: '请输入用户名'
-                                    },
-                                    ({ getFieldValue }) => ({
-                                        async validator(rule, value) {
-                                            const responest = await request('/common/check-user','POST',{username:value});
-                                            console.log(responest)
-                                            if(responest.status == 200 && responest.data.success){
-                                                return Promise.reject(responest.data.msg);
-                                            }
-                                            return Promise.resolve();
-                                        },
-                                    }),
-                                ]}>
-                                    {record && record.username ? <span>{record.username}</span> : <Input />}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={24}>
-                                <Form.Item label="姓名" name="real_name">
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={24}>
-                                <Form.Item label="手机号" name="mobile" rules={[
-                                    {
-                                        required: true,
-                                        message: '请输入手机号'
-                                    },
-                                    ({ getFieldValue }) => ({
-                                        async validator(rule, value) {
-                                            const responest = await request('/common/check-mobile','POST',{mobile:value});
-                                            if(responest.status == 200 && responest.data.success){
-                                                return Promise.reject(responest.data.msg);
-                                            }
-                                            return Promise.resolve();
-                                        },
-                                    }),
-                                ]}>
-                                    <Input />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={24}>
-                                <Form.Item label="初始密码" name="password" rules={[{required: true}]}>
-                                    <Input.Password />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Modal> : null }
+                {this.state.addVisible ? <AddUser record={record} callback={()=>this.userCallback()} handleCancel={this.handleCancel} /> : null}
+
             </div>
         );
     };

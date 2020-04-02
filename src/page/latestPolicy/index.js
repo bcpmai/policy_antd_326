@@ -3,11 +3,8 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Table, Tag, Input, Row, Col, Button, Select, DatePicker, Form, Tooltip,Icon } from 'antd';
-// import { ArrowUpOutlined,ArrowDownOutlined,PlusOutlined,MinusOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { Table, Input, Row, Col, Button, Select, DatePicker, Form, Tooltip,Icon } from 'antd';
 import Top from './../../component/top';
-// import Footer from "../../component/footer";
 import Label from "../../component/label";
 import './index.css';
 import {request} from "../../utils/request";
@@ -20,17 +17,6 @@ const { RangePicker } = DatePicker;
 const layout = {
     labelCol: {span: 4},
     wrapperCol: {span: 18},
-};
-
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
 };
 
 class LatestPolicy extends Component {
@@ -98,7 +84,8 @@ class LatestPolicy extends Component {
     async componentDidMount() {
         console.log(this.props);
         const {keyString} = this.props.match.params;
-        this.refs.seachForm.setFieldsValue({title:keyString});
+        // console.log(this.props.form)
+        this.props.form.setFieldsValue({title:keyString});
         this.getTableData({title:keyString});
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
         const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
@@ -214,22 +201,29 @@ class LatestPolicy extends Component {
     onSearchTitle = (value) =>{
         this.getTableData({title:value});
     }
-    onFinish = async (values) => {
-        const {release_date,policy_theme_label_list,organization_label_list,use_type_list} = this.state;
-        if(policy_theme_label_list!=null){
-            values["policy_theme_label_list"] = policy_theme_label_list;
-        }
-        if(organization_label_list!=null){
-            values["organization_label_list"] = organization_label_list;
-        }
-        if(use_type_list!=null){
-            values["use_type_list"] = use_type_list;
-        }
-        if(release_date!=null){
-            values["release_date"] = release_date;
-        }
+    onFinish = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.props.form.validateFields(async(err, values) => {
+            const title = _this.refs.seachInput.props.children.props.value;
+            if (!err) {
+                const {release_date, policy_theme_label_list, organization_label_list, use_type_list} = this.state;
+                if (policy_theme_label_list != null) {
+                    values["policy_theme_label_list"] = policy_theme_label_list;
+                }
+                if (organization_label_list != null) {
+                    values["organization_label_list"] = organization_label_list;
+                }
+                if (use_type_list != null) {
+                    values["use_type_list"] = use_type_list;
+                }
+                if (release_date != null) {
+                    values["release_date"] = release_date;
+                }
 
-        this.getTableData({...values,...this.refs.seachForm.getFieldValue()});
+                _this.getTableData({...values, title});
+            }
+        });
     }
     onReset = () => {
         this.setState({
@@ -240,8 +234,7 @@ class LatestPolicy extends Component {
             status:null,
             release_date:null
         },()=>{
-            this.refs.form.resetFields();
-            this.refs.seachForm.resetFields();
+            this.props.form.resetFields();
         })
     };
     //发文日期
@@ -269,6 +262,7 @@ class LatestPolicy extends Component {
         })
     }
     render() {
+        const { getFieldDecorator } = this.props.form;
         const {arrdown,labelType,labelProduct,arrProduct,belongData,industryData,labelTheme,policy_theme_label_list,organization_label_list,use_type_list,tableData,formValues} = this.state;
         const pagination = {
             current:formValues && formValues.page ? formValues.page : 1,
@@ -288,13 +282,15 @@ class LatestPolicy extends Component {
                     <Row className="latestPolicy-serach">
                         <Col span={12}>
                             <Form ref="seachForm">
-                                <Form.Item name="title">
-                                <Search
-                                enterButton="查询"
-                                size="large"
-                                placeholder="请输入关键词查询政策标题"
-                                onSearch={value => this.onSearchTitle(value)}
-                            />
+                                <Form.Item ref="seachInput">
+                                    {getFieldDecorator('title')(
+                                        <Search
+                                            enterButton="查询"
+                                            size="large"
+                                            placeholder="请输入关键词查询政策标题"
+                                            onSearch={value => this.onSearchTitle(value)}
+                                        />)}
+
                                 </Form.Item>
                             </Form>
                         </Col>
@@ -309,17 +305,19 @@ class LatestPolicy extends Component {
                         </Col>
                     </Row>
                     <div className="label-box" style={!arrdown ? {display:"none"} : {}}>
-                        <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}>
+                        <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                             {labelTheme ?
                                 <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:4,label:20}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
-                            <Row className="mt10">
+                            <Row>
                                 <Col span={4}>所属层级</Col>
                                 <Col span={20}>
-                                    <Form.Item name="belong">
-                                    <Select style={{width: 300}} onChange={this.belongChange}>
-                                        {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                            key={item.id}>{item.name}</Option>) : ''}
-                                    </Select>
+                                    <Form.Item>
+                                        {getFieldDecorator('belong')(
+                                            <Select style={{width: 300}} onChange={this.belongChange}>
+                                                {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                    key={item.id}>{item.name}</Option>) : ''}
+                                            </Select>
+                                        )}
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -340,22 +338,26 @@ class LatestPolicy extends Component {
                         </div>
                             {labelType ?
                                 <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:4,label:20}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}
-                            <Row className="mt10">
+                            <Row>
                             <Col span={4}>所属行业</Col>
                             <Col span={20}>
-                                <Form.Item name="industry_label_id_list">
-                                <Select style={{width: 300}}>
-                                    {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                            key={item.id}>{item.name}</Option>) : ''}
-                                </Select>
+                                <Form.Item>
+                                    {getFieldDecorator('industry_label_id_list')(
+                                        <Select style={{width: 300}}>
+                                            {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                    key={item.id}>{item.name}</Option>) : ''}
+                                        </Select>
+                                    )}
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Row className="mt10">
+                        <Row>
                             <Col span={4}>发文日期</Col>
                             <Col span={20}>
-                                <Form.Item name="release_date">
-                                    <RangePicker onChange={this.onDateChange} />
+                                <Form.Item>
+                                    {getFieldDecorator('release_date')(
+                                        <RangePicker onChange={this.onDateChange} />
+                                    )}
                                     {/*<DatePicker onChange={this.onDateChange} />*/}
                                 </Form.Item>
                             </Col>
@@ -373,4 +375,4 @@ class LatestPolicy extends Component {
     };
 }
 
-export default LatestPolicy;
+export default Form.create()(LatestPolicy);

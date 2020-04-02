@@ -15,7 +15,7 @@
     height: auto;
 }
 .Label-component-template .label-item-minLabel{
-    height: 45px;
+    height: 35px;
     overflow: hidden;
 }
 .Label-component-template .ant-btn:hover{

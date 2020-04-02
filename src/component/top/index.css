@@ -1,5 +1,6 @@
 .top-component-template{
-
+    overflow: hidden;
+    height: 70px;
 }
 .top-component-template .welcome-box{
     background: #a72329;
@@ -184,8 +185,9 @@
 .top-component-template .welcome-box .ant-input-group .ant-input{
     border:1px solid #fff;
     border-radius:15px 0 0 15px;
-    padding:3px 11px;
+    padding:0px 11px;
     text-indent: 0;
+    height: 30px;
 }
 .top-component-template .welcome-box .ant-input-group .ant-btn{
     border:1px solid #fff;
@@ -207,4 +209,9 @@
 }
 .top-component-template .welcome-box .right-button{
     margin-top: 5px;
+}
+.top-component-template .top-name{
+    font-weight: bold;
+    line-height: 70px;
+    font-size: 22px;
 }

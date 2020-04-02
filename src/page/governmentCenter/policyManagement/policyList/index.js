@@ -21,18 +21,6 @@ const layout = {
     labelCol: {span: 4},
     wrapperCol: {span: 18},
 };
-
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
-
 class PolicyList extends Component {
     constructor(props) {
         super(props);
@@ -41,19 +29,6 @@ class PolicyList extends Component {
             current:1,
             arrdown: true,
             arrProduct: false,
-            // labelTheme:{
-            //         title:"政策主题",
-            //         item:["全部","综合政策","财税支持","融资促进","市场开拓","服务措施","权益保护","创业扶持","创新支持","监督检查","其他"]
-            //     },
-            // labelType:
-            //     {
-            //         title:"应用类型",
-            //         item:["全部","规范规划类","资金支持类","税费减免类","资质认定类","行业管制类"]
-            //     },
-            // labelProduct:{
-            //     title:"发布机构",
-            //     item:["全部","国务院","国家发展和改革委员会","工业和信息化部","国务院办公厅","科学技术部","自然资源部","财政部","司法部","人力资源和社会保障部","生态环境部"]
-            // },
             labelStatus: {
                 title: "状 态",
                 item: [
@@ -166,12 +141,6 @@ class PolicyList extends Component {
                     }
                 }
             },
-            // {
-            //     title: '操作时间',
-            //     key: 'updated_date',
-            //     dataIndex: 'updated_date',
-            //     width: 130
-            // },
             {
                 title: '操作人员',
                 key: 'username',
@@ -339,27 +308,33 @@ class PolicyList extends Component {
         })
     }
     //搜索
-    onFinish = async (values) => {
-        const {release_date,status,policy_theme_label_list,organization_label_list,use_type_list,source} = this.state;
-        if(policy_theme_label_list!=null){
-            values["policy_theme_label_list"] = policy_theme_label_list;
-        }
-        if(organization_label_list!=null){
-            values["organization_label_list"] = organization_label_list;
-        }
-        if(status!=null){
-            values["status"] = status;
-        }
-        if(use_type_list!=null){
-            values["use_type_list"] = use_type_list;
-        }
-        if(source!=null){
-            values["source"] = source;
-        }
-        if(release_date!=null){
-            values["release_date"] = release_date;
-        }
-        this.getTableData(values);
+    onFinish = async (e) => {
+        e.preventDefault();
+        const _this = this;
+        this.props.form.validateFields(async(err, values) => {
+            if (!err) {
+                const {release_date, status, policy_theme_label_list, organization_label_list, use_type_list, source} = this.state;
+                if (policy_theme_label_list != null) {
+                    values["policy_theme_label_list"] = policy_theme_label_list;
+                }
+                if (organization_label_list != null) {
+                    values["organization_label_list"] = organization_label_list;
+                }
+                if (status != null) {
+                    values["status"] = status;
+                }
+                if (use_type_list != null) {
+                    values["use_type_list"] = use_type_list;
+                }
+                if (source != null) {
+                    values["source"] = source;
+                }
+                if (release_date != null) {
+                    values["release_date"] = release_date;
+                }
+                this.getTableData(values);
+            }
+        });
     }
     onReset = () => {
         this.setState({
@@ -370,11 +345,12 @@ class PolicyList extends Component {
             status:null,
             release_date:null
         },()=>{
-            this.refs.form.resetFields();
+            this.props.form.resetFields();
         })
     };
 
     render() {
+        const { getFieldDecorator } = this.props.form;
         const {labelTheme, labelType, labelProduct, arrProduct, labelStatus, labelSource, belongData, industryData, source,policy_theme_label_list,organization_label_list,use_type_list,status,tableData,formValues,arrdown} = this.state;
         const pagination = {
             current:formValues && formValues.page ? formValues.page : 1,
@@ -402,12 +378,14 @@ class PolicyList extends Component {
                                 <Breadcrumb.Item href="">政策列表</Breadcrumb.Item>
                             </Breadcrumb>
                             <div className="label-box">
-                                <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}>
+                                <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                                 <Row>
                                     <Col span={4}>政策标题</Col>
                                     <Col span={18}>
-                                        <Form.Item name="title">
-                                            <Input />
+                                        <Form.Item>
+                                            {getFieldDecorator('title')(
+                                                <Input />
+                                            )}
                                         </Form.Item>
 
                                     </Col>
@@ -422,11 +400,13 @@ class PolicyList extends Component {
                                 <Row>
                                     <Col span={4}>所属层级</Col>
                                     <Col span={20}>
-                                        <Form.Item name="belong">
-                                        <Select style={{width: 300}} onChange={this.belongChange}>
-                                            {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                                key={item.id}>{item.name}</Option>) : ''}
-                                        </Select>
+                                        <Form.Item>
+                                            {getFieldDecorator('belong')(
+                                                <Select style={{width: 300}} onChange={this.belongChange}>
+                                                    {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                        key={item.id}>{item.name}</Option>) : ''}
+                                                </Select>
+                                            )}
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -447,19 +427,23 @@ class PolicyList extends Component {
                                 <Row>
                                     <Col span={4}>所属行业</Col>
                                     <Col span={20}>
-                                        <Form.Item name="industry_label_id_list">
-                                        <Select style={{width: 300}}>
-                                            {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                    key={item.id}>{item.name}</Option>) : ''}
-                                        </Select>
+                                        <Form.Item>
+                                            {getFieldDecorator('industry_label_id_list')(
+                                                <Select style={{width: 300}}>
+                                                    {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                            key={item.id}>{item.name}</Option>) : ''}
+                                                </Select>
+                                            )}
                                         </Form.Item>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={4}>发文日期</Col>
                                     <Col span={20}>
-                                        <Form.Item name="release_date">
-                                            <DatePicker onChange={this.onDateChange} />
+                                        <Form.Item>
+                                            {getFieldDecorator('release_date')(
+                                                <DatePicker onChange={this.onDateChange} />
+                                            )}
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -501,4 +485,4 @@ class PolicyList extends Component {
     };
 }
 
-export default PolicyList;
+export default Form.create()(PolicyList);

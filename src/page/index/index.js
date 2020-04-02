@@ -226,7 +226,7 @@ class Register extends Component {
                                         <div className="item">
                                             <p className="title"><a href={`/itemText/${item.id}`} target="_blank" title={item.title}>{item.title.length < 30 ? item.title : item.title.substr(0,30)+"..."}</a></p>
                                             {item.use_type_label_str ? item.use_type_label_str.map((tagItem,tagIdx)=>{
-                                                return <span className="tips mr10">{tagItem}</span>
+                                                return <span className="tips mr10" key={tagIdx}>{tagItem}</span>
                                             }) : null}
                                             <span className="line"></span>
                                             <p className="time">{item.created_date}</p>

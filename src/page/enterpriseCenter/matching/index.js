@@ -204,11 +204,13 @@ class Matching extends Component {
                         </Col>
                         <Col span={20}>
                             <Title name="精准匹配" />
-                    <div className="matching-title-h1">
-                        <span>您可完善企业信息，精准匹配申报政策</span>
-                        {/*<Button type="primary" className="button-matching">精准匹配</Button>*/}
-                        <Button onClick={()=>{window.location.href="/information"}} type="primary" icon={<Icon type="edit" />} className="button-edit">完善信息</Button>
-                    </div>
+                            <div className="information-title-h1">
+                                <div className="alert-box">
+                                    <Icon type="exclamation-circle" theme="filled" />
+                                    <span>您可完善企业信息，精准匹配申报政策</span>
+                                </div>
+                                <Button onClick={()=>{window.location.href="/information"}} type="primary" icon={<Icon type="edit" />} className="button-edit">完善信息</Button>
+                            </div>
                             {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                         </Col>
                     </Row>

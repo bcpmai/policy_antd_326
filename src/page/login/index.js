@@ -16,17 +16,6 @@ const layout = {
     wrapperCol: {span: 24},
 };
 
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
-
 
 class Login extends Component {
     constructor(props){
@@ -78,7 +67,7 @@ class Login extends Component {
                         <div className="login-form-bg"></div>
                         <div className="login-form">
                             <div className="width-min-title"><Divider>用户登录</Divider></div>
-                            <Form {...layout} name="nest-messages" onSubmit={this.onFinish} validateMessages={validateMessages}>
+                            <Form {...layout} name="nest-messages" onSubmit={this.onFinish}>
                                 <Form.Item>
                                     {getFieldDecorator('username', {
                                         rules: [{ required: true, message: '请输入用户账号!' }],

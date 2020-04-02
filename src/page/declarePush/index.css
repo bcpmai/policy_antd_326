@@ -13,13 +13,13 @@
     margin-right: 5px;
 }
 .declarePush-template .declarePush-title-h1{
-    font-size: 24px;
+    font-size: 20px;
     color: #333;
     margin: 10px 0;
 }
 .declarePush-template .title-component-template{
-    margin-top: 80px;
-    margin-bottom: 60px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 .declarePush-template .declarePush-form-box .ant-btn
 {
@@ -31,4 +31,7 @@
     height: 35px;
     margin-bottom: 40px;
     margin-top: 20px;
+}
+.declarePush-template .title-component-template:before{
+   margin-left: 0;
 }

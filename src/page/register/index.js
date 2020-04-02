@@ -17,18 +17,6 @@ const layout = {
     wrapperCol: {span: 14},
 };
 
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
-
-
 class Register extends Component {
     constructor(props){
         super(props);
@@ -48,27 +36,31 @@ class Register extends Component {
         console.log(responest,"1");
     }
     getSms = async () => {
-        const responest = await request('/sms/register','POST',{mobile:this.props.form.getFieldValue("mobile")});
-        const data = responest.data;
-        if(data && data.success){
-            message.success(data.msg);
+        const mobile = this.props.form.getFieldValue("mobile");
+        if(mobile) {
+            const responest = await request('/sms/register', 'POST', {mobile});
+            const data = responest.data;
+            if (data && data.success) {
+                message.success(data.msg);
+            } else {
+                message.error(data.msg);
+            }
+            this.setState({
+                time: 60
+            }, () => {
+                const tTime = setInterval(() => {
+                    if (this.state.time != 0) {
+                        this.setState({
+                            time: this.state.time - 1
+                        })
+                    } else {
+                        clearInterval(tTime);
+                    }
+                }, 1000);
+            })
         }else{
-            message.error(data.msg);
+            message.error("请输入手机号");
         }
-        this.setState({
-            time: 60
-        },()=>{
-            const tTime = setInterval(()=>{
-                if(this.state.time !=0) {
-                    this.setState({
-                        time: this.state.time - 1
-                    })
-                }else{
-                    clearInterval(tTime);
-                }
-            },1000);
-        })
-
     }
     onFinish = (e) => {
         e.preventDefault();
@@ -238,7 +230,7 @@ class Register extends Component {
                                 <Input min={1} max={10} style={{width:100,marginRight:10}} />
                             )}
                         </Form.Item>
-                        <Button className="ant-form-text" disabled={time<0} onClick={time>0 ? null : this.getSms}> {time>0 ? `${time}秒后可再次发送短信`:"获取短信验证码"}</Button>
+                        <Button className={time >0 ? "ant-form-text ant-form-disabled" : "ant-form-text"} disabled={time>0 ? true : false} onClick={time>0 ? null : this.getSms}> {time>0 ? `${time}秒后可再次发送短信`:"获取短信验证码"}</Button>
                     </Form.Item>
                     <div className="register-button">
                         <Form.Item wrapperCol={{...layout.wrapperCol, offset: 8}} >

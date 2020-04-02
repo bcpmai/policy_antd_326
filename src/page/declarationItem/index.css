@@ -70,6 +70,7 @@
     border:1px solid #c8000a;
     border-radius:15px 0 0 15px;
     padding:4px 11px;
+    height: 35px;
 }
 .declarationItem-template .declarationItem-serach .ant-input-group .ant-btn{
     border:1px solid #c8000a;
