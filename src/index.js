@@ -4,6 +4,8 @@ import "core-js/es/array";
 import "core-js/proposals/math-extensions";
 import zhCN from 'antd/es/locale/zh_CN';
 import './index.css';
+import 'core-js/es';
+import 'react-app-polyfill/ie9';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
