@@ -50,3 +50,6 @@
     font-size: 14px;
     margin: 0px 20px 0px 0px;
 }
+.itemText-template .item-desc{
+    padding: 20px;
+}

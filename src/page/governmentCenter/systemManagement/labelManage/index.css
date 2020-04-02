@@ -2,6 +2,7 @@
     width: 100%;
     margin-top: 10px;
     border: 1px solid #f5f5f5;
+    margin-bottom: 30px;
 }
 .labelMange-template .label-manage-table th{
     background: rgba(224, 224, 224, 0.03);
@@ -37,4 +38,16 @@
 .main-box .labelMange-template .ant-tag:hover{
     color: #ae242b;
     cursor: pointer;
+}
+.tag-item-box{
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+.tag-item-box .tag-item-input{
+    position: absolute;
+    left:0;
+    top:0;
+    width: auto;
+    border-radius: 15px;
 }

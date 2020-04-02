@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Table, Tag, Input, Row, Col, Button, Select, DatePicker, Breadcrumb, Modal, Form, message, Tooltip} from 'antd';
+import {Table, Tag, Input, Row, Col, Button, Select, DatePicker, Breadcrumb, Modal, Form, message,Icon, Tooltip} from 'antd';
 // import {ArrowUpOutlined, ArrowDownOutlined, PlusOutlined, MinusOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {request} from '../../../../utils/request';
@@ -58,7 +58,7 @@ class PolicyList extends Component {
                 title: "状 态",
                 item: [
                     {
-                        id: 0,
+                        id: -1,
                         name: "全部"
                     },
                     {
@@ -73,7 +73,7 @@ class PolicyList extends Component {
             labelSource: {
                 title: "来    源",
                 item: [ {
-                    id: 0,
+                    id: -1,
                     name: "全部"
                 },
                     {
@@ -93,7 +93,7 @@ class PolicyList extends Component {
                 key: 'title',
                 width: 180,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.props.history.push(`/policyPreview/${record.id}`)}>{text.length < 15 ? text : text.substr(0,15)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/policyText" : "/policyPreview"}/${record.id}`} target="_blank">{text.length < 8 ? text : text.substr(0,8)+"..."}</a></Tooltip>
                 }
             },
             {
@@ -144,12 +144,12 @@ class PolicyList extends Component {
                 title: '状态',
                 dataIndex: 'status',
                 key: 'status',
-                width:70,
+                width:90,
                 render: text => {
-                    if(text==1) {
-                        return "暂存"
-                    }else {
+                    if(text==2) {
                         return "已发布"
+                    }else {
+                        return "暂存"
                     }
                 }
             },
@@ -182,7 +182,7 @@ class PolicyList extends Component {
                 title: '操作',
                 key: 'action',
                 width:120,
-                render: (text, record) => (<p align="center"><a onClick={()=>this.props.history.push(`/addPolicy/${record.id}`)}>编辑</a><a onClick={()=>this.showModal(record.id)} className="ml15">删除</a></p>),
+                render: (text, record) => (<p align="center" style={{marginBottom:0}}><a onClick={()=>this.props.history.push(`/addPolicy/${record.id}`)}>编辑</a><a onClick={()=>this.showModal(record.id)} className="ml15">删除</a></p>),
             },
         ];
 
@@ -191,7 +191,7 @@ class PolicyList extends Component {
     async componentDidMount() {
         this.getTableData();
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
-        const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
+        const labelTypeData = await request('/common/get-all-use-type-declare-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
         const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
 
@@ -206,7 +206,7 @@ class PolicyList extends Component {
             const allItem = {id: 0,name: "全部"};
             themData.data.unshift(allItem);
             typeData.data.unshift(allItem);
-            belongData.data.unshift(allItem);
+            // belongData.data.unshift(allItem);
             industryData.data.unshift(allItem);
             this.setState({
                 labelTheme: {
@@ -403,7 +403,7 @@ class PolicyList extends Component {
                             </Breadcrumb>
                             <div className="label-box">
                                 <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}>
-                                <Row className="mt10">
+                                <Row>
                                     <Col span={4}>政策标题</Col>
                                     <Col span={18}>
                                         <Form.Item name="title">
@@ -412,9 +412,9 @@ class PolicyList extends Component {
 
                                     </Col>
                                     <Col span={2}><span onClick={this.setArrdown}
-                                                        className="more-label">
-                                        {/*{arrdown ? <PlusOutlined/> : <MinusOutlined/>} */}
-                                        {arrdown ? "展开筛选" : "收起筛选"}</span></Col>
+                                                        className="more-label">{arrdown ?
+                                        <Icon type="plus" />
+                                        : <Icon type="minus" />} {arrdown ? "展开筛选" : "收起筛选"}</span></Col>
                                 </Row>
                                     <div style={{display:!arrdown ? '' : "none"}}>
                                 {labelTheme ?
@@ -437,11 +437,10 @@ class PolicyList extends Component {
                                     {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
                                                                          className="more-label">
                                             {/*<PlusOutlined/>*/}
+                                            <Icon type="plus" />
                                             展开</span> :
                                         <span onClick={this.setArrProduct}
-                                              className="more-label">
-                                            {/*<MinusOutlined/>*/}
-                                            收起</span>) : ''}
+                                              className="more-label"><Icon type="minus" /> 收起</span>) : ''}
                                 </div>
                                 {labelType ?
                                     <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:4,label:20}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}

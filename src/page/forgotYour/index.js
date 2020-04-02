@@ -3,15 +3,16 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Form, Input, Button, message} from 'antd';
+import {Form, Input, Button, message,Divider,Icon} from 'antd';
 import Top from './../../component/top';
 import './index.css';
 import cookie from "react-cookies";
 import {request} from "../../utils/request";
+// import { PhoneOutlined,LockOutlined } from '@ant-design/icons';
 
 const layout = {
-    labelCol: {span: 8},
-    wrapperCol: {span: 16},
+    labelCol: {span: 0},
+    wrapperCol: {span: 24},
 };
 
 const validateMessages = {
@@ -68,18 +69,21 @@ class ForgotYour extends Component {
             <div className="forgotYour-template">
                 <Top />
                 <div className="forgotYour-form-box">
-                    <div className="forgotYour-title">忘记密码</div>
+                    <div className="max-weight-box login-max-weight">
+                        <div className="login-form-bg"></div>
+                        <div className="login-form">
+                            <div className="width-min-title"><Divider>忘记密码</Divider></div>
                     <Form {...layout} name="nest-messages" onFinish={this.onFinish} validateMessages={validateMessages}>
-                        <Form.Item name="mobile" label="手 机 号" rules={[{required: true}]}>
-                            <Input placeholder="请输入手机号"/>
+                        <Form.Item name="mobile" rules={[{required: true}]}>
+                            <Input prefix={<Icon type="mobile" />} placeholder="请输入手机号"/>
                         </Form.Item>
-                        <Form.Item label="短信验证码">
+                        <Form.Item>
                             <Form.Item name="yzm" noStyle  rules={[{required: true}]}>
                                 <Input placeholder="请输入验证码" min={1} max={10} style={{width:200,marginRight:10}} />
                             </Form.Item>
                             <Button className="ant-form-text"> 获取短信验证码</Button>
                         </Form.Item>
-                        <Form.Item name='password' label="登录密码" rules={[
+                        <Form.Item name='password' rules={[
                             {
                                 required: true,
                                 message: '请输入登录密码'
@@ -100,11 +104,10 @@ class ForgotYour extends Component {
                                 },
                             }),
                         ]}>
-                            <Input.Password placeholder="字母、数字和符号两种以上的6-25字符组合"/>
+                            <Input.Password prefix={<Icon type="lock" />} placeholder="字母、数字和符号两种以上的6-25字符组合"/>
                         </Form.Item>
                         <Form.Item
                             name="confirmPassword"
-                            label="确认登录密码"
                             dependencies={['password']}
                             hasFeedback
                             rules={[
@@ -122,7 +125,7 @@ class ForgotYour extends Component {
                                     },
                                 }),
                             ]}>
-                            <Input.Password placeholder="再次输入密码"/>
+                            <Input.Password prefix={<Icon type="lock" />} placeholder="再次输入密码"/>
                         </Form.Item>
                         <Form.Item wrapperCol={{span: 19, offset: 5}} className="forgotYour-button">
                             <Button type="primary" htmlType="submit">
@@ -131,6 +134,8 @@ class ForgotYour extends Component {
                             <p><a href="/login">返回登录</a></p>
                         </Form.Item>
                     </Form>
+                        </div>
+                    </div>
                 </div>
                 {/*<Footer/>*/}
             </div>

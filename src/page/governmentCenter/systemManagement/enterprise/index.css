@@ -52,3 +52,6 @@
     width: 70%;
     margin: 0 auto;
 }
+.policyUser-template .ant-form-item{
+    margin-bottom: 10px;
+}

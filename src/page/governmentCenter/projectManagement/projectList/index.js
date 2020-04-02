@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Table, Tag, Input, Row, Col, Button, Select, DatePicker, Breadcrumb, Modal, Form, message, Tooltip} from 'antd';
+import {Table, Tag, Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Icon, Modal, Form, message, Tooltip} from 'antd';
 // import {ArrowUpOutlined, ArrowDownOutlined, PlusOutlined, MinusOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {request} from '../../../../utils/request';
@@ -93,7 +93,7 @@ class ProjectList extends Component {
                 key: 'title',
                 width: 180,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.props.history.push(`/policyPreview/${record.id}`)}>{text.length < 15 ? text : text.substr(0,15)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`} target="_blank">{text.length < 8 ? text : text.substr(0,8)+"..."}</a></Tooltip>
                 }
             },
             {
@@ -144,25 +144,12 @@ class ProjectList extends Component {
                 title: '状态',
                 dataIndex: 'status',
                 key: 'status',
-                width:70,
+                width:80,
                 render: text => {
-                    if(text==1) {
-                        return "暂存"
-                    }else {
+                    if(text==2) {
                         return "已发布"
-                    }
-                }
-            },
-            {
-                title: '来源',
-                dataIndex: 'source',
-                key: 'source',
-                width:70,
-                render: text => {
-                    if(text==1) {
-                        return "人工"
                     }else {
-                        return "爬虫"
+                        return "暂存"
                     }
                 }
             },
@@ -182,7 +169,7 @@ class ProjectList extends Component {
                 title: '操作',
                 key: 'action',
                 width:120,
-                render: (text, record) => (<p align="center"><a onClick={()=>this.props.history.push(`/addPolicy/${record.id}`)}>编辑</a><a onClick={()=>this.showModal(record.id)} className="ml15">删除</a></p>),
+                render: (text, record) => (<p align="center" style={{marginBottom:0}}><a onClick={()=>this.props.history.push(`/addProject/${record.id}`)}>编辑</a><a onClick={()=>this.showModal(record.id)} className="ml15">删除</a></p>),
             },
         ];
 
@@ -191,7 +178,7 @@ class ProjectList extends Component {
     async componentDidMount() {
         this.getTableData();
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
-        const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
+        const labelTypeData = await request('/common/get-all-use-type-declare-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
         const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
 
@@ -206,7 +193,7 @@ class ProjectList extends Component {
             const allItem = {id: 0,name: "全部"};
             themData.data.unshift(allItem);
             typeData.data.unshift(allItem);
-            belongData.data.unshift(allItem);
+            // belongData.data.unshift(allItem);
             industryData.data.unshift(allItem);
             this.setState({
                 labelTheme: {
@@ -280,7 +267,7 @@ class ProjectList extends Component {
     };
 
     handleOk = async(e) => {
-        const deleteData = await request('/policy/del', 'POST',{id:this.state.id}); //删除数据
+        const deleteData = await request('/declare/del', 'POST',{id:this.state.id}); //删除数据
         if(deleteData.data && deleteData.data.success){
             message.success(deleteData.data.msg);
             this.setState({
@@ -412,9 +399,9 @@ class ProjectList extends Component {
 
                                     </Col>
                                     <Col span={2}><span onClick={this.setArrdown}
-                                                        className="more-label">
-                                        {/*{arrdown ? <PlusOutlined/> : <MinusOutlined/>}*/}
-                                        {arrdown ? "展开筛选" : "收起筛选"}</span></Col>
+                                                        className="more-label">{arrdown ?
+                                        <Icon type="plus" />
+                                        : <Icon type="minus" />} {arrdown ? "展开筛选" : "收起筛选"}</span></Col>
                                 </Row>
                                     <div style={{display:!arrdown ? '' : "none"}}>
                                 {labelTheme ?
@@ -431,17 +418,14 @@ class ProjectList extends Component {
                                     </Col>
                                 </Row>
                                 <div className="label-product-box">
-                                    {/*{labelProduct ?*/}
-                                        {/*<Label callback={this.onSelectProduct} defalutValue={organization_label_list} title={labelProduct.title} item={labelProduct.item} key="labelProduct"*/}
-                                               {/*span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}*/}
-                                    {/*{labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}*/}
-                                                                         {/*className="more-label">*/}
-                                            {/*/!*<PlusOutlined/> *!/*/}
-                                            {/*展开</span> :*/}
-                                        {/*<span onClick={this.setArrProduct}*/}
-                                              {/*className="more-label">*/}
-                                            {/*/!*<MinusOutlined/>*!/*/}
-                                            {/*收起</span>) : ''}*/}
+                                    {labelProduct ?
+                                        <Label callback={this.onSelectProduct} defalutValue={organization_label_list} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
+                                               span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
+                                    {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
+                                                                         className="more-label">
+                                            <Icon type="plus" /> 展开</span> :
+                                        <span onClick={this.setArrProduct}
+                                              className="more-label"><Icon type="minus" /> 收起</span>) : ''}
                                 </div>
                                 {labelType ?
                                     <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:4,label:20}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}

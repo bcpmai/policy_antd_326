@@ -96,3 +96,6 @@
     vertical-align: -5px;
     cursor: pointer;
 }
+.policyList-template .ant-form-item{
+    margin-bottom: 10px;
+}

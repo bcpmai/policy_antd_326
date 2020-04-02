@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Breadcrumb,Descriptions,Tag,Button,Row,Col,Card,List} from 'antd';
+import { Breadcrumb,Descriptions,Tag,Button,Row,Col,Card,List,Icon} from 'antd';
 // import { StarOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Top from './../../component/top';
@@ -41,6 +41,7 @@ class PolicyText extends Component {
     }
     componentDidMount() {
         this.getDefalutData();
+        this.getCollection(this.state.id);
     }
     getDefalutData = async() =>{
         const {data} = await request(`/policy/get/${this.state.id}`, 'GET'); //请求默认数据
@@ -49,14 +50,34 @@ class PolicyText extends Component {
             resource_file_list:data.resource_file_list
         })
     }
+    getCollection = async (id) =>{
+        const res = await request('/common/get-collection-info', 'POST',{ member_id:cookie.load('userId'), resource_id:parseInt(id), resource_type:1}); //是否收茂
+        console.log(res);
+        if (res.data.success && res.data.res){
+            this.setState({
+                isCollection:true
+            });
+        }else{
+            this.setState({
+                isCollection: false
+            });
+        }
+
+    }
     //收藏
     onCollection = async (id) =>{
-        const responest = await request('/common/my-company-collection', 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:1}); //收藏
+        // const {id} = this.props.match.params;
+        const {isCollection} = this.state;
+        let url = '/common/my-company-collection';
+        if(isCollection){
+            url = '/common/cancel-company-collection';
+        }
+        const responest = await request(url, 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:1}); //收藏
         const data = responest.data;
         if(data && data.success){
             message.success(data.msg);
             this.setState({
-                isCollection:true
+                isCollection:!isCollection
             });
         }else{
             message.error(data.msg);
@@ -86,11 +107,11 @@ class PolicyText extends Component {
                            </Descriptions.Item> : null}
                        </Descriptions>
                    </div>
-                    <div>
-                        <Button onClick={()=>this.onCollection(policy.id)} type="primary" /*icon={<StarOutlined />}*/>{isCollection ? "已收藏" : "收藏" }</Button>
+                    <div className="policy-butn">
+                        {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection(policy.id)} type="primary" icon={<Icon type="star" />}>{isCollection ? "已收藏" : "收藏" }</Button> : null}
                     </div>
                     <Row gutter={16} className="policyText-content-box">
-                        <Col span={18} className="policyText-content">
+                        <Col span={24} className="policyText-content">
                             {/*<p className="policyText-content-title">云南省工业和信息化委关于申报2018年省级工业和信息化发展专项资金(技术改造方向)项目的通知</p>*/}
                             <div className="policyText-content-text">
                                 <div dangerouslySetInnerHTML = {{ __html:policy.content }}></div>
@@ -99,28 +120,28 @@ class PolicyText extends Component {
                                 <Col span={2}>附件：</Col>
                                 <Col>
                                     {resource_file_list ?
-                                        resource_file_list.map((item,idx)=><p key={idx}><a href={item.image_url} key={idx}>{item.file_ori_name}</a></p>)
+                                        resource_file_list.map((item,idx)=><p key={idx}><a href={item.image_url} key={idx} target="_blank">{item.file_ori_name}</a></p>)
                                         : null}
 
                                 </Col>
                             </Row>
                         </Col>
-                        <Col span={6}>
-                            <Card title="申报政策">
-                                <List
-                                    itemLayout="horizontal"
-                                    dataSource={this.listData}
-                                    renderItem={item => (
-                                        <List.Item>
-                                            <List.Item.Meta
-                                                title={<a href={item.link} target="_blank">{item.title}</a>}
-                                                description={item.time}
-                                            />
-                                        </List.Item>
-                                    )}
-                                />,
-                            </Card>
-                        </Col>
+                        {/*<Col span={6}>*/}
+                            {/*<Card title="申报政策">*/}
+                                {/*<List*/}
+                                    {/*itemLayout="horizontal"*/}
+                                    {/*dataSource={this.listData}*/}
+                                    {/*renderItem={item => (*/}
+                                        {/*<List.Item>*/}
+                                            {/*<List.Item.Meta*/}
+                                                {/*title={<a href={item.link} target="_blank">{item.title}</a>}*/}
+                                                {/*description={item.time}*/}
+                                            {/*/>*/}
+                                        {/*</List.Item>*/}
+                                    {/*)}*/}
+                                {/*/>,*/}
+                            {/*</Card>*/}
+                        {/*</Col>*/}
                     </Row>
                 </div>
                 {/*<Footer/>*/}

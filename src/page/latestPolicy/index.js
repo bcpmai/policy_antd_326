@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Table, Tag, Input, Row, Col, Button, Select, DatePicker, Form, Tooltip } from 'antd';
+import { Table, Tag, Input, Row, Col, Button, Select, DatePicker, Form, Tooltip,Icon } from 'antd';
 // import { ArrowUpOutlined,ArrowDownOutlined,PlusOutlined,MinusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Top from './../../component/top';
@@ -48,33 +48,42 @@ class LatestPolicy extends Component {
                 key: 'title',
                 width:500,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.props.history.push(`/policyText/${record.id}`)}>{text.length < 65 ? text : text.substr(0,65)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`/policyText/${record.id}`} target="_blank">{text.length < 30 ? text : text.substr(0,30)+"..."}</a></Tooltip>
                 }
             },
             {
                 title: '发布机构',
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
+                render: (text, record) => {
+                    return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
+                }
             },
             {
                 title: '发文字号',
                 key: 'post_shop_name',
-                width:150,
-                dataIndex: 'post_shop_name'
+                width:250,
+                dataIndex: 'post_shop_name',
+                render: (text, record) => {
+                    return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
+                }
             },
             {
                 title: '发文日期',
                 key: 'release_date',
                 width:150,
                 dataIndex: 'release_date'
-            },
-            {
+            }
+
+        ];
+        if(cookie.load("userType") != 2){
+            this.columns.push({
                 title: '操作',
                 key: 'action',
                 width:100,
-                render: (text, record) => (<span><a onClick={()=>this.onCollection(record.id)}>收藏</a></span>),
-            },
-        ];
+                render: (text, record) => (<span><a onClick={()=>this.onCollection(record.id,record.resource_id != "0")}>{record.resource_id != "0" ? "已收藏": "收藏"}</a></span>),
+            })
+        }
         function onShowSizeChange(current, pageSize) {
             console.log(current, pageSize);
         }
@@ -89,7 +98,7 @@ class LatestPolicy extends Component {
     async componentDidMount() {
         console.log(this.props);
         const {keyString} = this.props.match.params;
-        // this.refs.seachForm.setFieldsValue({title:keyString});
+        this.refs.seachForm.setFieldsValue({title:keyString});
         this.getTableData({title:keyString});
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
         const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
@@ -106,7 +115,7 @@ class LatestPolicy extends Component {
             const allItem = {id: 0,name: "全部"};
             themData.data.unshift(allItem);
             typeData.data.unshift(allItem);
-            belongData.data.unshift(allItem);
+            // belongData.data.unshift(allItem);
             industryData.data.unshift(allItem);
             this.setState({
                 labelTheme: {
@@ -125,18 +134,25 @@ class LatestPolicy extends Component {
     }
 
     //收藏
-    onCollection = async (id) =>{
-        const responest = await request('/common/my-company-collection', 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:1}); //收藏
+    onCollection = async (id,isCollection) =>{
+        let url = '/common/my-company-collection';
+        if(isCollection){
+            url = '/common/cancel-company-collection';
+        }
+        const responest = await request(url, 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:1}); //收藏
         const data = responest.data;
         if(data && data.success){
             message.success(data.msg);
-            this.getTableData();
+            this.getTableData(this.state.formValues);
         }else{
             message.error(data.msg);
         }
     }
 
-    getTableData = async (values) =>{
+    getTableData = async (values={}) =>{
+        if(cookie.load('userId')){
+            values.member_id = parseInt(cookie.load('userId'));
+        }
         const tableData = await request('/policy/list', 'POST',{...values,status:2}); //获取table
         if(tableData.status == 200){
             this.setState({
@@ -285,9 +301,11 @@ class LatestPolicy extends Component {
                         <Col span={8} className="serach-arrow">
                             {arrdown ? <span onClick={this.setArrdown}>收起筛选
                                 {/*<ArrowUpOutlined />*/}
-                                </span> : <span onClick={this.setArrdown}>展开筛选
+                                <Icon type="arrow-up" />
+                            </span> : <span onClick={this.setArrdown}>展开筛选
+                                <Icon type="arrow-down" />
                                 {/*<ArrowDownOutlined />*/}
-                                </span>}
+                            </span>}
                         </Col>
                     </Row>
                     <div className="label-box" style={!arrdown ? {display:"none"} : {}}>
@@ -311,11 +329,13 @@ class LatestPolicy extends Component {
                                        span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
                             {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
                                                                  className="more-label">
-                                    {/*<PlusOutlined/> */}
+                                    {/*<PlusOutlined/>*/}
+                                    <Icon type="plus" />
                                     展开</span> :
                                 <span onClick={this.setArrProduct}
                                       className="more-label">
-                                    {/*<MinusOutlined/> */}
+                                    {/*<MinusOutlined/>*/}
+                                    <Icon type="minus" />
                                     收起</span>) : ''}
                         </div>
                             {labelType ?
@@ -353,4 +373,4 @@ class LatestPolicy extends Component {
     };
 }
 
-export default Form.create()(LatestPolicy);
+export default LatestPolicy;

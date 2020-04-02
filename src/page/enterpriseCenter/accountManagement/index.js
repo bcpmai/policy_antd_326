@@ -75,26 +75,31 @@ class AccountManagement extends Component {
         }
     }
     getSms = async (key) => {
-        const responest = await request('/sms/register','POST',{mobile:this.refs.mobelForm.getFieldValue(key || "mobile")});
-        const data = responest.data;
-        if(data && data.success){
-            message.success(data.msg);
+        const mobile = this.refs.mobelForm.getFieldValue(key || "mobile");
+        if(mobile) {
+            const responest = await request('/sms/register', 'POST', {mobile});
+            const data = responest.data;
+            if (data && data.success) {
+                message.success(data.msg);
+            } else {
+                message.error(data.msg);
+            }
+            this.setState({
+                [!key ? "time" : "newTime"]: 60
+            }, () => {
+                const tTime = setInterval(() => {
+                    if (this.state.time != 0) {
+                        this.setState({
+                            [!key ? "time" : "newTime"]: this.state[!key ? "time" : "newTime"] - 1
+                        })
+                    } else {
+                        clearInterval(tTime);
+                    }
+                }, 1000);
+            })
         }else{
-            message.error(data.msg);
+            message.error("请输入手机号码");
         }
-        this.setState({
-            [!key ? "time" : "newTime"]: 60
-        },()=>{
-            const tTime = setInterval(()=>{
-                if(this.state.time !=0) {
-                    this.setState({
-                        [!key ? "time" : "newTime"]: this.state[!key ? "time" : "newTime"] - 1
-                    })
-                }else{
-                    clearInterval(tTime);
-                }
-            },1000);
-        })
 
     }
     render() {
@@ -169,9 +174,9 @@ class AccountManagement extends Component {
                                         }
                                     }),
                                 ]}>
-                                    <Input min={1} max={10} style={{width:170,marginRight:10}} />
+                                    <Input min={1} max={10} style={{width:120,marginRight:10}} />
                                 </Form.Item>
-                                <Button className="ant-form-text" disabled={time<0} onClick={time>0 ? null : ()=>this.getSms()}> {time>0 ? `${time}秒后可再次发送短信`:"获取短信验证码"}</Button>
+                                <Button  className={time >0 ? "ant-form-text ant-form-disabled" : "ant-form-text"} disabled={time>0 ? true : false} onClick={time>0 ? null : ()=>this.getSms()}> {time>0 ? `${time}秒后可再次发送短信`:"获取短信验证码"}</Button>
                             </Form.Item>
                             <Form.Item name="new_mobile" label="绑定新手机号码" rules={[{required: true}]}>
                                 <Input style={{width:300}}/>
@@ -193,9 +198,9 @@ class AccountManagement extends Component {
                                         }
                                     }),
                                 ]}>
-                                    <Input min={1} max={10} style={{width:170,marginRight:10}} />
+                                    <Input min={1} max={10} style={{width:120,marginRight:10}} />
                                 </Form.Item>
-                                <Button className="ant-form-text" disabled={newTime<0} onClick={newTime>0 ? null : ()=>this.getSms("new_mobile")}> {newTime>0 ? `${newTime}秒后可再次发送短信`:"获取短信验证码"}</Button>
+                                <Button className={newTime >0 ? "ant-form-text ant-form-disabled" : "ant-form-text"} disabled={newTime>0 ? true : false} onClick={newTime>0 ? null : ()=>this.getSms("new_mobile")}> {newTime>0 ? `${newTime}秒后可再次发送短信`:"获取短信验证码"}</Button>
                             </Form.Item>
                             <Form.Item wrapperCol={{...layout.wrapperCol, offset: 8}}>
                                 <Button type="primary" htmlType="submit">

@@ -6,7 +6,7 @@
     padding:0 5px;
     height: 40px;
     line-height: 40px;
-    font-size: 14px;
+    font-size: 18px;
     color:#fff;
     box-shadow: 1px 3px 3px #d8d3d5;
 }
@@ -15,6 +15,7 @@
     border:0px;
     color:#fff;
     cursor: pointer;
+    margin-right:0px;
 }
 .top-component-template .welcome-box .line-u{
     margin: 0 0 0 15px;
@@ -22,6 +23,7 @@
 }
 .top-component-template .welcome-box .right-button{
     text-align: right;
+    font-size: 14px;
 }
 .top-component-template .logo-box{
     padding:156px 0 0;

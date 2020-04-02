@@ -2,9 +2,9 @@
 
 }
 .login-template .login-form-box{
-    padding: 100px 0;
-    width: 500px;
     margin: 0 auto;
+    background: url("./img/bg.jpg") center top no-repeat;
+    height: 797px;
 }
 .login-template .login-title{
     text-align: center;
@@ -13,7 +13,7 @@
     margin-bottom: 20px;
 }
 .login-template .login-button .ant-btn{
-    width: 95%;
+    width: 100%;
     margin-bottom: 40px;
     background: #ae242b;
     color: #fff;
@@ -23,6 +23,7 @@
     padding: 0 45px;
     font-size: 18px;
     margin-right: 20px;
+    margin-top: 40px;
 }
 .login-template .login-button p{
     text-align: right;
@@ -40,7 +41,54 @@
 }
 .login-template a{
     color: #ae242b;
+    font-size: 16px;
 }
 .login-template a:hover{
     text-decoration: underline;
+}
+.login-template .login-max-weight{
+    position: relative;
+    z-index: 1;
+    background: url('./img/text.png') left center no-repeat;
+    min-height: 558px;
+}
+.login-template .login-form,.login-template .login-form-bg{
+    width: 445px;
+    height: 558px;
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 117px;
+    border-radius: 25px;
+    padding: 40px;
+}
+.login-template .login-form-bg{
+    z-index: 1;
+    background: #fff;
+    opacity: 0.6;
+}
+.login-template .ant-divider-inner-text{
+    font-size: 22px;
+    color: #ac242a;
+}
+.login-template .ant-divider-horizontal.ant-divider-with-text-center::before,
+.login-template .ant-divider-horizontal.ant-divider-with-text-center::after{
+    border-top:1px solid #a72329;
+}
+.login-template .ant-form{
+    margin-top: 50px;
+}
+.login-template .ant-input-prefix{
+    font-size: 20px;
+}
+.login-template .ant-form-item{
+    margin-top: 40px;
+}
+.login-template .ant-input:focus,.login-template .ant-input:hover{
+    border: 0!important;
+    box-shadow: none!important;
+}
+.login-template .ant-input-affix-wrapper:hover{
+    border: 1px solid #a72329!important;
+    box-shadow: 0 0 0 2px rgba(167,35,41,0.2)!important;
 }

@@ -74,11 +74,12 @@
     border-radius: 20px;
     height: 35px;
     padding: 0 45px;
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 20px;
 }
-.addProject-template .addProject-button .ant-btn{
-    color: #333;
+.addProject-template .addProject-button .ant-btn:hover{
+    background: #ae242b;
+    color: #fff;
 }
 /*.addProject-template .label-box{*/
     /*padding: 40px 10px 60px 100px;*/

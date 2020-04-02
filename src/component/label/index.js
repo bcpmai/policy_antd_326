@@ -12,6 +12,7 @@ class Label extends Component {
             isRadio:props.isRadio || false,
             selectList:props.defalutValue
         }
+        props.callback && props.callback(props.defalutValue);
     }
 
     handleChange = (checked) => {
@@ -39,6 +40,7 @@ class Label extends Component {
     render() {
         const {title,item,className,span,defalutValue} = this.props;
         const {selectList,isRadio} = this.state;
+        console.log(selectList);
         return (
             <div className="Label-component-template">
                 <Row>

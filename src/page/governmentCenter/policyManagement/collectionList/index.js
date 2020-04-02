@@ -3,9 +3,8 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Table, Input, Row, Col, Button, Select, DatePicker, Breadcrumb } from 'antd';
+import { Table, Input, Row, Col, Button, Select, DatePicker, Breadcrumb, Modal,message, Form,Tooltip,Icon } from 'antd';
 // import { ArrowUpOutlined,ArrowDownOutlined,PlusOutlined,MinusOutlined } from '@ant-design/icons';
-import { Link } from "react-router-dom";
 import Top from '../../../../component/top/index';
 import Label from "../../../../component/label/index";
 import PolicyManagementMenu from "../../../../component/policyManagementMenu/index";
@@ -16,33 +15,29 @@ import {request} from "../../../../utils/request";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+const layout = {
+    labelCol: {span: 4},
+    wrapperCol: {span: 18},
+};
+
+const validateMessages = {
+    required: '必填项!',
+    types: {
+        email: 'Not a validate email!',
+        number: 'Not a validate number!',
+    },
+    number: {
+        range: 'Must be between ${min} and ${max}',
+    },
+};
+
 class CollectionList extends Component {
     constructor(props){
         super(props);
         this.state = {
             arrdown:true,
             arrProduct:false,
-            // labelTheme:{
-            //         title:"政策主题",
-            //         item:["全部","综合政策","财税支持","融资促进","市场开拓","服务措施","权益保护","创业扶持","创新支持","监督检查","其他"]
-            //     },
-            // labelType:
-            //     {
-            //         title:"应用类型",
-            //         item:["全部","规范规划类","资金支持类","税费减免类","资质认定类","行业管制类"]
-            //     },
-            // labelProduct:{
-            //     title:"发布机构",
-            //     item:["全部","国务院","国家发展和改革委员会","工业和信息化部","国务院办公厅","科学技术部","自然资源部","财政部","司法部","人力资源和社会保障部","生态环境部"]
-            // },
-            // labelStatus:{
-            //     title:"状态",
-            //     item:["全部","暂存","已发布"]
-            // },
-            // labelSource:{
-            //     title:"来源",
-            //     item:["全部","爬虫","人工"]
-            // }
+            tableData:[]
         }
         this.columns = [
             {
@@ -50,92 +45,33 @@ class CollectionList extends Component {
                 dataIndex: 'title',
                 key: 'title',
                 width:400,
-                render: text => <a>{text}</a>,
+                render: (text, record) => {
+                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.props.history.push(`/policyText/${record.id}`)} target="_blank">{text.length < 25 ? text : text.substr(0,25)+"..."}</a></Tooltip>
+                }
             },
             {
                 title: '所属层级',
-                dataIndex: 'hierarchy',
-                key: 'hierarchy'
+                dataIndex: 'belong_str',
+                key: 'belong_str'
             },
             {
                 title: '发布机构',
-                dataIndex: 'address',
-                key: 'address',
+                dataIndex: 'organization_label_str',
+                key: 'organization_label_str',
+                render: (text, record) => {
+                    return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
+                }
             },
             {
                 title: '采集时间',
-                key: 'time',
-                dataIndex: 'time',
+                key: 'release_date',
+                dataIndex: 'release_date',
                 width:200
             }
         ];
-
-        this.data = [
-            {
-                key: '1',
-                title: '关于修订《纳税服务投诉管理办法》的公告',
-                hierarchy: "国家",
-                address: '国务院',
-                theme: '税收政策',
-                type:'资金支持',
-                analysis:'-',
-                status:'暂存',
-                source:'人工',
-                time:'2019-02-01 12:05:11',
-                money:'张三'
-            },
-            {
-                key: '2',
-                title: '关于修订《纳税服务投诉管理办法》的公告',
-                hierarchy: "国家",
-                address: '国务院',
-                theme: '税收政策',
-                type:'资金支持',
-                analysis:'-',
-                status:'暂存',
-                source:'人工',
-                time:'2019-02-01 12:05:11',
-                money:'张三'
-            },
-            {
-                key: '3',
-                title: '关于修订《纳税服务投诉管理办法》的公告',
-                hierarchy: "国家",
-                address: '国务院',
-                theme: '税收政策',
-                type:'资金支持',
-                analysis:'-',
-                status:'暂存',
-                source:'人工',
-                time:'2019-02-01 12:05:11',
-                money:'张三'
-            },
-            {
-                key: '4',
-                title: '关于修订《纳税服务投诉管理办法》的公告',
-                hierarchy: "国家",
-                address: '国务院',
-                theme: '税收政策',
-                type:'资金支持',
-                analysis:'-',
-                status:'暂存',
-                source:'人工',
-                time:'2019-02-01 12:05:11',
-                money:'张三'
-            }
-        ];
-        function onShowSizeChange(current, pageSize) {
-            console.log(current, pageSize);
-        }
-        this.pagination = {
-            showSizeChanger:true,
-            defaultCurrent:1,
-            total:500,
-            pageSizeOptions:['10', '20', '30', '50','100','150'],
-            onShowSizeChange:onShowSizeChange
-        }
     }
     async componentWillMount() {
+        this.getTableData();
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
         const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
@@ -148,11 +84,11 @@ class CollectionList extends Component {
         const industryData = selectIndustryData.data;
 
         if (themData && themData.success && typeData && themData.success && belongData && belongData.success && industryData && industryData.success) {
-            const allItem = {id: 0,name: "全部"};
-            themData.data.unshift(allItem);
-            typeData.data.unshift(allItem);
-            belongData.data.unshift(allItem);
-            industryData.data.unshift(allItem);
+            // const allItem = {id: 0,name: "全部"};
+            // themData.data.unshift(allItem);
+            // typeData.data.unshift(allItem);
+            // belongData.data.unshift(allItem);
+            // industryData.data.unshift(allItem);
             this.setState({
                 labelTheme: {
                     title: "政策主题",
@@ -162,44 +98,168 @@ class CollectionList extends Component {
                     title: "应用类型",
                     item: typeData.data
                 },
+                belongDataModal: selectBelongData.data.data,
                 belongData: belongData.data,
                 industryData: industryData.data
 
             })
         }
     }
-    belongChange = async (value) => {
+
+    getTableData = async (values) =>{
+        const tableData = await request('/policy/list', 'POST',{...values,source:2}); //获取table
+        if(tableData.status == 200){
+            this.setState({
+                tableData: tableData.data,
+                formValues:values
+            });
+        }
+    }
+    //搜索
+    onFinish = async (values) => {
+        const {organization_label_list_arr,release_date} = this.state;
+        if(organization_label_list_arr!=null){
+            values["organization_label_list"] = organization_label_list_arr;
+        }
+        if(release_date!=null){
+            values["release_date"] = release_date;
+        }
+        this.getTableData(values);
+    }
+    //label 发布机构
+    onSelectProduct = (value) =>{
+        this.setState({
+            organization_label_list_arr:value
+        })
+    }
+    onShowSizeChange = (current, pageSize) =>{
+        console.log(current, pageSize);
+        let {formValues={}} = this.state;
+        formValues.page = current;
+        formValues.max_line = pageSize;
+        this.getTableData(formValues);
+    }
+
+    onPaginChange = (page, pageSize) =>{
+        console.log(page, pageSize);
+        let {formValues={}} = this.state;
+        formValues.page = page;
+        formValues.max_line = pageSize;
+        this.getTableData(formValues);
+    }
+    belongChange = async (value,isModal) => {
+        console.log(value,isModal)
         const labelProductData = await request('/common/get-all-organization-label', 'POST', {belong_id: value}); //发布机构
         const productData = labelProductData.data;
         if (productData && productData.success) {
-            this.setState({
-                labelProduct: {
-                    title: "发布机构",
-                    item: productData.data
-                }
-            })
+            if(typeof(isModal) == "boolean" && isModal){
+                this.setState({
+                    labelProductModal: {
+                        title: "发布机构",
+                        item: productData.data
+                    }
+                })
+            }else {
+                this.setState({
+                    labelProduct: {
+                        title: "发布机构",
+                        item: productData.data
+                    }
+                })
+            }
         }
     }
-    setArrdown = () =>{
-        this.setState({
-            arrdown:!this.state.arrdown
-        })
+    onSelectBelong = (value) =>{
+        if(value) {
+            this.belongChange(value, true);
+        }
     }
-    setArrProduct = () =>{
+    onSelectLabel = (value) =>{
+        const {belong,industry,theme,type} = this.state;
+        let key;
+        if(belong){
+            key = "organization_label_list";
+        }
+        if(industry){
+            key = "industry_label_list"
+        }
+        if(theme){
+            key = "policy_theme_label_list"
+        }
+        if(type){
+            key = "use_type_list"
+        }
+        console.log(key);
         this.setState({
-            arrProduct:!this.state.arrProduct
+            [key]:value
         })
     }
     onSelectChange = selectedRowKeys => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
+    }
+    showModal = (key) =>{
+        this.setState({
+            [key]:true
+        })
+    }
+    handleCancel = (key) =>{
+        this.setState({
+            [key]:false
+        })
+    }
+    onModalSubmit = async(key) =>{
+        console.log(key,this.state[key]);
+        const {selectedRowKeys} = this.state;
+        if(selectedRowKeys) {
+            const resData = await request('/policy/batch-update', 'POST', {
+                id: selectedRowKeys,
+                [key]: this.state[key]
+            }); //发布机构
+            if (resData.data && resData.data.success) {
+                message.success(resData.data.msg);
+                this.getTableData();
+                this.setState({
+                    belong:false,industry:false,theme:false,type:false
+                })
+            }else{
+                message.error(resData.data.msg);
+            }
+        }else{
+            message.error("请至少选择一条数据");
+        }
+    }
+    onReset = () => {
+        this.setState({
+            source:null,
+            organization_label_list_arr:null,
+        },()=>{
+            this.refs.form.resetFields();
+        })
     };
+    //发文日期
+    onDateChange = (date,dateString) =>{
+        this.setState({
+            release_date:dateString
+        })
+    }
     render() {
-        const {labelProduct,arrProduct,selectedRowKeys,belongData} = this.state;
+        const {labelProduct,organization_label_list_arr,arrProduct,industryData,labelType,selectedRowKeys,belongData,belongDataModal,labelTheme,tableData,formValues,labelProductModal} = this.state;
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
         };
+        const pagination = {
+            current:formValues && formValues.page ? formValues.page : 1,
+            showSizeChanger: true,
+            defaultCurrent: 1,
+            defaultPageSize:20,
+            total:tableData.sum || 0,
+            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
+            pageSizeOptions: ['10', '20', '30', '50', '100', '150'],
+            onShowSizeChange: this.onShowSizeChange,
+            onChange:this.onPaginChange
+        }
         return (
             <div className="collectionList-template">
                 <Top />
@@ -215,55 +275,143 @@ class CollectionList extends Component {
                         <Breadcrumb.Item href="">采集列表</Breadcrumb.Item>
                     </Breadcrumb>
                     <div className="label-box">
+                        <Form ref="form" {...layout} name="dynamic_rule" onFinish={this.onFinish} validateMessages={validateMessages}>
                         <Row className="mt10">
                             <Col span={4}>政策标题</Col>
                             <Col span={20}>
-                                <Input />
+                                <Form.Item name="title">
+                                    <Input />
+                                </Form.Item>
                             </Col>
                         </Row>
                         <Row className="mt10">
                             <Col span={4}>所属层级</Col>
                             <Col span={20}>
+                                <Form.Item name="industry_label_id_list">
                                 <Select style={{ width: 300 }} onChange={this.belongChange}>
                                     {belongData ? belongData.map((item, idx) => <Option value={item.id}
                                                                                         key={item.id}>{item.name}</Option>) : ''}
                                 </Select>
+                                </Form.Item>
                             </Col>
                         </Row>
                         <div className="label-product-box">
-                            {labelProduct ? <Label title={labelProduct.title} item={labelProduct.item} key="labelProduct"
+                            {labelProduct ? <Label defalutValue={organization_label_list_arr}  callback={this.onSelectProduct} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
                                                    span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
                             {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
                                                                  className="more-label">
                                     {/*<PlusOutlined/>*/}
+                                    <Icon type="plus" />
                                     展开</span> :
                                 <span onClick={this.setArrProduct}
                                       className="more-label">
-                                    {/*<MinusOutlined/> */}
+                                    {/*<MinusOutlined/>*/}
+                                    <Icon type="minus" />
                                     收起</span>) : ''} </div>
                         <Row className="mt10">
                             <Col span={4}>发文日期</Col>
                             <Col span={20}>
-                                <RangePicker showTime />
+                                <Form.Item name="release_date">
+                                    <DatePicker onChange={this.onDateChange} />
+                                </Form.Item>
                             </Col>
                         </Row>
                         <div className="search-button">
-                            <Button type="primary">检索</Button>
-                            <Button className="ml15">重置</Button>
+                            <Button type="primary" htmlType="submit">检索</Button>
+                            <Button className="ml15" onClick={this.onReset}>重置</Button>
                         </div>
+                        </Form>
                     </div>
                         <p align="right" className="operation-button">
-                            <Button type="primary">所属层级/发布机构</Button>
-                            <Button type="primary" className="ml15">政策主题</Button>
-                            <Button type="primary" className="ml15">应用类型</Button>
-                            <Button type="primary" className="ml15">所属行业</Button>
+                            <Button type="primary" onClick={()=>this.showModal("belong")}>所属层级/发布机构</Button>
+                            <Button type="primary" onClick={()=>this.showModal("theme")} className="ml15">政策主题</Button>
+                            <Button type="primary" onClick={()=>this.showModal("type")} className="ml15">应用类型</Button>
+                            <Button type="primary" onClick={()=>this.showModal("industry")} className="ml15">所属行业</Button>
                         </p>
-                    <Table
-                        rowSelection={rowSelection}
-                        columns={this.columns} dataSource={this.data} pagination={this.pagination} />
+                        {tableData ? <Table rowSelection={rowSelection} columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                     </Col>
                 </Row>
                 </div>
+                <Modal
+                    title="所属层级/发布机构"
+                    visible={this.state.belong}
+                    onOk={this.handleOk}
+                    width={900}
+                    onCancel={()=>this.handleCancel("belong")}
+                    footer={[
+                        <Button key="back" onClick={()=>this.onModalSubmit("organization_label_list")}>
+                            确认
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={()=>this.handleCancel("belong")}>
+                            取消
+                        </Button>
+                    ]}
+                >
+                    <p>请选择【所属层级】标签：</p>
+                    {belongDataModal ?
+                        <Label callback={this.onSelectBelong} isRadio={true} span={{title:0,label:24}} item={belongDataModal} key="labelTheme"/> : ''}
+                    <p>请选择【发布机构】标签：</p>
+                        {labelProductModal ?
+                        <Label callback={this.onSelectLabel} span={{title:0,label:24}} item={labelProductModal.item} /> : ''}
+
+                </Modal>
+                <Modal
+                    title="政策主题"
+                    visible={this.state.theme}
+                    onOk={this.handleOk}
+                    width={900}
+                    onCancel={()=>this.handleCancel("theme")}
+                    footer={[
+                        <Button key="back" onClick={()=>this.onModalSubmit("policy_theme_label_list")}>
+                            确认
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={()=>this.handleCancel("theme")}>
+                            取消
+                        </Button>
+                    ]}
+                >
+                    <p>请选择【政策主题】标签：</p>
+                    {labelTheme ?
+                        <Label callback={this.onSelectLabel} span={{title:0,label:24}} item={labelTheme.item} /> : ''}
+                </Modal>
+                <Modal
+                    title="应用类型"
+                    visible={this.state.type}
+                    onOk={this.handleOk}
+                    width={900}
+                    onCancel={()=>this.handleCancel("type")}
+                    footer={[
+                        <Button key="back" onClick={()=>this.onModalSubmit("use_type_list")}>
+                            确认
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={()=>this.handleCancel("type")}>
+                            取消
+                        </Button>
+                    ]}
+                >
+                    <p>请选择【应用类型】标签：</p>
+                    {labelType ?
+                        <Label callback={this.onSelectLabel} span={{title:0,label:24}} item={labelType.item} /> : ''}
+                </Modal>
+                <Modal
+                    title="所属行业"
+                    visible={this.state.industry}
+                    onOk={this.handleOk}
+                    width={900}
+                    onCancel={()=>this.handleCancel("industry")}
+                    footer={[
+                        <Button key="back" onClick={()=>this.onModalSubmit("industry_label_list")}>
+                            确认
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={()=>this.handleCancel("industry")}>
+                            取消
+                        </Button>
+                    ]}
+                >
+                    <p>请选择【所属行业】标签：</p>
+                    {industryData ?
+                        <Label callback={this.onSelectLabel} span={{title:0,label:24}} item={industryData} /> : ''}
+                </Modal>
             </div>
         );
     };

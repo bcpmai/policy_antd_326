@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Button, Form, Input, InputNumber, Row, Col, Select,DatePicker,Menu,Table, Modal} from 'antd';
+import { Button, Row, Col, Select,Menu,Table, Modal,Icon} from 'antd';
 //import { EditOutlined } from '@ant-design/icons';
 // import { EditOutlined,AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -47,7 +47,7 @@ class Matching extends Component {
                 dataIndex: 'title',
                 key: 'title',
                 width:350,
-                render: text => <a href="/itemText">{text}</a>,
+                render: (text, record) => <a href={`/itemText/${record.id}`} target="_blank">{text}</a>,
             },
             {
                 title: '应用类型',
@@ -182,7 +182,7 @@ class Matching extends Component {
         });
     };
     render() {
-        const {labelTheme, labelType, labelProduct, arrProduct, labelStatus, labelSource, belongData, industryData, source,policy_theme_label_list,organization_label_list,use_type_list,status,tableData,formValues,arrdown} = this.state;
+        const {labelTheme, labelType,record, labelProduct, arrProduct, labelStatus, labelSource, belongData, industryData, source,policy_theme_label_list,organization_label_list,use_type_list,status,tableData,formValues,arrdown} = this.state;
         const pagination = {
             current:formValues && formValues.page ? formValues.page : 1,
             showSizeChanger: true,
@@ -207,7 +207,7 @@ class Matching extends Component {
                     <div className="matching-title-h1">
                         <span>您可完善企业信息，精准匹配申报政策</span>
                         {/*<Button type="primary" className="button-matching">精准匹配</Button>*/}
-                        <Button onClick={()=>{window.location.href="/information"}} type="primary" /*icon={<EditOutlined />}*/ className="button-edit">完善信息</Button>
+                        <Button onClick={()=>{window.location.href="/information"}} type="primary" icon={<Icon type="edit" />} className="button-edit">完善信息</Button>
                     </div>
                             {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                         </Col>
@@ -230,13 +230,13 @@ class Matching extends Component {
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
-                            <span>http://web.js.policy.com</span>
-                            <Button className="model-button" key="submit" onClick={()=>{window.open('http://web.js.policy.com/declarationItem')}}>网上申报</Button>
+                            <span>{record!=undefined ? record.declare_net : null}</span>
+                            {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
                     </Row>
                     <Row>
                         <Col span={8}>2.纸质材料提交至</Col>
-                        <Col span={16}>重庆市九龙坡区人民政府<br />王先生  18809870987
+                        <Col span={16}>{record!=undefined ? record.post_material : null}
                         </Col>
                     </Row>
                 </Modal>

@@ -20,8 +20,9 @@ class MySubscribe extends Component {
     constructor(props){
         super(props);
         this.state = {
+            subScribeData:{},
             mode: 'top',
-            tabTitle:['综合政策','创业扶持','市场/行业准入','技术改造','资金支持','资质认定','综合政策','创业扶持','市场/行业准入','技术改造','资金支持','资质认定','综合政策','创业扶持','市场/行业准入','技术改造','资金支持','资质认定']
+            tableData:[],
         }
 
         this.columns = [
@@ -30,17 +31,17 @@ class MySubscribe extends Component {
                 dataIndex: 'title',
                 key: 'title',
                 width:350,
-                render: text => <a>{text}</a>,
+                render: (text,record) => <a href={`/itemText/${record.id}`} target="_blank">{text}</a>,
             },
             {
                 title: '应用类型',
-                dataIndex: 'hierarchy',
-                key: 'hierarchy'
+                dataIndex: 'use_type_label_str',
+                key: 'use_type_label_str'
             },
             {
                 title: '发布机构',
-                dataIndex: 'address',
-                key: 'address',
+                dataIndex: 'organization_label_str',
+                key: 'organization_label_str',
             },
             {
                 title: '扶持金额',
@@ -49,64 +50,57 @@ class MySubscribe extends Component {
             },
             {
                 title: '申报日期',
-                key: 'time',
-                dataIndex: 'time',
+                key: 'created_date',
+                dataIndex: 'created_date',
                 width:200
             },
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) => (<span><a onClick={this.showModal}>立即申报</a><a onClick={()=>this.onCollection(record.id)} className="ml15">收藏</a></span>),
+                render: (text, record) => (<span><a onClick={()=>this.showModal(record)}>立即申报</a><a className="ml15" onClick={()=>this.onCollection(record.id,record.resource_id != "0")}>{record.resource_id != "0" ? "已收藏": "收藏"}</a></span>),
             },
         ];
-
-        this.data = [
-            {
-                key: '1',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            },
-            {
-                key: '2',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            },
-            {
-                key: '3',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            },
-            {
-                key: '4',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            }
-        ];
-        function onShowSizeChange(current, pageSize) {
-            console.log(current, pageSize);
-        }
-        this.pagination = {
-            showSizeChanger:true,
-            defaultCurrent:1,
-            total:500,
-            pageSizeOptions:['10', '20', '30', '50','100','150'],
-            onShowSizeChange:onShowSizeChange
-        }
     }
     async componentWillMount() {
+        this.getSubScribe();
         this.getLabel();
+        this.getTableData();
+    }
+    getTableData = async (values={page:1,max_line:20}) =>{
+        if(cookie.load('userId')){
+            values.member_id = parseInt(cookie.load('userId'));
+        }
+        const tableData = await request('/company/get-sub-list', 'POST',{...values,status:2}); //获取table
+        if(tableData.status == 200){
+            this.setState({
+                tableData: tableData.data,
+                formValues:values
+            });
+        }
+    }
+    onShowSizeChange = (current, pageSize) =>{
+        console.log(current, pageSize);
+        let {formValues={}} = this.state;
+        formValues.page = current;
+        formValues.max_line = pageSize;
+        this.getTableData(formValues);
+    }
+
+    onPaginChange = (page, pageSize) =>{
+        console.log(page, pageSize);
+        let {formValues={}} = this.state;
+        formValues.page = page;
+        formValues.max_line = pageSize;
+        this.getTableData(formValues);
+    }
+    getSubScribe = async () =>{
+        const subScribeData = await request('/company/get-sub-declare-list', 'POST',{member_id:cookie.load('userId')}); //获取table
+        console.log(subScribeData)
+        if(subScribeData.status == 200){
+            this.setState({
+                subScribeData: subScribeData.data,
+            });
+        }
     }
     //获取标题
     getLabel = async () =>{
@@ -141,19 +135,25 @@ class MySubscribe extends Component {
         }
     }
     //收藏
-    onCollection = async (id) =>{
-        const responest = await request('/common/my-company-collection', 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:2}); //收藏
+    onCollection = async (id,isCollection) =>{
+        let url = '/common/my-company-collection';
+        if(isCollection){
+            url = '/common/cancel-company-collection';
+        }
+        const responest = await request(url, 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:2}); //收藏
         const data = responest.data;
         if(data && data.success){
             message.success(data.msg);
-            this.getTableData();
+
+            this.getTableData(this.state.formValues);
         }else{
             message.error(data.msg);
         }
     }
-    showModal = () => {
+    showModal = (record) => {
         this.setState({
             visible: true,
+            record
         });
     };
     handleSubscribeCancel = e => {
@@ -166,15 +166,30 @@ class MySubscribe extends Component {
     handleCancel = e => {
         this.setState({
             visible: false,
+            record:null
         });
     };
-    handleOk = () =>{
+    handleOk = async () =>{
+        const {organization_label_list,use_type_list,industry_label_list} = this.state;
+        const res = await request('/common/my-company-sub', 'POST',{
+            member_id:cookie.load('userId'),
+            use_type_declare_list:use_type_list,
+            industry_label_list:industry_label_list,
+            policy_theme_label_list:organization_label_list
+        }); //订阅
+        const data = res.data;
+        if(data && data.success){
+            message.success(data.msg);
+            this.getSubScribe();
+            this.setState({
+                subscribeVisble: false,
+            });
+        }else{
+            message.error(data.msg);
+        }
 
     }
 
-    getTableData = () =>{
-
-    }
     onChange = (date, dateString) =>{
         console.log(date, dateString);
     }
@@ -185,8 +200,37 @@ class MySubscribe extends Component {
     subscribeVisble = () =>{
         this.setState({ subscribeVisble:true });
     }
+    setDeclarePush = (list,idx) =>{
+        let key = ["organization_label_list","use_type_list","industry_label_list"];
+        this.setState({
+            [key[idx]]:list
+        })
+    }
+    tabsChange = (key) =>{
+        let {formValues={}} = this.state;
+        if(!key){
+            formValues.label_name = undefined;
+            formValues.label_id = undefined;
+        }else {
+            const keyArr = key.split(",");
+            formValues.label_name = keyArr[0];
+            formValues.label_id = parseInt(keyArr[1]);
+        }
+        this.getTableData(formValues);
+    }
     render() {
-        const {mode,tabTitle,label} = this.state;
+        const {mode,subScribeData,label,tableData,formValues,record} = this.state;
+        const pagination = {
+            current:formValues && formValues.page ? formValues.page : 1,
+            showSizeChanger: true,
+            defaultCurrent: 1,
+            defaultPageSize:20,
+            total:tableData.sum || 0,
+            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
+            pageSizeOptions: ['10', '20', '30', '50', '100', '150'],
+            onShowSizeChange: this.onShowSizeChange,
+            onChange:this.onPaginChange
+        }
         return (
             <div className="mySubscribe-template">
                 <Top />
@@ -201,15 +245,33 @@ class MySubscribe extends Component {
                                 <Button onClick={this.subscribeVisble}>订阅编辑</Button>
                             </div>
                     <div>
-                        <Tabs defaultActiveKey="1" tabPosition={mode}>
-                            {tabTitle.map((item,idx) => (
-                                <TabPane tab={item} key={idx}>
-                                    Content of tab {idx}
-                                </TabPane>
-                            ))}
+                        <Tabs onChange={this.tabsChange} defaultActiveKey="1" tabPosition={mode}>
+                            <TabPane tab="全部" key={null}>
+                                全部
+                            </TabPane>
+                            {subScribeData.industry_label ? subScribeData.industry_label.map((item,idx) => {
+                                return(
+                                    <TabPane tab={item.name} key={"industry_label,"+item.id}>
+                                        {item.name}
+                                    </TabPane>
+                                )
+                            }) : null}
+                            {subScribeData.use_type_declare ? subScribeData.use_type_declare.map((item,idx) => {
+                                return (
+                                <TabPane tab={item.name} key={"use_type_declare,"+item.id}>
+                                    {item.name}
+                                </TabPane>)
+                            }): null}
+                            {subScribeData.policy_theme_label ? subScribeData.policy_theme_label.map((item,idx) => {
+                                return (
+                                    <TabPane tab={item.name} key={"policy_theme_label,"+item.id}>
+                                        {item.name}
+                                    </TabPane>
+                                )
+                            }) : null}
                         </Tabs>
                     </div>
-                            <Table columns={this.columns} dataSource={this.data} pagination={this.pagination} />
+                            {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                         </Col>
                     </Row>
                 </div>
@@ -220,7 +282,7 @@ class MySubscribe extends Component {
                     cancelText="关闭"
                     onCancel={this.handleCancel}
                     footer={[
-                        <Button key="submit" type="primary" onClick={this.handleOk}>
+                        <Button key="submit" type="primary" onClick={this.handleCancel}>
                             关闭
                         </Button>
                     ]}
@@ -229,19 +291,19 @@ class MySubscribe extends Component {
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
-                            <span>http://web.js.policy.com</span>
-                            <Button className="model-button" key="submit" onClick={()=>{window.open('http://web.js.policy.com/declarationItem')}}>网上申报</Button>
+                            <span>{record!=undefined ? record.declare_net : null}</span>
+                            {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
                     </Row>
                     <Row>
                         <Col span={8}>2.纸质材料提交至</Col>
-                        <Col span={16}>重庆市九龙坡区人民政府<br />王先生  18809870987
+                        <Col span={16}>{record!=undefined ? record.post_material : null}
                         </Col>
                     </Row>
                 </Modal>
-                <Modal
+                {this.state.subscribeVisble ? <Modal
                     title="订阅编辑"
-                    visible={this.state.subscribeVisble}
+                    visible
                     onOk={this.handleOk}
                     onCancel={this.handleSubscribeCancel}
                     width={900}
@@ -258,9 +320,14 @@ class MySubscribe extends Component {
                 >
                     <p>请选择您感兴趣的标签，智能匹配相关申报政策。</p>
                     {label && label.map((labelItem,labelIdx)=>{
-                        return <Label span={{title:3,label:21}} onClick={()=>this.labelChange()} title={labelItem.title} item={labelItem.item} key={labelIdx} />
+                        let value = labelIdx == 0 ? subScribeData.policy_theme_label : (labelIdx == 1 ? subScribeData.use_type_declare:subScribeData.industry_label);
+                        let id=[];
+                        value.map((sitem,sidx)=>{
+                            id.push(sitem.id);
+                        });
+                        return <Label callback={(list)=>this.setDeclarePush(list,labelIdx)} defalutValue={id} span={{title:3,label:21}} onClick={()=>this.labelChange()} title={labelItem.title} item={labelItem.item} key={labelIdx} />
                     })}
-                </Modal>
+                </Modal> : null}
             </div>
         );
     };

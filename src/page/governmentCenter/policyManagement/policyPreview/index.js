@@ -54,9 +54,9 @@ class policyPreview extends Component {
         return (
             <div className="policyPreview-template">
                 <Top />
-                <div className="max-weight-box"><Title name="政策预览" /></div>
                 <div className="policyPreview-label-box">
-                    <div className="max-weight-box">
+                    <div className="max-weight-box" style={{minHeight: "750px"}}>
+                        <div className="max-weight-box"><Title name="政策预览" /></div>
                        <div className="policyPreview-descriptions">
                         <Descriptions>
                             <Descriptions.Item label="政策标题" span={3}><span>{policy.title}</span></Descriptions.Item>
@@ -79,7 +79,7 @@ class policyPreview extends Component {
                                         <Col span={2}>附件：</Col>
                                         <Col>
                                             {resource_file_list ?
-                                                resource_file_list.map((item,idx)=><p><a href={item.image_url} key={idx}>{item.file_ori_name}</a></p>)
+                                                resource_file_list.map((item,idx)=><p><a href={item.image_url} key={idx} target="_blank">{item.file_ori_name}</a></p>)
                                                 : null}
 
                                         </Col>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {Link } from "react-router-dom";
-import {Input, Button, Row, Col, Menu} from 'antd';
+import {Input, Button, Row, Col, Menu,Icon} from 'antd';
 import cookie from 'react-cookies';
 // import {
 //     MailOutlined,
@@ -30,13 +30,27 @@ class Top extends Component {
                 case "login":
                 case "register":
                 case "forgotYour":
+                case "projectList":
+                case "roleManagement":
+                case "enterprise":
+                case "policyUser":
+                case "labelManage":
+                case "carouselManage":
+                case "accountManagement":
+                case "myCollection":
+                case "information":
+                case "matching":
+                case "mySubscribe":
                     current = "login";
                         break;
                 case "policyText":
                 case "latestPolicy":
-                case "declarationItem":
                     current = "latestPolicy";
-                    break
+                    break;
+                case "itemText":
+                case "declarationItem":
+                    current = "declarationItem";
+                    break;
 
             }
             if(pathName.indexOf("addPolicy") != -1 || pathName.indexOf("policyPreview") != -1){
@@ -52,7 +66,21 @@ class Top extends Component {
             userType:cookie.load('userType'),
             current
         }
-        }
+
+        // PolicyList
+        // AddPolicy
+        // CollectionList
+        // {
+        //     latestPolicy
+        //     information
+        // }
+        console.log(window.location.pathname ? window.location.pathname.replace("/","") : "home")
+    }
+    componentWillMount() {}
+
+    handleClick = () => {
+
+    }
     removeCookie = () =>{
         cookie.remove('userId');
         cookie.remove('userName');
@@ -80,8 +108,8 @@ class Top extends Component {
                             <Menu.Item key="latestPolicy">
                                 <a href="/latestPolicy">最新政策</a>
                             </Menu.Item>
-                            <Menu.Item key="#">
-                                <a href="#">申报政策</a>
+                            <Menu.Item key="declarationItem">
+                                <a href="/declarationItem">申报政策</a>
                             </Menu.Item>
                             <Menu.Item key="login">
                                 <a href={isLogin ? (userType == 1 ? "/information" : "/policyList") : "/login"}>个人中心</a>
@@ -92,10 +120,10 @@ class Top extends Component {
                         <div className="serach"><Search placeholder="请输入关键字查找申报政策" onSearch={this.serachLatestPolicy} enterButton /></div>
                     </Col>
                     {!isLogin ? <Col span={3} className="right-button">
-                        <Link to="/login"><Button size="small" /*icon={<UserOutlined />}*/>登录</Button></Link>
+                        <Link to="/login"><Button size="small" icon={<Icon type="user" />}>登录</Button></Link>
                         <u className="line-u">|</u>
                         <Link to="/register"><Button size="small" className="ml15 mr15">注册</Button></Link>
-                    </Col> : <Col span={3} className="right-button"><Button /*icon={<ExportOutlined />}*/ size="small" className="mr15" onClick={this.removeCookie}>退出</Button></Col>}
+                    </Col> : <Col span={3} className="right-button"><span title={cookie.load('userName')}>{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon={<Icon type="export" />} size="small" className="mr15" onClick={this.removeCookie}>退出</Button></Col>}
 
                 </Row>
                 </div>

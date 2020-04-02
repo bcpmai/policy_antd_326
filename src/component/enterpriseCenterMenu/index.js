@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Link } from "react-router-dom";
-import { Button, Form, Input, InputNumber, Row, Col, Select,DatePicker,Menu} from 'antd';
-import axios from 'axios';
+import { Menu,Icon} from 'antd';
 // import {
 //     MailOutlined,
 //     AppstoreOutlined,
@@ -33,7 +31,7 @@ class EnterpriseMenu extends Component {
         return (
             <div className="enterpriseMenu-component-template">
                 <Menu
-                    style={{ width: 200 }}
+                    style={{ width: 180 }}
                     defaultSelectedKeys={[current]}
                     defaultOpenKeys={['sub1']}
                     mode="inline"
@@ -43,6 +41,7 @@ class EnterpriseMenu extends Component {
                         title={
                             <span>
                                           {/*<BankOutlined />*/}
+                                         <Icon type="bank" />
                                           <span>个人中心</span>
                                         </span>
                         }

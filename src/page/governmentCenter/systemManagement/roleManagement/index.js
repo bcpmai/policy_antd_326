@@ -4,7 +4,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {Table, Input, Row, Col, Button, Modal, Form ,Checkbox} from 'antd';
-import {Link} from "react-router-dom";
 import Top from '../../../../component/top/index';
 import PolicyManagementMenu from "../../../../component/policyManagementMenu/index";
 import Title from "../../../../component/title/index";

@@ -4,10 +4,10 @@
 }
 .policyPreview-template .policyPreview-label-box .max-weight-box{
     background: #fff;
-    border-top:50px solid #ae242b;
+    /*border-top:50px solid #ae242b;*/
 }
 .policyPreview-template .policyPreview-descriptions{
-    padding: 40px 35px 30px;
+    padding: 20px 35px 30px;
     margin: 10px 0;
     border-bottom: 1px dotted #e6e6e6;
 }
@@ -35,16 +35,18 @@
     margin-bottom: 20px;
 }
 .policyPreview-template .title-component-template{
-    margin-top: 50px;
-    margin-bottom: 30px;
+    padding-top: 30px;
+    margin-bottom: 0px;
+    margin-top: 0;
+    margin-left: 20px;
 }
 .policyPreview-template .ant-descriptions-item-label{
-    font-size: 16px;
-    color: #000;
+    font-size: 14px;
+    color: #666;
 }
 .policyPreview-template .ant-descriptions-item-content{
-    font-size: 16px;
-    color: #666;
+    font-size: 14px;
+    color: #000;
 }
 .policyPreview-template .ant-descriptions-row > td{
     padding-bottom: 20px;
@@ -58,4 +60,7 @@
 }
 .policyPreview-template .labelAdd .ant-descriptions-item-content .ant-tag{
     margin-bottom: 10px;
+    background: #f5f5f5;
+    padding: 2px 15px;
+    font-size: 14px;
 }

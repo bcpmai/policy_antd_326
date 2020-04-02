@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Form,Upload, message} from 'antd';
+import { Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Form,Upload, message,Icon} from 'antd';
 import moment from 'moment';
 // import { UploadOutlined } from '@ant-design/icons';
 import {request} from '../../../../utils/request';
@@ -24,7 +24,7 @@ const layout = {
     wrapperCol: {span: 18},
 };
 
-const uploadUrl = 'http://web.js.policy.com/api/common/upload-file';
+const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
 
 const validateMessages = {
     required: '必填项!',
@@ -126,7 +126,7 @@ class AddPolicy extends Component {
             const allItem = {id: 0,name: "全部"};
             themData.data.unshift(allItem);
             typeData.data.unshift(allItem);
-            belongData.data.unshift(allItem);
+            // belongData.data.unshift(allItem);
             industryData.data.unshift(allItem);
             this.setState({
                 themeData: themData.data,
@@ -146,8 +146,12 @@ class AddPolicy extends Component {
                     release_date:policy.release_date,
                     content:policy.content
                 });
-                policy.release_date = moment(policy.release_date, 'YYYY-MM-DD');
-                policy.life_date = moment(policy.life_date, 'YYYY-MM-DD');
+                if(policy.release_date) {
+                    policy.release_date = moment(policy.release_date, 'YYYY-MM-DD');
+                }
+                if(policy.life_date) {
+                    policy.life_date = moment(policy.life_date, 'YYYY-MM-DD');
+                }
 
                 this.refs.form.setFieldsValue(policy);
                 editor.txt.html(policy.content);
@@ -162,7 +166,9 @@ class AddPolicy extends Component {
         values.content = editorContent;
         values.member_id = cookie.load("userId");
         values.username = cookie.load("userName");
-        values.upload_file_list = fileList.map((item,idx)=>item.response.data.id);
+        if(fileList.length) {
+            values.upload_file_list = fileList.map((item, idx) => item.response.data.id);
+        }
         if(id){
             values.id = id;
         }
@@ -170,7 +176,8 @@ class AddPolicy extends Component {
         if(data.data && data.data.success){
             message.success(data.data.msg);
             setTimeout(()=>{
-                this.props.history.push(url ? url+"/"+data.data.data.id : '/policyList');
+                window.open(url ? url+"/"+data.data.data.id : '/policyList');
+                // this.props.history.push();
             },2000);
         }else{
             message.error(data.data.msg);
@@ -236,9 +243,9 @@ class AddPolicy extends Component {
         this.setState({ fileList });
     };
     render() {
-        const {industryData,belongData,themeData,typeData,productData,id,data} = this.state;
+        const {industryData,belongData,themeData,typeData,productData,id,data,editorContent} = this.state;
         const props = {
-            //action: 'http://web.js.policy.com/api/common/upload-file',
+            //action: 'http://58.144.217.13:5002/api/common/upload-file',
             action:uploadUrl,
             onChange: this.handleUploadChange,
             multiple: true,
@@ -273,13 +280,13 @@ class AddPolicy extends Component {
                             <Form.Item name="title" label="政策标题" rules={[{required: true}]}>
                                 <Input />
                             </Form.Item>
-                            <Form.Item name="post_shop_name" label="发文字号" rules={[{required: true}]}>
+                            <Form.Item name="post_shop_name" label="发文字号">
                                 <Input/>
                             </Form.Item>
                             <Form.Item name="release_date" label="发文日期" rules={[{required: true}]}>
                                 <DatePicker onChange={this.onDateChange} />
                             </Form.Item>
-                            <Form.Item name="life_date" label="政策有效期" rules={[{required: true}]}>
+                            <Form.Item name="life_date" label="政策有效期">
                                 <DatePicker onChange={this.onDateLifeChange} />
                             </Form.Item>
                             <Form.Item name="industry_label_id_list" label="所属行业" rules={[{required: true}]}>
@@ -331,14 +338,24 @@ class AddPolicy extends Component {
                                                                                         key={item.id}>{item.name}</Option>) : ''}
                                 </Select>
                             </Form.Item>
-                            <Form.Item name="content" label="政策正文" required>
+                            <Form.Item name="content" label="政策正文" required rules={[
+                                ({ getFieldValue }) => ({
+                                    async validator(rule, value) {
+                                        if(!editorContent){
+                                            return Promise.reject("必填项");
+                                        }
+                                        return Promise.resolve();
+                                    },
+                                })
+                            ]}>
                                 <div ref="editorElem">
                                 </div>
                             </Form.Item>
-                            <Form.Item name="username" label="上传附件" required>
+                            <Form.Item name="username" label="上传附件">
                                 <Upload {...props} fileList={this.state.fileList}>
                                     <Button>
-                                        {/*<UploadOutlined /> */}
+                                        {/*<UploadOutlined />*/}
+                                        <Icon type="upload" />
                                         上传文件
                                     </Button>
                                 </Upload>

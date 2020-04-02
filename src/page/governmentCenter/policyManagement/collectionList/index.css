@@ -12,9 +12,12 @@
     cursor: pointer;
 }
 .collectionList-template .label-box{
-    padding: 40px 10px 60px 100px;
+    /*padding: 40px 10px 60px 100px;*/
     margin-bottom: 20px;
-    border-bottom: 2px solid #ae242b;
+    border-bottom: 1px solid #ae242b;
+}
+.collectionList-template .ant-form-item{
+    margin-bottom: 10px;
 }
 .collectionList-template .collectionList-button{
     text-align: center;
@@ -26,8 +29,8 @@
 .collectionList-template .label-product-box .more-label{
     color:#333;
     position: absolute;
-    right:10px;
-    top:0;
+    right:-10px;
+    top:4px;
     cursor: pointer;
 }
 .collectionList-template .information-title{
@@ -97,7 +100,7 @@
     margin-top: 27px;
 }
 .collectionList-template .operation-button .ant-btn{
-    color: #333;
+    /*color: #333;*/
     padding: 0 25px;
     margin-right: 0;
     margin-left: 20px;

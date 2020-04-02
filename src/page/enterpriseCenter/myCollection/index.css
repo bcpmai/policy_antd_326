@@ -47,7 +47,7 @@
     /*margin-top: 80px;*/
     /*margin-bottom: 60px;*/
 /*}*/
-.myCollection-template .ant-btn{
+.myCollection-template .myCollection-form-box .ant-btn{
     background: #fff;
     color: #ae242b;
     border:1px solid #ae242b;
@@ -56,7 +56,7 @@
     padding: 0 40px;
     font-size: 16px;
 }
-.myCollection-template .ant-btn:hover{
+.myCollection-template .myCollection-form-box .ant-btn:hover{
     background: #ae242b;
     color: #fff;
 }
@@ -76,4 +76,21 @@
 }
 .myCollection-template .myCollection-search .ant-input-group .ant-input-group-addon{
     background: none;
+}
+.myCollection-template .ant-tabs-bar{
+    border-bottom: 2px solid #f0ac41;
+}
+.myCollection-template .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab{
+    background: #f4f2f2;
+    color: #aaa;
+    border-radius: 15px 15px 0 0 ;
+    font-weight: bold;
+    padding: 0 30px;
+    margin-right: 10px;
+    border-bottom: 1px solid #f0ac41;
+    font-size: 16px;
+}
+.myCollection-template .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
+    background: #efa633;
+    color: #fff;
 }

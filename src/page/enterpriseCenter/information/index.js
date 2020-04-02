@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Button, Form, Input, Row, Col, Select, DatePicker, Menu, Modal} from 'antd';
+import {Button, Form, Input, Row, Col, Select, DatePicker, Menu, Modal,Icon} from 'antd';
 // import {EditOutlined, AppstoreOutlined, MailOutlined, SettingOutlined} from '@ant-design/icons';
 import Top from '../../../component/top/index';
 import Title from "../../../component/title/index";
@@ -13,7 +13,10 @@ import cookie from "react-cookies";
 import {message} from "antd/lib/index";
 import {request} from "../../../utils/request";
 import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
+const {MonthPicker} = DatePicker;
 const {Option} = Select;
 const {SubMenu} = Menu;
 const layout = {
@@ -57,15 +60,24 @@ class Information extends Component {
         const industryData = selectIndustryData.data;
         const data = requestData.data;
         if (data && industryData && industryData.success) {
-            const register_address = data.register_address.split(",");
+            const register_address = data.register_address != "" && data.register_address ? data.register_address.split(",") : null;
             this.getProvinceData();
-            this.getCityData(parseInt(register_address[1]));
-            this.getAreaData(parseInt(register_address[2]),parseInt(register_address[1]));
+            if(register_address && register_address.length>=1) {
+                this.getCityData(parseInt(register_address[0]));
+                if(register_address[1] != "undefined") {
+                    setTimeout(() => {
+                        this.getAreaData(parseInt(register_address[1]), parseInt(register_address[0]));
+                    });
+                }
+            }
             this.setState({
                 industryData: industryData.data,
-                register_address
+                register_address,
+                set_up_value:data.set_up_value
             },()=>{
-                data.set_up_value = moment(data.set_up_value, 'YYYY');;
+                if(data.set_up_value) {
+                    data.set_up_value = moment(data.set_up_value, 'YYYY-MM');
+                }
                 this.refs.form.setFieldsValue(data);
             });
 
@@ -97,7 +109,7 @@ class Information extends Component {
     getAreaData = async (cityId,province_id) => {
         // console.log(this.state.addressArr);
         const areaData = await request('/common/get-area', 'POST', {
-            province_id: province_id || this.state.addressArr.province,
+            province_id: province_id || this.state.addressArr && parseInt(this.state.addressArr.province),
             city_id: cityId
         }); //获取区县
         if (areaData.status == 200) {
@@ -123,37 +135,45 @@ class Information extends Component {
         });
     }
     onCityChange = (value, option) => {
-        let {addressArr = {}} = this.state;
+        let {addressArr = {},register_address} = this.state;
+        if(!addressArr.province){addressArr.province = register_address[0]}
         addressArr.city = value;
         addressArr.area = '';
         this.setState({
             addressArr,
-            areaSelect: null
+            areaSelect: null,
+            register_address:register_address ? [register_address[0],register_address[1]] : null
         }, () => {
             this.getAreaData(value);
         });
     }
     onAreaChange = (value, option) => {
-        let {addressArr = {}} = this.state;
+        let {addressArr = {},register_address} = this.state;
+        if(!addressArr.province){addressArr.province = register_address[0]}
+        if(!addressArr.city){addressArr.city = register_address[1]}
         addressArr.area = value;
         this.setState({
             addressArr
         });
     }
     onFinish = async (values) => {
-        const {addressArr,set_up_value}= this.state;
+        const {addressArr,set_up_value,register_address}= this.state;
         if(addressArr) {
             values.register_address =addressArr.province+","+addressArr.city+","+addressArr.area;
+        }else if(register_address){
+            values.register_address = register_address.join(",");
         }
-        values.set_up_value = set_up_value;
+        if(set_up_value) {
+            values.set_up_value = (set_up_value+"").replace("-", "");
+        }
         values.member_id = cookie.load('userId');
         const responest = await request('/company/update_info', 'POST', values);
         const data = responest.data;
         if (data && data.success) {
             message.success(data.msg);
-            // setTimeout(() => {
-            //     this.props.history.push('/');
-            // }, 1000);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         } else {
             message.error(data.msg);
         }
@@ -182,7 +202,7 @@ class Information extends Component {
     };
 
     render() {
-        const {provinceSelect, citySelect, areaSelect, industryData,isEdit,register_address=[]} = this.state;
+        const {provinceSelect, citySelect, areaSelect, industryData,isEdit,register_address} = this.state;
         return (
             <div className="information-template">
                 <Top/>
@@ -200,7 +220,7 @@ class Information extends Component {
                                     <Button onClick={() => {
                                         window.location.href = "/matching"
                                     }} type="primary" className="button-matching">精准匹配</Button>
-                                    { isEdit ? <Button type="primary" /*icon={<EditOutlined/>}*/ className="button-edit" onClick={this.setEdit}>编辑</Button> : null}
+                                    { isEdit ? <Button type="primary" icon={<Icon type="edit" />} className="button-edit" onClick={this.setEdit}>编辑</Button> : null}
                                     { !isEdit ? <Button type="primary" onClick={this.onCancel} className="button-edit ml15">取消</Button> : null}
                                     { !isEdit ? <Button type="primary" htmlType="submit" className="button-edit">保存</Button> : null}
                                 </div>
@@ -209,23 +229,23 @@ class Information extends Component {
                                     <Row>
                                         <Col span={10}>
                                             <Form.Item name="company_name" label="企业名称">
-                                                <Input disabled={isEdit} placeholder="请输入用户名" defaultValue="xxxx有限公司"/>
+                                                <Input disabled placeholder="请输入用户名" defaultValue="xxxx有限公司"/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={14}>
                                             <Form.Item name="username" label="注册地址">
-                                                {provinceSelect ? <Select defaultValue={register_address && parseInt(register_address[0])} disabled={isEdit} placeholder="请选择省份" style={{width: 127}}
+                                                {provinceSelect ? <Select defaultValue={register_address ? parseInt(register_address[0]) : null} disabled={isEdit} placeholder="请选择省份" style={{width: 127}}
                                                         onChange={(value, option) => this.onProvinceChange(value, option)}>
                                                         {provinceSelect.map((item, idx) => <Option
                                                         value={item.id} key={idx}>{item.value}</Option>)}
                                                 </Select> : null}
-                                                {citySelect ? <Select  defaultValue={register_address && parseInt(register_address[1])} disabled={isEdit} placeholder="请选择市" style={{width: 127, marginLeft: 5}}
+                                                {citySelect ? <Select  defaultValue={register_address && register_address[1] && parseInt(register_address[1])} disabled={isEdit} placeholder="请选择市" style={{width: 127, marginLeft: 5}}
                                                         onChange={(value, option) => this.onCityChange(value, option)}>
                                                     { citySelect.map((item, idx) => <Option value={item.id}
                                                                                                         key={idx}>{item.value}</Option>)}
 
                                                 </Select> : null}
-                                                {areaSelect ? <Select defaultValue={register_address && parseInt(register_address[2])} disabled={isEdit} placeholder="请选择区县" style={{width: 132, marginLeft: 5}}
+                                                {areaSelect ? <Select defaultValue={register_address && register_address[2] && parseInt(register_address[2])} disabled={isEdit} placeholder="请选择区县" style={{width: 132, marginLeft: 5}}
                                                         onChange={(value, option) => this.onAreaChange(value, option)}>
                                                         {areaSelect.map((item, idx) => <Option value={item.id}
                                                                                                         key={idx}>{item.value}</Option>)}
@@ -236,7 +256,7 @@ class Information extends Component {
                                     <Row>
                                         <Col span={10}>
                                             <Form.Item name="set_up_value" label="成立时间">
-                                                <DatePicker disabled={isEdit} onChange={this.onChange} picker="year"/>
+                                                <MonthPicker disabled={isEdit} onChange={this.onChange} format="YYYY-MM" picker="month"/>
                                             </Form.Item>
                                         </Col>
                                         <Col span={14}>

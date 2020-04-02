@@ -39,7 +39,7 @@ code {
   position: relative;
   z-index: 2;
   background: #fff;
-  min-height: 800px;
+  min-height: 797px;
 }
 /*分页*/
 .ant-pagination .ant-pagination-item-active{
@@ -87,6 +87,8 @@ code {
   height: 25px;
   margin-left: 10px;
   font-size: 12px;
+  display: inline-block;
+  line-height: 25px;
 }
 .ant-modal-footer button:hover,
 .ant-modal .model-button:hover{
@@ -135,7 +137,7 @@ code {
   background: #fff;
 }
 .main-box .ant-table .ant-table-tbody tr:nth-child(2n) td{
-  background: #e5e5e5;
+  background: #f9f9f9;
 }
 /*tag*/
 .main-box .ant-tag{
@@ -146,46 +148,46 @@ code {
   color: #666;
 }
 .main-box .ant-breadcrumb > span:last-child{
-  color:#fff;
+  color:#000;
 }
 /*面包屑*/
 .main-box .ant-breadcrumb {
-  background: #ae242b;
+  /*background: #ae242b;*/
   height: 40px;
   line-height: 40px;
-  color: #fff;
+  color: #666;
   font-size: 14px;
-  padding-left: 30px;
+  padding-left: 20px;
 }
 .main-box .ant-breadcrumb > span:last-child a,
 .main-box .ant-breadcrumb a,
 .main-box .ant-breadcrumb .ant-breadcrumb-separator {
-  color: #fff;
+  color: #666;
 }
 /*搜索表单*/
 .main-box .label-box{
-  padding: 40px 10px 30px 100px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #ae242b;
+  padding: 20px 10px 30px 20px;
+  /*margin-bottom: 20px;*/
+  border-bottom: 1px solid #ae242b;
 }
 /*.main-box .label-box .ant-row{*/
   /*margin-bottom: 30px;*/
 /*}*/
 .main-box .label-box .ant-col-4 {
   color: #000;
-  font-size: 16px;
+  font-size: 14px;
 }
 .main-box .label-box .ant-col-4:before{
   content: '';
   width: 6px;
   height: 18px;
-  background: #aa2426;
+  /*background: #aa2426;*/
   display: inline-block;
   vertical-align: -3px;
   margin-right: 10px;
 }
 .main-box .search-button{
-  text-align: center;
+  padding-left: 135px;
 }
 .main-box .search-button .ant-btn,
 .main-box .operation-button .ant-btn,
@@ -199,6 +201,36 @@ code {
   font-size: 16px;
   margin: 20px 40px 0px 40px;
 }
+.main-box .operation-button .ant-btn{
+  margin-left: 10px;
+  margin-right: 0px;
+  font-size: 14px;
+}
+.main-box .search-button .ant-btn:hover,
+.main-box .operation-button .ant-btn:hover{
+  background: #ae242b;
+  color: #fff;
+}
 .main-box .manage-add-butn .ant-btn{
   margin-left: 0;
+}
+.mr10{
+  margin-right: 10px;
+}
+/*复选框*/
+/*.main-box .ant-checkbox-checked .ant-checkbox-inner{*/
+  /*background:#ae242b;*/
+  /*border:1px solid #ae242b;*/
+/*}*/
+/*.main-box .ant-checkbox-checked::after,*/
+/*.main-box .ant-checkbox-inner::after:hover,*/
+/*.ant-checkbox-input:hover{*/
+  /*border:1px solid #ae242b;*/
+/*}*/
+/*.ant-checkbox-wrapper:hover{*/
+  /*border:1px solid #ae242b;*/
+/*}*/
+.ant-modal-footer button{
+  margin-left: 10px;
+  margin-right: 10px;
 }

@@ -1,5 +1,10 @@
+.register-template{
+    background: url("./img/bg.jpg") center bottom no-repeat;
+}
 .register-template .register-form-box{
     padding: 50px 0;
+    position: relative;
+    min-height: 777px;
 }
 .register-template .register-title{
    text-align: center;
@@ -22,18 +27,18 @@
 .register-template .register-button p{
     text-align: right;
 }
-.register-template .ant-col-8 {
+.register-template .ant-col-6 {
     color: #000;
-    text-align: left;
-    text-indent: 100px;
+    text-align: right;
+    margin-right: 30px;
 }
-.register-template .ant-col-8 label{
-    font-size: 18px;
+.register-template .ant-col-6 label{
+    font-size: 16px;
 }
 .register-template .ant-form-item-label > label.ant-form-item-required::before,
-.register-template .ant-form-item-label > label::after{
-    display: none;
-}
+/*.register-template .ant-form-item-label > label::after{*/
+    /*display: none;*/
+/*}*/
 .register-template a{
     color: #ae242b;
 }
@@ -46,4 +51,36 @@
 }
 .register-template .top-component-template .ant-col-8{
     text-indent: 0;
+}
+/*.register-template .login-max-weight{*/
+    /*position: relative;*/
+    /*z-index: 1;*/
+/*}*/
+.register-template .register-form,.register-template .register-form-bg{
+    width: 1280px;
+    height: 665px;
+    position: absolute;
+    z-index: 2;
+    right: 05px;
+    top: 57px;
+    border-radius: 25px;
+    padding: 40px;
+    border:1px solid #c87575;
+}
+.register-template .register-form-bg{
+    z-index: 1;
+    background: #fff;
+    opacity: 0.6;
+}
+.register-template .width-min-title{
+    width: 80%;
+    margin: 0 auto;
+}
+.register-template .ant-divider-inner-text{
+    font-size: 22px;
+    color: #ac242a;
+}
+.register-template .ant-divider-horizontal.ant-divider-with-text-center::before,
+.register-template .ant-divider-horizontal.ant-divider-with-text-center::after{
+    border-top:1px solid #a72329;
 }
