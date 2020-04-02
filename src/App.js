@@ -1,10 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
-import 'core-js';
-import 'core-js/es/map';
-import 'core-js/es/set';
-import 'core-js/es/weak-map';
-import 'core-js/es/weak-set';
+import 'core-js/es';
+import 'react-app-polyfill/ie9'
 import './App.css';
 
 function App() {
