@@ -99,8 +99,8 @@ class DeclarationItem extends Component {
             },
             {
                 title: '发文日期',
-                key: 'created_date',
-                dataIndex: 'created_date'
+                key: 'release_date',
+                dataIndex: 'release_date'
             }
         ];
         if(cookie.load("userType") != 2){

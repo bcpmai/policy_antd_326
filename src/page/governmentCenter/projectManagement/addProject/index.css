@@ -118,7 +118,7 @@
     background: #e0e0e0;
 }
 .label-table th,.label-table td{
-    padding: 7px 20px;
+    padding: 10px 20px;
 }
 .label-table{
     border: 1px solid #f5f5f5;
@@ -170,4 +170,25 @@
     top: 5px;
     display: inline-block;
     width: 40px;
+}
+.addProject-label-box .ant-form-item{
+    margin-bottom: 5px;
+}
+.addProject-label-box .ant-form label,.addProject-label-box .label-box .ant-col-3{
+    font-size: 16px;
+}
+.addProject-label-box .ant-col-3,.addProject-label-box .ant-col-6{
+    padding-right: 20px;
+}
+.addProject-label-box .release_date .ant-col-21{
+    width: 50%;
+}
+.addProject-label-box .declare_start_date .ant-col-21{
+    width: 70%;
+}
+.addProject-label-box .declare_start_date .ant-col-6{
+    margin-left: 25px;
+}
+.declare-box .ant-col-4{
+    text-indent: 10px;
 }

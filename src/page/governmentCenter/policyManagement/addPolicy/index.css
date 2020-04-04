@@ -117,3 +117,21 @@
 .main-box .addPolicy-template .label-box{
     border: 0;
 }
+.addPolicy-template .ant-form label,.addPolicy-template .label-box .ant-col-3{
+    font-size: 16px;
+}
+.addPolicy-template .ant-col-3,.addPolicy-template .ant-col-6{
+    padding-right: 20px;
+}
+.addPolicy-template .release_date .ant-col-21{
+    width: 50%;
+}
+.addPolicy-template .declare_start_date .ant-col-21{
+    width: 186px;
+}
+.addPolicy-template .declare_start_date .ant-col-6{
+    margin-left: 25px;
+}
+.declare-box .ant-col-4{
+    text-indent: 10px;
+}

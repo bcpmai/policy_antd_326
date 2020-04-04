@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Form,Upload,Icon, message, Modal, Table, Tooltip, Checkbox, Switch,Tag} from 'antd';
+import { Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Form,Upload,Icon, message, Modal, Table, Tooltip, Checkbox, Switch,Tag,InputNumber} from 'antd';
 import moment from 'moment';
 import {request} from '../../../../utils/request';
 import Top from '../../../../component/top/index';
@@ -19,8 +19,8 @@ import E from 'wangeditor'
 const { Option } = Select;
 const {Search,TextArea} = Input;
 const layout = {
-    labelCol: {span: 4},
-    wrapperCol: {span: 18},
+    labelCol: {span: 3},
+    wrapperCol: {span: 21},
 };
 
 const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
@@ -34,7 +34,15 @@ class AddProject extends Component {
             id:props.match.params ? props.match.params.id : null,
             policyVisible:false,
             tableData:[],
-            addressNum:1
+            addressNum:1,
+            address:true,
+            set_up:true,
+            knowledge:true,
+            address:true,
+            invention:true,
+            industry_label:true,
+            declare:true,
+            social:true
         }
     }
 
@@ -55,9 +63,9 @@ class AddProject extends Component {
                 title: '政策标题',
                 dataIndex: 'title',
                 key: 'title',
-                width: 180,
+                width: 280,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.props.history.push(`/policyPreview/${record.id}`)}>{text.length < 15 ? text : text.substr(0,15)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.onSelectChange(record.id,record.title,true)}>{text.length < 15 ? text : text.substr(0,15)+"..."}</a></Tooltip>
                 }
             },
             {
@@ -73,13 +81,7 @@ class AddProject extends Component {
                 key: 'updated_date',
                 dataIndex: 'updated_date',
                 width: 200
-            },
-            {
-                title: '操作',
-                key: 'action',
-                width:120,
-                render: (text, record) => (<p align="center"><a onClick={()=>this.props.history.push(`/addProject/${record.id}`)}>编辑</a><a onClick={()=>this.showModal(record.id)} className="ml15">删除</a></p>),
-            },
+            }
         ];
 
     }
@@ -212,7 +214,7 @@ class AddProject extends Component {
                     isSelectPolicy: true,
                     declare_net: declare.declare_net,
                     post_material: declare.post_material,
-                    addressNum: addressList.length,
+                    addressNum: addressList.length <= 0 ? 1 : addressList.length,
                     declare_start_date: declare.declare_start_date,
                     declare_end_date: declare.declare_end_date,
                     support_direction: declare.support_direction,
@@ -225,6 +227,9 @@ class AddProject extends Component {
 
                 if (declare.declare_start_date && declare.declare_end_date) {
                     declare.declare_start_date = [moment(declare.declare_start_date, 'YYYY-MM-DD'), moment(declare.declare_end_date, 'YYYY-MM-DD')];
+                }
+                if (declare.release_date) {
+                    declare.release_date = moment(declare.release_date, 'YYYY-MM-DD');
                 }
                 // values.declare_end_date = declare_end_date;
                 //  declare.release_date = moment(declare.release_date, 'YYYY-MM-DD');
@@ -250,6 +255,28 @@ class AddProject extends Component {
                 declare.industry_label_ids = industry_label_ids;
 
                 this.props.form.setFieldsValue(declare);
+
+                if(declare.set_up_sign == "-1,0,1"){
+                    this.switchChange(false,"set_up");
+                }
+                if(declare.knowledge_sign== "-1,0,1"){
+                    this.switchChange(false,"knowledge");
+                }
+                if(declare.register_address== ""){
+                    this.switchChange(false,"address");
+                }
+                if(declare.invention_sign== "-1,0,1"){
+                    this.switchChange(false,"invention");
+                }
+                if(declare.industry_label_list.length <=0){
+                    this.switchChange(false,"industry_label");
+                }
+                if(declare.declare_sign== "-1,0,1"){
+                    this.switchChange(false,"declare");
+                }
+                if(declare.social_people_sign == "-1,0,1"){
+                    this.switchChange(false,"social");
+                }
 
                 //editor.txt.html(policy.content);
                 this.belongChange(declare.belong); //请求发布机构
@@ -295,7 +322,7 @@ class AddProject extends Component {
     }
 
     onSubmit = async(values,url) => {
-        const {policyTitle,id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date} = this.state;
+        const {policyTitle,id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date,release_date} = this.state;
         if(policyTitle,support_direction && declare_condition && support_content && declare_material && declare_process) {
 
             if (addressArr && addressArr.length) {
@@ -313,6 +340,7 @@ class AddProject extends Component {
             values.review_process = review_process;
             values.declare_start_date = declare_start_date;
             values.declare_end_date = declare_end_date;
+            values.release_date = release_date;
             values.d_industry_label_list = values.d_industry_label_ids;
             if (fileList && fileList.length) {
                 console.log(fileList);
@@ -331,12 +359,37 @@ class AddProject extends Component {
             if (data.data && data.data.success) {
                 message.success(data.data.msg);
                 setTimeout(() => {
-                    window.open(url ? url + "/" + data.data.data.id : '/projectList');
+                    if(url){
+                        window.open(url + "/" + data.data.data.id);
+                    }else{
+                        this.props.history.push('/projectList');
+                    }
                     // this.props.history.push(url ? url+"/"+data.data.data.id : '/projectList');
                 }, 2000);
             } else {
                 message.error(data.data.msg);
             }
+        }else{
+            let msg;
+            if(!support_direction){
+                msg="扶持方向不能为空！";
+            }
+            if(!declare_condition){
+                msg="申报条件不能为空！";
+            }
+            if(!support_content){
+                msg="扶持内容不能为空！";
+            }
+            if(!declare_material){
+                msg="申报材料不能为空！";
+            }
+            if(!declare_process){
+                msg="申报流程不能为空！";
+            }
+            if(!review_process){
+                msg="评审流程不能为空！";
+            }
+            message.error(msg);
         }
     }
     onFinish = async (e) => {
@@ -349,6 +402,13 @@ class AddProject extends Component {
             if(!err) {
                 values.status = 2;
                 this.onSubmit(values);
+            }else{
+                message.error("请正确输入内容！");
+                window.scrollTo({
+                    left: 0,
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         });
     }
@@ -362,6 +422,13 @@ class AddProject extends Component {
             if(!err) {
                 values.status = 1;
                 this.onSubmit(values);
+            }else{
+                message.error("请正确输入内容！");
+                window.scrollTo({
+                    left: 0,
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         });
     }
@@ -375,6 +442,13 @@ class AddProject extends Component {
             if(!err) {
                 values.status = 1;
                 this.onSubmit(values, "/projectPreview");
+            }else{
+                message.error("请正确输入内容！");
+                window.scrollTo({
+                    left: 0,
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         });
     }
@@ -393,6 +467,11 @@ class AddProject extends Component {
         this.setState({
             declare_start_date:dateString[0],
             declare_end_date:dateString[1]
+        })
+    }
+    onDatePickerChange = (date,dateString) =>{
+        this.setState({
+            release_date  :dateString
         })
     }
     onDateLifeChange = (date,dateString) =>{
@@ -454,9 +533,15 @@ class AddProject extends Component {
         });
     };
 
-    onSelectChange = (selectedRowKeys, selectedRows) => {
-        // console.log('selectedRowKeys changed: ', selectedRowKeys,selectedRows,selectedRows.title);
-        this.setState({ selectedRowKeys,policyTitle:selectedRows[0].title });
+    onSelectChange = (selectedRowKeys, selectedRows,isSelect) => {
+         console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows,isSelect);
+
+        if(isSelect){
+            this.setState({ selectedRowKeys:[selectedRowKeys],policyTitle:selectedRows });
+            this.handleOk();
+        }else{
+            this.setState({ selectedRowKeys,policyTitle:selectedRows[0].title });
+        }
     };
     //复选框选中取消
     setCheckBox = (e) =>{
@@ -465,7 +550,7 @@ class AddProject extends Component {
             [value]:checked
         });
         if(!checked){
-            this.refs.form.setFieldsValue({
+            this.props.form.setFieldsValue({
                 [value]:undefined
             });
         }
@@ -478,7 +563,7 @@ class AddProject extends Component {
 
         if(!checked){
             if(string === "declare"){
-                this.refs.form.setFieldsValue({
+                this.props.form.setFieldsValue({
                     ["develop_assets_value"]: undefined,
                     ["develop_assets_sign"]: undefined,
                     ["declare_value"]: undefined,
@@ -487,16 +572,53 @@ class AddProject extends Component {
                     ["develop_value"]: undefined
                 });
             }else if(string === "social"){
-                this.refs.form.setFieldsValue({
-                    ["develop_people_value"]: undefined,
-                    ["develop_people_sign"]: undefined,
+                this.props.form.setFieldsValue({
+                    ["social_people_value"]: undefined,
+                    ["social_people_sign"]: undefined,
                     ["develop_people_value"]: undefined,
                     ["develop_people_sign"]: undefined,
                 });
-            }else {
-                this.refs.form.setFieldsValue({
+            }else if(string === "address"){
+                this.setState({
+                    addressArr:[],
+                    addressNum:1
+                })
+            }else if(string === "industry_label"){
+                this.props.form.setFieldsValue({
+                    ["industry_label_ids"]: undefined
+                });
+            }else{
+                this.props.form.setFieldsValue({
                     [string+"_value"]: undefined,
                     [string+"_sign"]: undefined
+                });
+            }
+        }else{
+            if(string === "declare"){
+                this.props.form.setFieldsValue({
+                    ["develop_assets_value"]: 0,
+                    ["develop_assets_sign"]: "-1,0",
+                    ["declare_value"]: 0,
+                    ["declare_sign"]: "-1,0",
+                    ["develop_sign"]: "-1,0",
+                    ["develop_value"]: 0
+                });
+            }else if(string === "social"){
+                this.props.form.setFieldsValue({
+                    ["social_people_value"]: 0,
+                    ["social_people_sign"]: "-1,0",
+                    ["develop_people_value"]: 0,
+                    ["develop_people_sign"]: "-1,0",
+                });
+            }else if(string === "set_up"){
+                this.props.form.setFieldsValue({
+                    [string + "_value"]: 2000,
+                    [string + "_sign"]: "-1,0"
+                });
+            }else{
+                this.props.form.setFieldsValue({
+                    [string+"_value"]: 0,
+                    [string+"_sign"]: "-1,0"
                 });
             }
         }
@@ -543,7 +665,7 @@ class AddProject extends Component {
     }
     //注册地址
     addressDom = () =>{
-        const {provinceSelect,addressNum,addressArr=[]} = this.state;
+        const {provinceSelect,addressNum,addressArr=[],address} = this.state;
         let html=[];
         for(let i = 0; i<addressNum;i++){
             html.push(<Row key={i}>
@@ -553,15 +675,17 @@ class AddProject extends Component {
                             style={{ width: '100%',marginRight:"20px"}}
                             onChange={(value, option)=>this.onProvinceChange(value, option,i)}
                             value={addressArr[i] && addressArr[i].province}
+                            disabled={!address}
                         >
                             {provinceSelect.map((item,idx)=><Option value={item.id} key={idx}>{item.value}</Option>)}
                         </Select>
                     </div>
                     <span className="address-title">省</span>
                 </Col> : null}
-                {this.state["citySelect"+i] ? <Col span={6}>
+                {this.state["citySelect"+i] && address ? <Col span={6}>
                     <div style={{marginRight:"40px"}}>
                         <Select
+                            disabled={!address}
                             style={{ width: '100%',marginRight:"20px"}}
                             onChange={(value, option)=>this.onCityChange(value, option,i)}
                             value={addressArr[i] && addressArr[i].city}
@@ -571,9 +695,10 @@ class AddProject extends Component {
                     </div>
                     <span className="address-title">市</span>
                 </Col> : null}
-                {this.state["areaSelect"+i] ? <Col span={6}>
+                {this.state["areaSelect"+i] && address ? <Col span={6}>
                     <div style={{marginRight:"40px"}}>
                         <Select
+                            disabled={!address}
                             style={{ width: '100%'}}
                             onChange={(value, option)=>this.onAreaChange(value, option,i)}
                             value={addressArr[i] && addressArr[i].area}
@@ -596,7 +721,7 @@ class AddProject extends Component {
     }
     render() {
         const {industryData,policyTitle,belongData,typeData,productData,id,tableData,selectedRowKeys,formValues,post_material,declare_net,set_up=true,knowledge=true,invention=true,declare=true,industry_label=true,social=true,isSelectPolicy,
-            support_direction,declare_condition,support_content,declare_material,declare_process,review_process,state
+            support_direction,declare_condition,support_content,declare_material,declare_process,review_process,state,data={}
         } = this.state;
         const { getFieldDecorator } = this.props.form;
         const props = {
@@ -627,6 +752,7 @@ class AddProject extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange:this.onPaginChange
         }
+        console.log(id,data.declare && data.declare.set_up_sign);
         return (
             <div className="addProject-template">
                 <Top />
@@ -692,21 +818,6 @@ class AddProject extends Component {
                                     </Select>
                                 )}
                             </Form.Item>
-                            <Form.Item label="官文网址">
-                                {getFieldDecorator('web_url', {
-                                    rules: [{
-                                        required: true,
-                                        message: '请输入官文网址'
-                                    }]
-                                })(
-                                    <Input />
-                                )}
-                            </Form.Item>
-                            <Form.Item label="申报时间">
-                                {getFieldDecorator('declare_start_date')(
-                                    <RangePicker onChange={this.onDateChange} />
-                                )}
-                            </Form.Item>
                             <Form.Item label="应用类型">
                                 {getFieldDecorator('use_type', {
                                     rules: [{
@@ -743,6 +854,54 @@ class AddProject extends Component {
                                     </Select>
                                 )}
                             </Form.Item>
+                            <Form.Item label="联系方式">
+                                {getFieldDecorator('contact')(
+                                    <Input />
+                                )}
+                            </Form.Item>
+                            <Row>
+                                <Col span={12} className="release_date">
+                                    <Form.Item labelCol={{span: 6}} label="发布日期">
+                                        {getFieldDecorator('release_date', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请选择发布日期'
+                                            }]
+                                        })(
+                                            <DatePicker onChange={this.onDatePickerChange} />
+                                        )}
+                                    </Form.Item>
+
+                                </Col>
+                                <Col span={12} className="declare_start_date">
+                                    <Form.Item labelCol={{span: 6}} label="申报时间">
+                                        {getFieldDecorator('declare_start_date')(
+                                            <RangePicker onChange={this.onDateChange} />
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={12} className="release_date">
+                                    <Form.Item labelCol={{span: 6}} label="扶持金额">
+                                        {getFieldDecorator('money')(
+                                            <InputNumber style={{width:'200px'}} />
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className="declare_start_date">
+                                    <Form.Item labelCol={{span: 6}} label="官文网址">
+                                        {getFieldDecorator('web_url', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请输入官文网址'
+                                            }]
+                                        })(
+                                            <Input />
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                            </Row>
                             <Form.Item name="content" label="扶持方向"
                                        required
                                        validateStatus={!support_direction && state ? "error" : ""}
@@ -764,11 +923,6 @@ class AddProject extends Component {
                                        >
                                 <div ref="editorElem3">
                                 </div>
-                            </Form.Item>
-                            <Form.Item label="联系方式">
-                                {getFieldDecorator('contact')(
-                                    <Input />
-                                )}
                             </Form.Item>
                             <Form.Item name="content" label="申报材料"
                                        required
@@ -799,17 +953,17 @@ class AddProject extends Component {
                                 </Upload>
                                 <span>支持扩展名为.doc/.docx/.ppt/.pptx/.xls/.xlsx/.pdf/.zip/.rar，大小不超过100M</span>
                             </Form.Item>
-                            <p style={{fontWight:"bold",color:"#000",fontSize:"16px"}}><span style={{color: "#ff4d4f"}}>*</span>请选择申报方式（可多选）</p>
-                            <Row>
-                                <Col span={4}><Checkbox value="declare_net" checked={this.state.declare_net ? true : false} onChange={this.setCheckBox}>网上申报</Checkbox></Col>
+                            <p style={{fontWight:"bold",color:"#000",fontSize:"16px"}}><span style={{color: "#ff4d4f","padding-left":"25px"}}>*</span>申报方式（可多选）</p>
+                            <Row className="declare-box">
+                                <Col span={4} style={{paddingLeft:"13px"}}><Checkbox value="declare_net" checked={this.state.declare_net ? true : false} onChange={this.setCheckBox}>网上申报</Checkbox></Col>
                                 <Col span={10}><Form.Item>
                                     {getFieldDecorator('declare_net')(
                                         <Input disabled={!declare_net}/>
                                     )}
                                 </Form.Item></Col>
                             </Row>
-                            <Row>
-                                <Col span={4}>
+                            <Row className="declare-box">
+                                <Col span={4} style={{paddingLeft:"13px"}}>
                                     <Checkbox value="post_material" checked={this.state.post_material ? true : false} onChange={this.setCheckBox}>纸质材料提交至</Checkbox>
                                 </Col>
                                 <Col span={20}><Form.Item>
@@ -819,8 +973,8 @@ class AddProject extends Component {
                                 </Form.Item></Col>
                             </Row>
                             <Row>
-                                <Col span={4}>申报条件标签：</Col>
-                                <Col span={20}>
+                                <Col span={3} style={{paddingTop:"8px",paddingRight:"20px",textAlign:"right",color:"#000"}}>申报标签：</Col>
+                                <Col span={21}>
                                 <table style={{width:"100%"}} className="label-table">
                                     <thead>
                                     <tr>
@@ -861,14 +1015,16 @@ class AddProject extends Component {
                                                 </Col>
                                             </Row>
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"set_up")}/></td>
+                                        <td>
+                                            <Switch checked={this.state.set_up} onChange={(checked)=>this.switchChange(checked,"set_up")}/>
+                                            </td>
                                     </tr>
                                     <tr>
                                         <td>注册地址</td>
                                         <td>
                                               {this.addressDom()}
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"set_up")}/></td>
+                                        <td><Switch checked={this.state.address} onChange={(checked)=>this.switchChange(checked,"address")}/></td>
                                     </tr>
                                     <tr>
                                         <td>知识产权</td>
@@ -901,7 +1057,8 @@ class AddProject extends Component {
                                                 </Col>
                                             </Row>
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"knowledge")}/></td>
+                                        <td>
+                                            <Switch checked={this.state.knowledge} onChange={(checked)=>this.switchChange(checked,"knowledge")}/></td>
                                     </tr>
                                     <tr>
                                         <td>发明专利</td>
@@ -934,7 +1091,7 @@ class AddProject extends Component {
                                                 </Col>
                                             </Row>
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"invention")}/></td>
+                                        <td><Switch checked={this.state.invention} onChange={(checked)=>this.switchChange(checked,"invention")}/></td>
                                     </tr>
                                     <tr>
                                         <td>所属行业</td>
@@ -954,7 +1111,7 @@ class AddProject extends Component {
                                                 )}
                                             </Form.Item>
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"industry_label")}/></td>
+                                        <td><Switch checked={this.state.industry_label} onChange={(checked)=>this.switchChange(checked,"industry_label")}/></td>
                                     </tr>
                                     <tr>
                                         <td>财务数据</td>
@@ -1044,7 +1201,7 @@ class AddProject extends Component {
                                                 </Col>
                                             </Row>
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"declare")}/></td>
+                                        <td><Switch checked={this.state.declare} onChange={(checked)=>this.switchChange(checked,"declare")}/></td>
                                     </tr>
                                     <tr>
                                         <td>人员数量</td>
@@ -1106,7 +1263,7 @@ class AddProject extends Component {
                                                 </Col>
                                             </Row>
                                         </td>
-                                        <td><Switch defaultChecked onChange={(checked)=>this.switchChange(checked,"social")}/></td>
+                                        <td><Switch checked={this.state.social} onChange={(checked)=>this.switchChange(checked,"social")}/></td>
                                     </tr>
                                     </tbody>
                                 </table>

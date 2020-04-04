@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Table, Input, Row, Col, Button, Breadcrumb,Form, Modal, Select, message ,Tooltip } from 'antd';
+import {Table, Input, Row, Col, Button, Breadcrumb, Form, Modal, Select, message, Tooltip} from 'antd';
 import Top from '../../../../component/top/index';
 import Label from "../../../../component/label/index";
 import PolicyManagementMenu from "../../../../component/policyManagementMenu/index";
@@ -13,17 +13,17 @@ import {request} from "../../../../utils/request";
 import cookie from "react-cookies";
 import AddUser from "./addUser.js";
 
-const { Option } = Select;
+const {Option} = Select;
 const layout = {
     labelCol: {span: 8},
     wrapperCol: {span: 16},
 };
 
 class enterprise extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            tableData:[],
+            tableData: [],
             labelStatus: {
                 title: "状 态",
                 item: [
@@ -47,25 +47,28 @@ class enterprise extends Component {
                 dataIndex: 'company_name',
                 key: 'company_name',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 4 ? text : text.substr(0,4)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft"
+                                    title={text}><span>{text.length < 4 ? text : text.substr(0, 4) + "..."}</span></Tooltip>
                 }
             },
             {
                 title: '统一社会信用代码',
                 dataIndex: 'code',
                 key: 'code',
-                width:150,
+                width: 150,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft"
+                                    title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
                 }
             },
             {
                 title: '所属行业',
                 dataIndex: 'industry_label_str',
                 key: 'industry_label_str',
-                width:150,
+                width: 150,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft"
+                                    title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
                 }
             },
             {
@@ -73,43 +76,46 @@ class enterprise extends Component {
                 dataIndex: 'username',
                 key: 'username',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft"
+                                    title={text}><span>{text.length < 10 ? text : text.substr(0, 10) + "..."}</span></Tooltip>
                 }
             },
             {
                 title: '手机号',
                 dataIndex: 'mobile',
-                width:120,
+                width: 120,
                 key: 'mobile',
             },
             {
                 title: '注册时间',
                 dataIndex: 'created_date',
-                width:150,
+                width: 150,
                 key: 'created_date'
             },
             {
                 title: '状态',
                 dataIndex: 'status',
                 key: 'status',
-                width:80,
+                width: 80,
                 render: (text, record) => (<span>{text == 0 ? "正常" : "已禁用"}</span>),
             },
             {
                 title: '操作',
                 key: 'action',
-                width:190,
+                width: 190,
                 render: (text, record) => (
                     <span>
-                        <a onClick={(type,id)=>this.showModal("addVisible",record)}>修改</a>
-                        <a className="ml15" onClick={(type,id)=>this.showModal("visible",record)}>{record.status == 0 ? "禁用" : "启用"}</a>
-                        <a className="ml15" onClick={(type,id)=>this.showModal("passwordVisible",record)}>重置密码</a>
+                        <a onClick={(type, id) => this.showModal("addVisible", record)}>修改</a>
+                        <a className="ml15"
+                           onClick={(type, id) => this.showModal("visible", record)}>{record.status == 0 ? "禁用" : "启用"}</a>
+                        <a className="ml15" onClick={(type, id) => this.showModal("passwordVisible", record)}>重置密码</a>
                     </span>),
             },
         ];
     }
+
     async componentDidMount() {
-        this.getTableData({page:1,max_line:20});
+        this.getTableData({page: 1, max_line: 20});
         const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
         const industryData = selectIndustryData.data;
         if (industryData && industryData.success) {
@@ -119,65 +125,37 @@ class enterprise extends Component {
         }
     }
 
-    getTableData = async (values={}) =>{
-        if(cookie.load('userId')){
+    getTableData = async (values = {}) => {
+        if (cookie.load('userId')) {
             values.member_id = parseInt(cookie.load('userId'));
         }
-        const tableData = await request('/company/list', 'POST',values); //获取table
-        if(tableData.status == 200){
+        const tableData = await request('/company/list', 'POST', values); //获取table
+        if (tableData.status == 200) {
             this.setState({
                 tableData: tableData.data,
-                formValues:values
+                formValues: values
             });
         }
     }
-    onShowSizeChange = (current, pageSize) =>{
+    onShowSizeChange = (current, pageSize) => {
         console.log(current, pageSize);
-        let {formValues={}} = this.state;
+        let {formValues = {}} = this.state;
         formValues.page = current;
         formValues.max_line = pageSize;
         this.getTableData(formValues);
     }
 
-    onPaginChange = (page, pageSize) =>{
+    onPaginChange = (page, pageSize) => {
         console.log(page, pageSize);
-        let {formValues={}} = this.state;
+        let {formValues = {}} = this.state;
         formValues.page = page;
         formValues.max_line = pageSize;
         this.getTableData(formValues);
     }
-    showModal = (type,record) => {
+    showModal = (type, record) => {
         this.setState({
             [type]: true,
             record
-        });
-    };
-
-    handleOk = async (e) => {
-
-        this.refs.form.validateFields().then(async(values) => {
-            console.log(values,"values")
-            let url = '/company/register';
-            if(this.state.record){
-                url = '/company/update_info';
-                values.username = this.state.record.username;
-                values.member_id = this.state.record.id;
-            }
-            const deleteData = await request(url, 'POST', values); //添加用户
-            if (deleteData.data && deleteData.data.success) {
-                message.success(deleteData.data.msg);
-                this.setState({
-                    addVisible: false,
-                    record: null
-                });
-                setTimeout(() => {
-                    this.getTableData(this.state.formValues);
-                }, 1000);
-            } else {
-                message.error(deleteData.data.msg);
-            }
-        }).catch(errorInfo => {
-            console.log(errorInfo,"errror")
         });
     };
 
@@ -186,9 +164,9 @@ class enterprise extends Component {
             [type]: false,
         });
     };
-    resetPasswordOk = async () =>{
+    resetPasswordOk = async () => {
         const {record} = this.state;
-        const res = await request('/admin/reset-password', 'POST',{member_id:record.id,password:record.password}); //获取table
+        const res = await request('/admin/reset-password', 'POST', {member_id: record.id, password: record.password}); //获取table
         if (res.data && res.data.success) {
             message.success(res.data.msg);
             this.setState({
@@ -202,9 +180,9 @@ class enterprise extends Component {
             message.error(res.data.msg);
         }
     }
-    handleStateOk = async () =>{
+    handleStateOk = async () => {
         const {record} = this.state;
-        const res = await request('/admin/update-status-user', 'POST',{member_id:record.id,status:record.status}); //获取table
+        const res = await request('/admin/update-status-user', 'POST', {member_id: record.id, status: record.status}); //获取table
         if (res.data && res.data.success) {
             message.success(res.data.msg);
             this.setState({
@@ -218,13 +196,13 @@ class enterprise extends Component {
             message.error(res.data.msg);
         }
     }
-    onSelectStatus = (value) =>{
+    onSelectStatus = (value) => {
         this.setState({
-            serarchStatus:value
+            serarchStatus: value
         })
         console.log(value);
     }
-    onSearchFinish = (e) =>{
+    onSearchFinish = (e) => {
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
@@ -237,12 +215,12 @@ class enterprise extends Component {
     }
     onReset = () => {
         this.setState({
-            status:null
-        },()=>{
+            status: null
+        }, () => {
             this.props.form.resetFields();
         })
     };
-    userCallback = () =>{
+    userCallback = () => {
         this.setState({
             addVisible: false,
             record: null
@@ -251,83 +229,97 @@ class enterprise extends Component {
             this.getTableData(this.state.formValues);
         }, 1000);
     }
+
     render() {
-        const {labelStatus,status,industryData,formValues,tableData,record} = this.state;
-        const { getFieldDecorator } = this.props.form;
+        const {labelStatus, status, industryData, formValues, tableData, record} = this.state;
+        const {getFieldDecorator} = this.props.form;
         const pagination = {
-            current:formValues && formValues.page ? formValues.page : 1,
+            current: formValues && formValues.page ? formValues.page : 1,
             showSizeChanger: true,
             defaultCurrent: 1,
-            defaultPageSize:20,
-            total:tableData.sum || 0,
-            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
+            defaultPageSize: 20,
+            total: tableData.sum || 0,
+            showTotal: (total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
             pageSizeOptions: ['10', '20', '30', '50', '100', '150'],
             onShowSizeChange: this.onShowSizeChange,
-            onChange:this.onPaginChange
+            onChange: this.onPaginChange
         }
         return (
             <div className="policyUser-template">
-                <Top />
+                <Top/>
                 <div className="policyUser-label-box max-weight-box">
-                <Row>
-                    <Col span={4}>
-                        <PolicyManagementMenu menu="systemManagement" current="enterprise" />
-                    </Col>
-                    <Col span={20}>
-                    <Title name="企业用户" />
-                    <Breadcrumb separator=">">
-                        <Breadcrumb.Item>系统管理</Breadcrumb.Item>
-                        <Breadcrumb.Item href="">企业用户</Breadcrumb.Item>
-                    </Breadcrumb>
-                        <div className="label-box">
-                            <Form ref="searchForm" {...layout} name="dynamic_rule" onSubmit={this.onSearchFinish}>
+                    <Row>
+                        <Col span={4}>
+                            <PolicyManagementMenu menu="systemManagement" current="enterprise"/>
+                        </Col>
+                        <Col span={20}>
+                            <Title name="企业用户"/>
+                            <Breadcrumb separator=">">
+                                <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                                <Breadcrumb.Item href="">企业用户</Breadcrumb.Item>
+                            </Breadcrumb>
+                            <div className="label-box">
+                                <Form ref="searchForm" {...layout} name="dynamic_rule" onSubmit={this.onSearchFinish}>
                                     <div>
                                         <Row>
-                                            <Col span={4}>企业名称</Col>
-                                            <Col span={18}>
-                                                <Form.Item>
-                                                    {getFieldDecorator('company_name')(
-                                                        <Input />
-                                                    )}
-                                                </Form.Item>
+                                            <Col span={8}>
+                                                <Row>
+                                                    <Col span={7}>企业名称</Col>
+                                                    <Col span={17}>
+                                                        <Form.Item>
+                                                            {getFieldDecorator('company_name')(
+                                                                <Input/>
+                                                            )}
+                                                        </Form.Item>
 
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col span={9}>
+                                                <Row>
+                                                    <Col span={9}>统一社会信用代码</Col>
+                                                    <Col span={15}>
+                                                        <Form.Item>
+                                                            {getFieldDecorator('code')(
+                                                                <Input/>
+                                                            )}
+                                                        </Form.Item>
+
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                            <Col span={7}>
+                                                <Label callback={this.onSelectStatus} defalutValue={status}
+                                                       isRadio={true} span={{title: 6, label: 18}}
+                                                       title={labelStatus.title} item={labelStatus.item}
+                                                       key="labelStatus"/>
                                             </Col>
                                         </Row>
-                                        <Row>
-                                            <Col span={4}>统一社会信用代码</Col>
-                                            <Col span={18}>
-                                                <Form.Item>
-                                                    {getFieldDecorator('code')(
-                                                        <Input />
-                                                    )}
-                                                </Form.Item>
-
-                                            </Col>
-                                        </Row>
-                                        <Label callback={this.onSelectStatus} defalutValue={status} isRadio={true} span={{title:4,label:20}} title={labelStatus.title} item={labelStatus.item} key="labelStatus"/>
                                     </div>
-                                <div className="search-button">
-                                    <Button type="primary" htmlType="submit">检索</Button>
-                                    <Button className="ml15" onClick={this.onReset}>重置</Button>
-                                </div>
-                            </Form>
-                        </div>
-                        <p align="right" className="operation-button">
-                            <Button type="primary" onClick={(type,id)=>this.showModal("addVisible")}>添加用户</Button></p>
-                        {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
-                    </Col>
-                </Row>
+                                    <div className="search-button">
+                                        <Button type="primary" htmlType="submit">检索</Button>
+                                        <Button className="ml15" onClick={this.onReset}>重置</Button>
+                                    </div>
+                                </Form>
+                            </div>
+                            <p align="right" className="operation-button">
+                                <Button type="primary"
+                                        onClick={(type, id) => this.showModal("addVisible")}>添加用户</Button></p>
+                            {tableData ?
+                                <Table columns={this.columns} dataSource={tableData.result} pagination={pagination}
+                                       rowKey="id"/> : null}
+                        </Col>
+                    </Row>
                 </div>
                 <Modal
                     title="温馨提示"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={(type)=>this.handleCancel("visible")}
+                    onCancel={(type) => this.handleCancel("visible")}
                     footer={[
                         <Button key="back" onClick={this.handleStateOk}>
                             确定
                         </Button>,
-                        <Button key="submit" type="primary" onClick={(type)=>this.handleCancel("visible")}>
+                        <Button key="submit" type="primary" onClick={(type) => this.handleCancel("visible")}>
                             取消
                         </Button>
                     ]}
@@ -342,13 +334,12 @@ class enterprise extends Component {
                 <Modal
                     title="重置密码"
                     visible={this.state.passwordVisible}
-                    onOk={this.handleOk}
-                    onCancel={(type)=>this.handleCancel("passwordVisible")}
+                    onCancel={(type) => this.handleCancel("passwordVisible")}
                     footer={[
                         <Button key="back" onClick={this.resetPasswordOk}>
                             确认
                         </Button>,
-                        <Button key="submit" type="primary" onClick={(type)=>this.handleCancel("passwordVisible")}>
+                        <Button key="submit" type="primary" onClick={(type) => this.handleCancel("passwordVisible")}>
                             取消
                         </Button>
                     ]}
@@ -359,7 +350,8 @@ class enterprise extends Component {
                         color: "#6e6e6e"
                     }}>确认重置密码？确认后，初始密码为123abc，请及时通知联系人。</p>
                 </Modal>
-                {this.state.addVisible ? <AddUser record={record} callback={()=>this.userCallback()} handleCancel={this.handleCancel} /> : null}
+                {this.state.addVisible ? <AddUser record={record} callback={() => this.userCallback()}
+                                                  handleCancel={this.handleCancel}/> : null}
             </div>
         );
     };

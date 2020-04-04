@@ -18,8 +18,8 @@ import E from 'wangeditor'
 const {Option} = Select;
 
 const layout = {
-    labelCol: {span: 4},
-    wrapperCol: {span: 18},
+    labelCol: {span: 3},
+    wrapperCol: {span: 21},
 };
 
 const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
@@ -137,6 +137,11 @@ class AddPolicy extends Component {
                 if (policy.life_date) {
                     policy.life_date = moment(policy.life_date, 'YYYY-MM-DD');
                 }
+                if(policy.content){
+                    this.setState({
+                        editorContent:policy.content
+                    })
+                }
 
                 this.props.form.setFieldsValue(policy);
                 editor.txt.html(policy.content);
@@ -162,12 +167,17 @@ class AddPolicy extends Component {
             if (data.data && data.data.success) {
                 message.success(data.data.msg);
                 setTimeout(() => {
-                    window.open(url ? url + "/" + data.data.data.id : '/policyList');
-                    // this.props.history.push();
+                    if(url){
+                        window.open(url + "/" + data.data.data.id);
+                    }else {
+                        this.props.history.push('/policyList');
+                    }
                 }, 2000);
             } else {
                 message.error(data.data.msg);
             }
+        }else{
+            message.error("政策正文不能为空！");
         }
     }
     onFinish = async (e) => {
@@ -180,6 +190,13 @@ class AddPolicy extends Component {
             if (!err) {
                 values.status = 2;
                 this.onSubmit(values);
+            }else{
+                message.error("请正确输入内容！");
+                window.scrollTo({
+                    left: 0,
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         });
     }
@@ -193,6 +210,13 @@ class AddPolicy extends Component {
             if(!err) {
                 values.status = 1;
                 this.onSubmit(values);
+            }else{
+                message.error("请正确输入内容！");
+                window.scrollTo({
+                    left: 0,
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         });
 
@@ -204,6 +228,13 @@ class AddPolicy extends Component {
             if(!err) {
                 values.status = 1;
                 this.onSubmit(values, "/policyPreview");
+            }else{
+                message.error("请正确输入内容！");
+                window.scrollTo({
+                    left: 0,
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         });
     }
@@ -297,26 +328,67 @@ class AddPolicy extends Component {
                                             <Input/>
                                         )}
                                     </Form.Item>
-                                    <Form.Item label="发文日期">
-                                        {getFieldDecorator('release_date', {
-                                            rules: [{
-                                                required: true,
-                                                message: '请选择发文日期'
-                                            }]
-                                        })(
-                                            <DatePicker onChange={this.onDateChange}/>
-                                        )}
-                                    </Form.Item>
-                                    <Form.Item label="政策有效期">
-                                        {getFieldDecorator('life_date', {
-                                            rules: [{
-                                                required: true,
-                                                message: '请选择政策有效期'
-                                            }]
-                                        })(
-                                            <DatePicker onChange={this.onDateLifeChange}/>
-                                        )}
-                                    </Form.Item>
+                                    <Row>
+                                        <Col span={12} className="release_date">
+                                            <Form.Item labelCol={{span: 6}} label="发文日期">
+                                                {getFieldDecorator('release_date', {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: '请选择发文日期'
+                                                    },{
+                                                        validator: (rule, value, callback) => {
+
+                                                            const { form } = this.props;
+                                                            if(form.getFieldValue('declare_start_date')) {
+                                                                const rData = new Date(form.getFieldValue('declare_start_date'));
+                                                                const dData = new Date(value);
+
+                                                                if (rData.getTime() < dData.getTime()) {
+                                                                    callback('发文日期必须小于政策有效期!');
+                                                                } else {
+                                                                    callback();
+                                                                }
+                                                            }else{
+                                                                callback();
+                                                            }
+                                                        }
+                                                    }]
+                                                })(
+                                                    <DatePicker onChange={this.onDateChange}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={4}></Col>
+                                        <Col span={8} className="declare_start_date">
+                                            <Form.Item labelCol={{span: 11}} label="政策有效期">
+                                                {getFieldDecorator('life_date', {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: '请选择政策有效期'
+                                                    },{
+                                                        validator: (rule, value, callback) => {
+
+                                                            const { form } = this.props;
+                                                            if(form.getFieldValue('release_date')) {
+                                                                const rData = new Date(form.getFieldValue('release_date'));
+                                                                const dData = new Date(value);
+
+                                                                if (rData.getTime() > dData.getTime()) {
+                                                                    callback('政策有效期必须大于发文日期!');
+                                                                } else {
+                                                                    callback();
+                                                                }
+                                                            }else{
+                                                                callback();
+                                                            }
+                                                        }
+                                                    }]
+                                                })(
+                                                    <DatePicker onChange={this.onDateLifeChange}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
                                     <Form.Item label="所属行业">
                                         {getFieldDecorator('industry_label_id_list', {
                                             rules: [{

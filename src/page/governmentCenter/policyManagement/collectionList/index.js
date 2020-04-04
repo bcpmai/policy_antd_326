@@ -232,6 +232,11 @@ class CollectionList extends Component {
             release_date:dateString
         })
     }
+    setArrProduct = () => {
+        this.setState({
+            arrProduct: !this.state.arrProduct
+        })
+    }
     render() {
         const {getFieldDecorator} = this.props.form;
         const {labelProduct,organization_label_list_arr,arrProduct,industryData,labelType,selectedRowKeys,belongData,belongDataModal,labelTheme,tableData,formValues,labelProductModal} = this.state;
@@ -266,32 +271,50 @@ class CollectionList extends Component {
                     </Breadcrumb>
                     <div className="label-box">
                         <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
-                        <Row className="mt10">
-                            <Col span={4}>政策标题</Col>
-                            <Col span={20}>
-                                <Form.Item>
-                                    {getFieldDecorator('title')(
-                                        <Input />
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row className="mt10">
-                            <Col span={4}>所属层级</Col>
-                            <Col span={20}>
-                                <Form.Item>
-                                    {getFieldDecorator('industry_label_id_list')(
-                                        <Select style={{ width: 300 }} onChange={this.belongChange}>
-                                            {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                                key={item.id}>{item.name}</Option>) : ''}
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                            <Row>
+                                <Col span={8}>
+                                    <Row>
+                                        <Col span={6}>政策标题</Col>
+                                        <Col span={18}>
+                                            <Form.Item>
+                                                {getFieldDecorator('title')(
+                                                    <Input />
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={8}>
+                                    <Row>
+                                        <Col span={6}>所属层级</Col>
+                                        <Col span={18}>
+                                            <Form.Item>
+                                                {getFieldDecorator('industry_label_id_list')(
+                                                    <Select onChange={this.belongChange}>
+                                                        {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                            key={item.id}>{item.name}</Option>) : ''}
+                                                    </Select>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={8}>
+                                    <Row>
+                                        <Col span={6}>发文日期</Col>
+                                        <Col span={18}>
+                                            <Form.Item>
+                                                {getFieldDecorator('release_date')(
+                                                    <DatePicker onChange={this.onDateChange} />
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
                         <div className="label-product-box">
                             {labelProduct ? <Label defalutValue={organization_label_list_arr}  callback={this.onSelectProduct} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
-                                                   span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
+                                                   span={{title:2,label:22}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
                             {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
                                                                  className="more-label">
                                     {/*<PlusOutlined/>*/}
@@ -302,16 +325,7 @@ class CollectionList extends Component {
                                     {/*<MinusOutlined/>*/}
                                     <Icon type="minus" />
                                     收起</span>) : ''} </div>
-                        <Row className="mt10">
-                            <Col span={4}>发文日期</Col>
-                            <Col span={20}>
-                                <Form.Item>
-                                    {getFieldDecorator('release_date')(
-                                        <DatePicker onChange={this.onDateChange} />
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
+
                         <div className="search-button">
                             <Button type="primary" htmlType="submit">检索</Button>
                             <Button className="ml15" onClick={this.onReset}>重置</Button>

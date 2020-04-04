@@ -116,15 +116,14 @@ class PolicyText extends Component {
                             <div className="policyText-content-text">
                                 <div dangerouslySetInnerHTML = {{ __html:policy.content }}></div>
                             </div>
-                            <Row>
+                            {resource_file_list &&
+                                resource_file_list.length>0 ?<Row>
                                 <Col span={2}>附件：</Col>
                                 <Col>
-                                    {resource_file_list ?
-                                        resource_file_list.map((item,idx)=><p key={idx}><a href={item.image_url} key={idx} target="_blank">{item.file_ori_name}</a></p>)
-                                        : null}
+                                    {resource_file_list.map((item,idx)=><p key={idx}><a href={item.image_url} key={idx} target="_blank">{item.file_ori_name}</a></p>)}
 
                                 </Col>
-                            </Row>
+                            </Row>:null}
                         </Col>
                         {/*<Col span={6}>*/}
                             {/*<Card title="申报政策">*/}

@@ -387,7 +387,7 @@ class ProjectList extends Component {
                             <div className="label-box">
                                 <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                                 <Row className="mt10">
-                                    <Col span={4}>项目标题</Col>
+                                    <Col span={2}>项目标题</Col>
                                     <Col span={18}>
                                         <Form.Item>
                                             {getFieldDecorator('title')(
@@ -403,13 +403,15 @@ class ProjectList extends Component {
                                 </Row>
                                     <div style={{display:!arrdown ? '' : "none"}}>
                                 {labelTheme ?
-                                    <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:4,label:20}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
+                                    <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:2,label:22}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
                                 <Row>
-                                    <Col span={4}>所属层级</Col>
-                                    <Col span={20}>
+                                    <Col span={8}>
+                                    <Row>
+                                    <Col span={6}>所属层级</Col>
+                                    <Col span={18}>
                                         <Form.Item>
                                             {getFieldDecorator('belong')(
-                                                <Select style={{width: 300}} onChange={this.belongChange}>
+                                                <Select onChange={this.belongChange}>
                                                     {belongData ? belongData.map((item, idx) => <Option value={item.id}
                                                                                                         key={item.id}>{item.name}</Option>) : ''}
                                                 </Select>
@@ -417,10 +419,39 @@ class ProjectList extends Component {
                                         </Form.Item>
                                     </Col>
                                 </Row>
+                                    </Col>
+                                    <Col span={8}>
+                                        <Row>
+                                            <Col span={6}>所属行业</Col>
+                                            <Col span={18}>
+                                                <Form.Item>
+                                                    {getFieldDecorator('industry_label_id_list')(
+                                                        <Select>
+                                                            {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                                    key={item.id}>{item.name}</Option>) : ''}
+                                                        </Select>
+                                                    )}
+                                                </Form.Item>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col span={8}>
+                                        <Row>
+                                            <Col span={6}>发文日期</Col>
+                                            <Col span={18}>
+                                                <Form.Item>
+                                                    {getFieldDecorator('release_date')(
+                                                        <DatePicker style={{width:"270px"}} onChange={this.onDateChange} />
+                                                    )}
+                                                </Form.Item>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
                                 <div className="label-product-box">
                                     {labelProduct ?
                                         <Label callback={this.onSelectProduct} defalutValue={organization_label_list} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
-                                               span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
+                                               span={{title:2,label:22}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
                                     {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
                                                                          className="more-label">
                                             <Icon type="plus" /> 展开</span> :
@@ -428,31 +459,10 @@ class ProjectList extends Component {
                                               className="more-label"><Icon type="minus" /> 收起</span>) : ''}
                                 </div>
                                 {labelType ?
-                                    <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:4,label:20}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}
-                                <Row>
-                                    <Col span={4}>所属行业</Col>
-                                    <Col span={20}>
-                                        <Form.Item>
-                                            {getFieldDecorator('industry_label_id_list')(
-                                                <Select style={{width: 300}}>
-                                                    {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                            key={item.id}>{item.name}</Option>) : ''}
-                                                </Select>
-                                            )}
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={4}>发文日期</Col>
-                                    <Col span={20}>
-                                        <Form.Item>
-                                            {getFieldDecorator('release_date')(
-                                                <DatePicker onChange={this.onDateChange} />
-                                            )}
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                                <Label callback={this.onSelectStatus} defalutValue={status} isRadio={true} span={{title:4,label:20}} title={labelStatus.title} item={labelStatus.item} key="labelStatus"/>
+                                    <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:2,label:22}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}
+
+
+                                        <div className="status-box"><Label callback={this.onSelectStatus} defalutValue={status} isRadio={true} span={{title:2,label:22}} title={labelStatus.title} item={labelStatus.item} key="labelStatus"/></div>
                                 {/*<Label callback={this.onSelectSource} defalutValue={source} isRadio={true} span={{title:4,label:20}} title={labelSource.title} item={labelSource.item} key="labelSource"/>*/}
                                     </div>
                                         <div className="search-button">

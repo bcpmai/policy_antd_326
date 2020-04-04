@@ -99,7 +99,7 @@ class ItemText extends Component {
                    <div className="itemText-descriptions">
                     <Descriptions title={detailInfo ? "项目标题：" + detailInfo.declare.title : "项目标题："}>
                         <Descriptions.Item label="发布机构" span={2}><span title={detailInfo && detailInfo.declare.organization_label_str}>{detailInfo && detailInfo.declare.organization_label_str}</span></Descriptions.Item>
-                        <Descriptions.Item label="发文日期">{detailInfo && detailInfo.declare.created_date}</Descriptions.Item>
+                        <Descriptions.Item label="发文日期">{detailInfo && detailInfo.declare.release_date}</Descriptions.Item>
                         <Descriptions.Item label="政策标题" span={3}>{detailInfo && detailInfo.declare.pc_title}</Descriptions.Item>
                     </Descriptions>
                    </div>
@@ -144,56 +144,56 @@ class ItemText extends Component {
                             </tbody>
                         </table>
                     </div>
-                    <div className="item-box">
+                    {detailInfo && detailInfo.declare.support_direction ? <div className="item-box">
                         <TitleTwo name="扶持方向" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_direction }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_direction }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.declare.declare_condition ? <div className="item-box">
                         <TitleTwo name="申报条件" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_condition }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_condition }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.declare.support_content ?<div className="item-box">
                         <TitleTwo name="扶持内容" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_content }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_content }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.declare.contact ?<div className="item-box">
                         <TitleTwo name="联系方式" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.contact }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.contact }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.declare.declare_material ?<div className="item-box">
                         <TitleTwo name="申报材料" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_material }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_material }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.declare.declare_process ?<div className="item-box">
                         <TitleTwo name="申报流程" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_process }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_process }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.declare.review_process ?<div className="item-box">
                         <TitleTwo name="评审流程" />
                         <div className="item-desc">
-                        {detailInfo ? <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.review_process }}></div> : null}
+                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.review_process }}></div>
                         </div>
-                    </div>
-                    <div className="item-box">
+                    </div>:null}
+                    {detailInfo && detailInfo.resource_file_list && detailInfo.resource_file_list.length>0 ? <div className="item-box">
                         <TitleTwo name="附件" />
                         <div className="item-desc">
-                        {detailInfo ? detailInfo.resource_file_list.map((item,idx)=>{
+                        {detailInfo.resource_file_list.map((item,idx)=>{
                             return <p key={idx}><a href={item.image_url} target="_blank">{item.file_ori_name}</a> </p>
-                        }) : null}
+                        })}
                         </div>
-                    </div>
+                    </div> : null}
                 </div>
                 <Modal
                     title="申报提示"

@@ -96,3 +96,14 @@
     vertical-align: -5px;
     cursor: pointer;
 }
+.policyList-template .status-box .Label-component-template .ant-col-2{
+    letter-spacing: 15px;
+    padding-top: 1px;
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+}
+.policyList-template .label-product-box .more-label{
+    font-size: 14px;
+    margin-top: 5px;
+}

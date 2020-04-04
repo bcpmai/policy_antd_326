@@ -75,15 +75,15 @@ class policyPreview extends Component {
                                 {/*<p className="policyPreview-content-title">云南省工业和信息化委关于申报2018年省级工业和信息化发展专项资金(技术改造方向)项目的通知</p>*/}
                                 <div className="policyPreview-content-text">
                                     <div dangerouslySetInnerHTML = {{ __html:policy.content }}></div>
+                                    {resource_file_list && resource_file_list.length ?
                                     <Row>
                                         <Col span={2}>附件：</Col>
                                         <Col>
-                                            {resource_file_list ?
-                                                resource_file_list.map((item,idx)=><p><a href={item.image_url} key={idx} target="_blank">{item.file_ori_name}</a></p>)
-                                                : null}
+                                            {resource_file_list.map((item,idx)=><p><a href={item.image_url} key={idx} target="_blank">{item.file_ori_name}</a></p>)}
 
                                         </Col>
                                     </Row>
+                                        : null}
                                 </div>
                             </div>
                         </div>
