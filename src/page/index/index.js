@@ -173,7 +173,7 @@ class Home extends Component {
                         <div className="index-item-link">
                             <Row className="max-weight-box">
                                 <Col span={8}>
-                                    <Link>
+                                    <Link to="/latestPolicy">
                                         <div className="item">
                                             <p className="title">查找政策</p>
                                             <p className="desc">快速查询相关政策</p>
@@ -181,16 +181,20 @@ class Home extends Component {
                                     </Link>
                                 </Col>
                                 <Col span={8}>
+                                    <Link to="/declarationItem">
                                     <div className="item">
                                         <p className="title">申报项目</p>
                                         <p className="desc">获取项目政策扶持</p>
                                     </div>
+                                    </Link>
                                 </Col>
                                 <Col span={8}>
+                                    <Link to="/matching">
                                     <div className="item">
                                         <p className="title">精准匹配</p>
                                         <p className="desc">结合情况进行匹配</p>
                                     </div>
+                                    </Link>
                                 </Col>
                             </Row>
                         </div>
