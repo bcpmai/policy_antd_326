@@ -167,11 +167,7 @@ class AddPolicy extends Component {
             if (data.data && data.data.success) {
                 message.success(data.data.msg);
                 setTimeout(() => {
-                    if(url){
-                        window.open(url + "/" + data.data.data.id);
-                    }else {
-                        this.props.history.push('/policyList');
-                    }
+                    this.props.history.push(url ? url + "/" + data.data.data.id : '/policyList');
                 }, 2000);
             } else {
                 message.error(data.data.msg);

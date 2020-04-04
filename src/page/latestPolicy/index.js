@@ -23,43 +23,56 @@ class LatestPolicy extends Component {
     constructor(props){
         super(props);
         this.state = {
-            arrdown:false,
+            arrdown:true,
             arrProduct:false,
             tableData:{}
         }
         this.columns = [
             {
-                title: '政策标题',
-                dataIndex: 'title',
-                key: 'title',
-                width:500,
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`/policyText/${record.id}`} target="_blank">{text.length < 30 ? text : text.substr(0,30)+"..."}</a></Tooltip>
-                }
-            },
-            {
-                title: '发布机构',
-                dataIndex: 'organization_label_str',
-                key: 'organization_label_str',
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
-                }
-            },
-            {
-                title: '发文字号',
-                key: 'post_shop_name',
-                width:250,
-                dataIndex: 'post_shop_name',
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
-                }
-            },
-            {
                 title: '发文日期',
                 key: 'release_date',
                 width:150,
-                dataIndex: 'release_date'
+                dataIndex: 'release_date',
+                render: (text, record) => {
+                    return (
+                        <div>
+                            <p className="release_date-year">{text.substr(0,4)}</p>
+                            <p className="release_date-date">{text.substr(5)}</p>
+                        </div>
+                    )
+                }
+            },
+            {
+                title: '政策标题',
+                dataIndex: 'title',
+                key: 'title',
+                render: (text, record) => {
+                    return (
+                        <div className="policy-title-box">
+                            <p className="policy-title"><a href={`/policyText/${record.id}`} target="_blank">{text}</a></p>
+                            <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
+                            <p><span className="title">发文字号：</span>{record.post_shop_name}</p>
+                        </div>
+                    )
+                }
             }
+            // {
+            //     title: '发布机构',
+            //     dataIndex: 'organization_label_str',
+            //     key: 'organization_label_str',
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
+            //     }
+            // },
+            // {
+            //     title: '发文字号',
+            //     key: 'post_shop_name',
+            //     width:250,
+            //     dataIndex: 'post_shop_name',
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft" title={text}>{text.length < 15 ? text : text.substr(0,15)+"..."}</Tooltip>
+            //     }
+            // }
 
         ];
         if(cookie.load("userType") != 2){
@@ -67,7 +80,14 @@ class LatestPolicy extends Component {
                 title: '操作',
                 key: 'action',
                 width:100,
-                render: (text, record) => (<span><a onClick={()=>this.onCollection(record.id,record.resource_id != "0")}>{record.resource_id != "0" ? "已收藏": "收藏"}</a></span>),
+                render: (text, record) => (
+                    <span>
+                        {/*<a onClick={()=>this.onCollection(record.id,record.resource_id != "0")}>*/}
+                            {/*<Icon type="star" />*/}
+                            {/*{record.resource_id != "0" ? "已收藏": "收藏"}*/}
+                            {/*</a>*/}
+                        <Button onClick={()=>this.onCollection(record.id,record.resource_id != "0")} icon="star">{record.resource_id != "0" ? "已收藏": "收藏"}</Button>
+                    </span>),
             })
         }
         function onShowSizeChange(current, pageSize) {
@@ -307,53 +327,61 @@ class LatestPolicy extends Component {
                     <div className="label-box" style={!arrdown ? {display:"none"} : {}}>
                         <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                             {labelTheme ?
-                                <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:4,label:20}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
+                                <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:2,label:22}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
+
+
+                            {labelType ?
+                                <div style={{marginBottom:"6px"}}><Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:2,label:22}} title={labelType.title} item={labelType.item} key="labelType"/></div> : ''}
                             <Row>
-                                <Col span={4}>所属层级</Col>
-                                <Col span={20}>
-                                    <Form.Item>
-                                        {getFieldDecorator('belong')(
-                                            <Select style={{width: 300}} onChange={this.belongChange}>
-                                                {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                                    key={item.id}>{item.name}</Option>) : ''}
-                                            </Select>
-                                        )}
-                                    </Form.Item>
+                              <Col span={12}>
+                                    <Row>
+                                        <Col span={4}>所属层级</Col>
+                                        <Col span={20}>
+                                            <Form.Item>
+                                                {getFieldDecorator('belong')(
+                                                    <Select style={{width: 360}} onChange={this.belongChange}>
+                                                        {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                            key={item.id}>{item.name}</Option>) : ''}
+                                                    </Select>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={12}>
+                                    <Row>
+                                        <Col span={4}>所属行业</Col>
+                                        <Col span={20}>
+                                            <Form.Item>
+                                                {getFieldDecorator('industry_label_id_list')(
+                                                    <Select style={{width: 360}}>
+                                                        {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                                key={item.id}>{item.name}</Option>) : ''}
+                                                    </Select>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Row>
-                        <div className="label-product-box">
-                            {labelProduct ?
-                                <Label callback={this.onSelectProduct} defalutValue={organization_label_list} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
-                                       span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
-                            {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
-                                                                 className="more-label">
+                            <div className="label-product-box">
+                                {labelProduct ?
+                                    <Label callback={this.onSelectProduct} defalutValue={organization_label_list} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
+                                           span={{title:2,label:22}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
+                                {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
+                                                                     className="more-label">
                                     {/*<PlusOutlined/>*/}
-                                    <Icon type="plus" />
+                                        <Icon type="plus" />
                                     展开</span> :
-                                <span onClick={this.setArrProduct}
-                                      className="more-label">
+                                    <span onClick={this.setArrProduct}
+                                          className="more-label">
                                     {/*<MinusOutlined/>*/}
-                                    <Icon type="minus" />
+                                        <Icon type="minus" />
                                     收起</span>) : ''}
-                        </div>
-                            {labelType ?
-                                <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:4,label:20}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}
-                            <Row>
-                            <Col span={4}>所属行业</Col>
-                            <Col span={20}>
-                                <Form.Item>
-                                    {getFieldDecorator('industry_label_id_list')(
-                                        <Select style={{width: 300}}>
-                                            {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                    key={item.id}>{item.name}</Option>) : ''}
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                            </div>
                         <Row>
-                            <Col span={4}>发文日期</Col>
-                            <Col span={20}>
+                            <Col span={2}>发文日期</Col>
+                            <Col span={22}>
                                 <Form.Item>
                                     {getFieldDecorator('release_date')(
                                         <RangePicker onChange={this.onDateChange} />

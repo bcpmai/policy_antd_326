@@ -84,7 +84,7 @@ class policyPreview extends Component {
         });
     }
     render() {
-        const {detailInfo,butnText,policy} = this.state;
+        const {detailInfo,butnText,policy,id} = this.state;
         // const labelStr = policy.label_add_str ? policy.label_add_str.split(",") : null;
         return (
             <div className="policyPreview-template">
@@ -100,6 +100,9 @@ class policyPreview extends Component {
                             <Descriptions.Item label="政策标题" span={3}>{detailInfo && detailInfo.declare.pc_title}</Descriptions.Item>
                         </Descriptions>
                        </div>
+                        <div>
+                            <Button icon="rollback" onClick={()=>{this.props.history.push(`/addProject/${id}`)}}>返回</Button>
+                        </div>
                         <div className="policyPreview-content-box">
                             <TitleTwo name="基本信息" />
                             <div className="policyPreview-content">

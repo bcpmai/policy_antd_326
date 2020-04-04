@@ -40,7 +40,7 @@ class Login extends Component {
                     cookie.save('userType', data.member_type);
                     setTimeout(()=>{
                         if(data.member_type == "1"){
-                            _this.props.history.push('/information');
+                            _this.props.history.push('/matching');
                         }else{
                             _this.props.history.push('/policyList');
                         }

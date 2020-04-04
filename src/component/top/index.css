@@ -1,22 +1,29 @@
 .top-component-template{
     overflow: hidden;
     height: 70px;
+    border-bottom: 1px solid #eaeaea;
+    box-shadow: 1px 3px 3px #efefef;
 }
 .top-component-template .welcome-box{
-    background: #a72329;
+    background: #fff;
     padding:0 5px;
     height: 40px;
     line-height: 40px;
     font-size: 18px;
-    color:#fff;
+    color:#302d2d;
     box-shadow: 1px 3px 3px #d8d3d5;
 }
 .top-component-template .welcome-box .ant-btn{
-    background: none;
+    background: #d13234;
     border:0px;
     color:#fff;
     cursor: pointer;
     margin-right:0px;
+}
+.top-component-template .welcome-box .ant-btn:hover{
+    background-color: #f3a7a7;
+    animation: bg-color 10s infinite;
+    -webkit-animation: bg-color 10s infinite;
 }
 .top-component-template .welcome-box .line-u{
     margin: 0 0 0 15px;
@@ -159,50 +166,80 @@
 }
 .top-component-template .welcome-box .ant-menu-horizontal{
     line-height: 45px;
+    margin-left: 20px;
 }
 .top-component-template .welcome-box .ant-menu-dark .ant-menu-item{
     margin-top: 0;
     padding: 0 20px;
+    border-left:1px solid #c02023;
+    height: 15px;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item:nth-child(2){
     border:0px;
 }
 .top-component-template .welcome-box .ant-menu-dark .ant-menu-item a{
-    color: #fff;
+    color: #302d2d;
+    width: 90px;
+    text-align: center;
+    padding: 5px;
+    margin-top: -5px;
 }
 .top-component-template .welcome-box .ant-menu-dark .ant-menu-item a:hover{
-    text-shadow: 1px 1px 10px #fff;
+    color: #333;
+    background: #dddddd;
+    border-radius: 4px;
+}
+.top-component-template .welcome-box .ant-menu-dark .ant-menu-item a:hover{animation: 0.5s opacity2 0s 1; -webkit-animation: 0.5s opacity2 0s 1;-moz-animation: 0.5s opacity2 0s 1;}
+@keyframes opacity2{
+    0%{background:rgba(221,221,221,0)}
+    50%{background:rgba(221,221,221,0.5)}
+    100%{background:rgba(221,221,221,1)}
+}
+@-webkit-keyframes opacity2{
+    0%{background:rgba(221,221,221,0)}
+    50%{background:rgba(221,221,221,0.5)}
+    100%{background:rgba(221,221,221,1)}
+}
+@-moz-keyframes opacity2{
+    0%{background:rgba(221,221,221,0)}
+    50%{background:rgba(221,221,221,0.5)}
+    100%{background:rgba(221,221,221,1)}
 }
 .top-component-template .welcome-box .ant-menu-dark .ant-menu-item-selected a{
-    color: #fff;
+    color: #c02023;
 }
 .top-component-template .welcome-box .ant-menu-dark .ant-menu-item-selected a:after{
     /*display: none;*/
     border-bottom: 1px solid #fff;
 }
 .top-component-template .welcome-box .serach{
-    width: 300px;
-    margin: 20px 0 0 100px;
+    width: 150px;
+    margin: 20px 0 0 0px;
 }
 .top-component-template .welcome-box .ant-input-group .ant-input{
-    border:1px solid #fff;
-    border-radius:15px 0 0 15px;
+    border:1px solid #e0e0e0;
+    border-radius:0px 0 0 0px;
     padding:0px 11px;
     text-indent: 0;
     height: 30px;
+    border-right:0px
 }
 .top-component-template .welcome-box .ant-input-group .ant-btn{
-    border:1px solid #fff;
+    border:1px solid #e0e0e0;
+    border-left:0px;
     background: #fff;
-    border-radius:0 15px 15px 0;
+    border-radius:0 0px 0px 0;
     padding: 0px 10px;
     height: 30px;
     font-size: 20px;
-    color:#a72329;
+    color:#787878;
 }
 .top-component-template .welcome-box .ant-input:focus,
 .top-component-template .welcome-box .ant-input:hover{
-    border:1px solid #fff!important;
+    border:1px solid #e0e0e0!important;
     background: #fff!important;
     box-shadow: none!important;
+    border-right:0px!important;
 }
 .top-component-template .welcome-box .ant-input-group .ant-input-group-addon{
     background: none;
@@ -212,6 +249,11 @@
 }
 .top-component-template .top-name{
     font-weight: bold;
+    font-size: 24px;
     line-height: 70px;
-    font-size: 22px;
+}
+.top-component-template .top-name img{
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: -9px;
 }

@@ -13,8 +13,9 @@
     font-size: 14px;
 }
 .latestPolicy-template .label-box{
-    padding: 0px 100px;
+    padding: 10px;
     margin-bottom: 20px;
+    border: 1px solid #efefef;
 }
 .latestPolicy-template .latestPolicy-button{
     text-align: center;
@@ -23,12 +24,19 @@
 .latestPolicy-template .label-product-box{
     position: relative;
 }
+.latestPolicy-template .label-product-box .Label-component-template{
+    margin-top: 0px;
+}
 .latestPolicy-template .label-product-box .more-label{
-    color:#333;
+    color:#666;
     position: absolute;
-    right:-10px;
-    top:2px;
+    right:10px;
+    top:9px;
     cursor: pointer;
+}
+.latestPolicy-template .ant-table-tbody .ant-btn:hover{
+    border:1px solid #c8000a;
+    color: #c8000a;
 }
 .latestPolicy-template .latestPolicy-serach .serach{
     width: 370px;
@@ -51,23 +59,34 @@
 .latestPolicy-template .latestPolicy-serach .ant-input-group .ant-input-group-addon{
     background: none;
 }
-.latestPolicy-template .label-box .ant-col-4 {
-    color: #000;
+.latestPolicy-template .label-box .ant-col-2,
+.latestPolicy-template .label-box .ant-col-4,
+.latestPolicy-template .Label-component-template .ant-col-2{
+    color: #666;
     font-size: 16px;
+    text-indent: 15px;
+    padding-top: 5px;
+    text-align: left;
 }
-.latestPolicy-template .label-box .ant-col-4:before{
-    content: '';
-    width: 5px;
-    height: 16px;
-    background: #aa2426;
-    display: inline-block;
-    vertical-align: -2px;
-    margin-right: 10px;
+.latestPolicy-template .ant-form-item{
+    margin-bottom: 5px;
 }
+.latestPolicy-template .label-box .ant-col-4{
+    text-indent: 0;
+}
+/*.latestPolicy-template .label-box .ant-col-4:before{*/
+    /*content: '';*/
+    /*width: 5px;*/
+    /*height: 16px;*/
+    /*background: #aa2426;*/
+    /*display: inline-block;*/
+    /*vertical-align: -2px;*/
+    /*margin-right: 10px;*/
+/*}*/
 .latestPolicy-template .latestPolicy-button{
-    margin-top: 40px;
-    margin-bottom: 30px;
-    padding-left: 145px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 96px;
     text-align: left;
 }
 .latestPolicy-template .latestPolicy-button .ant-btn{
@@ -75,14 +94,54 @@
     color: #ae242b;
     border:1px solid #ae242b;
     border-radius: 20px;
-    height: 35px;
-    padding: 0 40px;
+    height: 30px;
+    padding: 0 30px;
     font-size: 16px;
-    margin: 0 40px;
+    margin: 0 10px;
 }
 .latestPolicy-template .latestPolicy-button .ant-btn:hover{
     background: #ae242b;
     color: #fff;
+}
+.latestPolicy-template .Label-component-template .ant-btn{
+    color: #000;
+    font-size: 16px;
+    border:0;
+    padding: 0;
+    margin: 5px 20px 5px 0;
+    background: none;
+}
+.latestPolicy-template .Label-component-template .select-button{
+    color: #ae242b;
+}
+.latestPolicy-template .ant-table-thead{
+    display: none;
+}
+.release_date-year,.release_date-date{
+    font-size: 26px;
+    font-weight: bold;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0;
+}
+.release_date-date{
+    font-size: 18px;
+}
+.policy-title-box{
+    font-size: 16px;
+}
+.policy-title-box p{
+    margin-bottom: 5px;
+    color: #666;
+}
+.policy-title-box .policy-title{
+    font-size: 18px;
+}
+.policy-title-box .title{
+    color: #333;
+}
+.policy-title-box .policy-title a{
+    color:#066cca;
 }
 /*.latestPolicy-template .ant-row{*/
     /*margin-bottom: 60px;*/

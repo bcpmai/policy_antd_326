@@ -139,6 +139,9 @@ code {
 .main-box .ant-table .ant-table-tbody tr:nth-child(2n) td{
   background: #f9f9f9;
 }
+.main-box .ant-table .ant-table-tbody tr:hover td{
+  background: #f0f0f0 !important;
+}
 /*tag*/
 .main-box .ant-tag{
   background: #eeeeee;
@@ -205,6 +208,10 @@ code {
   margin-left: 10px;
   margin-right: 0px;
   font-size: 14px;
+}
+.main-box .ant-btn:hover{
+  border: 1px solid #ae242b;
+  color: #ae242b;
 }
 .main-box .search-button .ant-btn:hover,
 .main-box .operation-button .ant-btn:hover{

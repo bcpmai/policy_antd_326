@@ -49,7 +49,7 @@ class policyPreview extends Component {
         })
     }
     render() {
-        const {policy,resource_file_list=[]} = this.state;
+        const {policy,resource_file_list=[],id} = this.state;
         const labelStr = policy.label_add_str ? policy.label_add_str.split(",") : null;
         return (
             <div className="policyPreview-template">
@@ -70,6 +70,9 @@ class policyPreview extends Component {
                             </Descriptions.Item> : null}
                         </Descriptions>
                        </div>
+                        <div>
+                            <Button icon="rollback" onClick={()=>{this.props.history.push(`/addPolicy/${id}`)}}>返回</Button>
+                        </div>
                         <div className="policyPreview-content-box">
                             <div className="policyPreview-content">
                                 {/*<p className="policyPreview-content-title">云南省工业和信息化委关于申报2018年省级工业和信息化发展专项资金(技术改造方向)项目的通知</p>*/}

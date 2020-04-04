@@ -3,94 +3,76 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Carousel, Row, Col, Button, Divider, Card, message, Modal } from 'antd';
-// import { BarsOutlined,SearchOutlined } from '@ant-design/icons';
+import { Carousel, Row, Col, Button, Divider, Card, message, Modal,Statistic } from 'antd';
 import { Link } from "react-router-dom";
 import cookie from "react-cookies";
 import {request} from './../../utils/request';
 import Top from './../../component/top';
 import Label from "../../component/label";
-import bannerImg1 from "./img/g1.jpg";
-import bannerImg2 from "./img/g2.jpg";
-import bannerImg3 from "./img/g3.jpg";
+import bannerImg1 from "./img/new_banner.jpg";
 import policyImg from "./img/policy.jpg";
 import projectImg from "./img/project.jpg";
+import Icon1 from "./img/icon1.png";
+import Icon2 from "./img/icon2.png";
+import Icon3 from "./img/icon3.png";
+import Icon4 from "./img/icon4.png";
 
 import './index.css';
 
+const { Countdown } = Statistic;
 
-const layout = {
-    labelCol: {span: 8},
-    wrapperCol: {span: 10},
-};
-
-const validateMessages = {
-    required: '必填项!',
-    types: {
-        email: 'Not a validate email!',
-        number: 'Not a validate number!',
-    },
-    number: {
-        range: 'Must be between ${min} and ${max}',
-    },
-};
-
-
-class Register extends Component {
+class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            label:[
-                {
-                    title:"政策主题",
-                    item:["综合政策","财税支持","融资促进","市场开拓","服务措施","权益保护","创业扶持","创新支持","监督检查"]
-                },
-                {
-                    title:"应用类型",
-                    item:["规范规划类","资金支持类","税费减免类","资质认定类","行业管制类"]
-                },
-                {
-                    title:"所属行业",
-                    item:["A.农、林、牧、渔业","B.采矿业","C.制造业","D.电力、热力、燃气及水生产和供应业","E.建筑业","F.批发和零售业","G.交通运输、仓储和邮政业","H.住宿和餐饮业", "I.信息传输、软件和信息技术服务业","J.金融业","K.房地产业","L.租赁和商务服务业","M.科学研究和技术服务业","N.水利、环境和公共设施管理业", "O.居民服务、修理和其他服务业","P.教育","Q.卫生和社会工作","R.文化、体育和娱乐业","S.公共管理、社会保障和社会组织","T.国际组织"]
-                }
-            ]
+            company_count: 0,
+            macthing_declare: 0,
+            policy_click_count: 0,
+            policy_spider_count: 0
         }
     }
     async componentWillMount() {
-        const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
-        const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
-        const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
+        const numberData = await request('/common/get-bananer','POST');
         const listData = await request('/declare/list','POST',{ page: 1, max_line: 3,status:2 }); //获取最新政策数据
 
-        const themData = labelThemeData.data;
-        const typeData = labelTypeData.data;
-        const industryData = selectIndustryData.data;
-        if (themData && themData.success && typeData && themData.success && industryData && industryData.success) {
-            const allItem = {id: 0,name: "全部"};
-            themData.data.unshift(allItem);
-            typeData.data.unshift(allItem);
-            industryData.data.unshift(allItem);
+        if (listData && listData.status==200 && numberData.status == 200) {
 
+            console.log(numberData.data)
             let list = listData.data.result;
             list.map((item,idx)=>{
                 list[idx].use_type_label_str = item.use_type_label_str.split(",");
             })
             this.setState({
                 dataList: list,
-                label:[{
-                    title: "政策主题：",
-                    item: themData.data
-                },
-                {
-                    title: "应用类型：",
-                    item: typeData.data
-                },
-                {
-                    title:"所属行业：",
-                    item: industryData.data
-                }]
+                //number:numberData.data
             })
         }
+        let timeer = setInterval(()=>{
+            const {company_count,macthing_declare,policy_click_count,policy_spider_count} = numberData.data;
+            const time = 200;
+            const companyCount = this.state.company_count + parseInt(company_count/time)+1;
+            const macthingCount = this.state.macthing_declare + parseInt(macthing_declare/time)+1;
+            const clickCount = this.state.policy_click_count + parseInt(policy_click_count/time)+1;
+            const spiderCount = this.state.policy_spider_count + parseInt(policy_spider_count/time)+1;
+            console.log(company_count,macthing_declare,policy_click_count,policy_spider_count)
+            console.log(companyCount,macthingCount,clickCount,spiderCount);
+            if(companyCount>=company_count && macthingCount>=macthing_declare && clickCount >= policy_click_count && spiderCount >=policy_spider_count){
+                this.setState({
+                    company_count:company_count ,
+                    macthing_declare:macthing_declare,
+                    policy_click_count:policy_click_count,
+                    policy_spider_count:policy_spider_count
+                })
+                clearInterval(timeer);
+            }else{
+                this.setState({
+                    company_count:companyCount >= company_count ? company_count : companyCount,
+                    macthing_declare:macthingCount >= macthing_declare ? macthing_declare : macthingCount,
+                    policy_click_count:clickCount >= policy_click_count ? policy_click_count : clickCount,
+                    policy_spider_count:spiderCount >= policy_spider_count ? policy_spider_count : spiderCount
+                })
+            }
+        },1)
     }
     getListData = () =>{
 
@@ -145,7 +127,10 @@ class Register extends Component {
         });
     };
     render() {
-        const { label, dataList,idx } = this.state;
+        const { label, dataList,idx,company_count,
+            macthing_declare,
+            policy_click_count,
+            policy_spider_count } = this.state;
         return (
             <div className="index-template">
                 <Top />
@@ -156,82 +141,98 @@ class Register extends Component {
                                 <img src={bannerImg1} />
                             </div>
                             <div>
-                                <img src={bannerImg2} />
-                            </div>
-                            <div>
-                                <img src={bannerImg3} />
+                                <img src={bannerImg1} />
                             </div>
                         </Carousel>
                     </div>
-                    <div className="max-weight-box">
-                    <Row className="item-box" gutter={80}>
-                        <Col span={11} className="item-policy">
-                            <div className="item-policy-box">
-                                <Link to="/latestPolicy">
-                                    {/*<img src={policyIcon}></img>*/}
-                                    {/*<span>找政策</span>*/}
-                                    <img src={policyImg} style={{width:"50%"}} />
-                                </Link>
-                            </div>
-                        </Col>
-                        <Col span={1}></Col>
-                        <Col span={11} className="item-project">
-                            <div className="item-project-box">
-                                <Link to="/declarationItem">
-                                    <img src={projectImg} style={{width:"50%"}} />
-                                    {/*<img src={projectIcon}></img>*/}
-                                    {/*<span>报项目</span>*/}
-                                </Link>
-                            </div>
-                        </Col>
-                    </Row>
+                    <div className="center-banner">
+                        <Row className="max-weight-box">
+                            <Col span={6}>
+                                <img src={Icon1} />
+                                <p className="number">{policy_spider_count}<span>条</span></p>
+                                <p className="desc">政策采集条数</p>
+                            </Col>
+                            <Col span={6}>
+                                <img src={Icon2} />
+                                <p className="number">{policy_click_count}<span>条</span></p>
+                                <p className="desc">政策点击次数</p>
+                            </Col>
+                            <Col span={6}>
+                                <img src={Icon3} />
+                                <p className="number">{macthing_declare}<span>条</span></p>
+                                <p className="desc">精准匹配次数</p>
+                            </Col>
+                            <Col span={6}>
+                                <img src={Icon4} />
+                                <p className="number">{company_count}<span>条</span></p>
+                                <p className="desc">服务企业总数</p>
+                            </Col>
+                        </Row>
                     </div>
                     <div className="matching-box">
-                        {/*<Divider>快速匹配</Divider>*/}
-                        {/*<div className="matching-divider">*/}
-                            {/*<div className="max-weight-box">*/}
-                                {/*<span className="title">快速匹配</span>*/}
-                                {/*<p className="desc">请选择您感兴趣的标签，智能匹配相关申报政策。</p>*/}
-                            {/*</div>*/}
-                        {/*</div>*/}
-                        {/*<div className="matching-divider-arr"><span className="arr"></span></div>*/}
-                        <div className="width-min-title">
-                            <Divider>快速匹配</Divider>
+                        <div className="index-item-link">
+                            <Row className="max-weight-box">
+                                <Col span={8}>
+                                    <Link>
+                                        <div className="item">
+                                            <p className="title">查找政策</p>
+                                            <p className="desc">快速查询相关政策</p>
+                                        </div>
+                                    </Link>
+                                </Col>
+                                <Col span={8}>
+                                    <div className="item">
+                                        <p className="title">申报项目</p>
+                                        <p className="desc">获取项目政策扶持</p>
+                                    </div>
+                                </Col>
+                                <Col span={8}>
+                                    <div className="item">
+                                        <p className="title">精准匹配</p>
+                                        <p className="desc">结合情况进行匹配</p>
+                                    </div>
+                                </Col>
+                            </Row>
                         </div>
-                        <div className="matching-label-box max-weight-box">
-                            <p className="desc">请选择您感兴趣的标签，智能匹配相关申报政策。</p>
-                            <div>
-                                {label.map((labelItem,labelIdx)=>{
-                                    return <Label span={{title:3,label:21}} callback={(list)=>this.setDeclarePush(list,labelIdx)} onClick={()=>this.labelChange()} title={labelItem.title} isRadio={labelItem.title=="所属行业"} item={labelItem.item} key={labelIdx} />
-                                })}
-                                <div className="matching-button">
-                                    <Button type="primary" shape="round" size="large" onClick={this.goDeclarePush}>
-                                        立即匹配
-                                    </Button>
-                                </div>
-                            </div>
+                        <div className="max-weight-box desc-item-box">
+                            <ul>
+                                <li>
+                                    <p className="title">真实权威的官方数据平台</p>
+                                    <p className="desc">政府牵头搭建，政企联合开发<br />更新全面及时，数据真实权威</p>
+                                </li>
+                                <li>
+                                    <p className="title">高效查询，精准匹配，在线申报</p>
+                                    <p className="desc">大数据存储技术及人工智能算法分析技术<br />高效整合、全面覆盖，方便政企对接<br />提供匹配查询到在线申报的一条龙服务</p>
+                                </li>
+                                <li>
+                                    <p className="title">一键式傻瓜操作</p>
+                                    <p className="desc">极低的操作门槛，杜绝误操作，降低沟通成本<br />提升匹配精准度及项目申报成功率<br />省时、省心、省力</p>
+                                </li>
+                            </ul>
                         </div>
                         <div className="application-box">
-                            {/*<div className="matching-divider">*/}
-                                {/*<div className="max-weight-box">*/}
-                                    {/*<span className="title">申报政策</span>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
-                            {/*<div className="matching-divider-arr"><span className="arr"></span></div>*/}
-                            <div className="width-min-title"><Divider>申报政策</Divider></div>
                             <div className="max-weight-box">
                             <Row className="application-item-box">
                                 {dataList && dataList.length ? dataList.map((item,idx)=>{
                                    return <Col span={8} key={idx}>
                                         <div className="item">
-                                            <p className="title"><a href={`/itemText/${item.id}`} target="_blank" title={item.title}>{item.title.length < 30 ? item.title : item.title.substr(0,30)+"..."}</a></p>
-                                            {item.use_type_label_str ? item.use_type_label_str.map((tagItem,tagIdx)=>{
+                                            <p className="title"><a href={`/itemText/${item.id}`} target="_blank" title={item.title}>{item.title.length < 45 ? item.title : item.title.substr(0,45)+"..."}</a></p>
+                                            <p align="center">{item.use_type_label_str ? item.use_type_label_str.map((tagItem,tagIdx)=>{
                                                 return <span className="tips mr10" key={tagIdx}>{tagItem}</span>
-                                            }) : null}
-                                            <span className="line"></span>
-                                            <p className="time">{item.created_date}</p>
-                                            <div className="desc">
-                                                <p><strong>扶持内容：</strong><span dangerouslySetInnerHTML = {{ __html:item.support_content }}></span></p>
+                                            }) : null}</p>
+                                            <div className="content">
+                                                <Row>
+                                                    <Col span={8}>发布机构：</Col>
+                                                    <Col span={13}>{item.organization_label_str}</Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col span={8}>扶持金额：</Col>
+                                                    <Col span={13}>{item.money}</Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col span={8}>发布日期：</Col>
+                                                    <Col span={13}>{item.created_date}</Col>
+                                                </Row>
                                             </div>
                                             <p className="button-center" onClick={()=>this.showModal(idx)}><Button type="primary" shape="round" >立即申报</Button></p>
                                         </div>
@@ -239,8 +240,19 @@ class Register extends Component {
                                 }) : <Col span={24} className="no-data">暂无数据！</Col>}
                             </Row>
                             </div>
-                            <div className="application-more max-weight-box"><a href="/declarationItem">查看更多</a></div>
+                            {/*<div className="application-more max-weight-box"><a href="/declarationItem">查看更多</a></div>*/}
                         </div>
+                    </div>
+                </div>
+                <div className="index-footer-box">
+                    <div className="max-weight-box">
+                        <p className="title">建议使用1920×768分辨率 IE9.0及以上版本浏览</p>
+                        <p>联系电话：023-xxxxxxxxx<br />
+                            ICP备案：渝ICP备xxxxxxxxxx号-x<br />
+                            国际联网备案： 渝公网安备 5001xxxxxxxxxx号<br />
+                            网站标识码：500xxxxxxx
+
+                        </p>
                     </div>
                 </div>
                 <Modal
@@ -275,4 +287,4 @@ class Register extends Component {
     };
 }
 
-export default Register;
+export default Home;

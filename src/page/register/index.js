@@ -75,7 +75,7 @@ class Register extends Component {
                     cookie.save('userName', values.username);
                     cookie.save('userType', 1);
                     setTimeout(() => {
-                        _this.props.history.push('/');
+                        _this.props.history.push('/matching');
                     }, 1000);
                 } else {
                     message.error(data.msg);
