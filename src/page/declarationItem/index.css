@@ -89,7 +89,7 @@
 .declarationItem-template .label-box .ant-col-4,
 .declarationItem-template .Label-component-template .ant-col-2{
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
     text-indent: 15px;
     padding-top: 5px;
     text-align: left;
@@ -102,7 +102,7 @@
 /*}*/
 .declarationItem-template .Label-component-template .ant-btn{
     color: #000;
-    font-size: 16px;
+    font-size: 14px;
     border:0;
     padding: 0;
     margin: 5px 20px 5px 0;

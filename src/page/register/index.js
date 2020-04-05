@@ -4,10 +4,11 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import cookie from 'react-cookies';
-import {Form, Input, Button, Select,message,Divider} from 'antd';
+import {Form, Input, Button, Select,message,Divider,Modal,Alert} from 'antd';
 // import axios from 'axios';
 import {request} from './../../utils/request';
 import Top from './../../component/top';
+import Label from "./../../component/label";
 
 import './index.css';
 
@@ -21,7 +22,8 @@ class Register extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+            subScribeData:{},
+            subscribeVisble:false
         }
     }
     async componentWillMount(){
@@ -33,7 +35,40 @@ class Register extends Component {
                 labelSelect:data.data
             })
         }
-        console.log(responest,"1");
+        this.getLabel();
+    }
+
+    //获取标题
+    getLabel = async () =>{
+        const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
+        const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
+        const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
+
+
+        const themData = labelThemeData.data;
+        const typeData = labelTypeData.data;
+        const industryData = selectIndustryData.data;
+
+        if (themData && themData.success && typeData && themData.success && industryData && industryData.success) {
+            const allItem = {id: 0,name: "全部"};
+            themData.data.unshift(allItem);
+            typeData.data.unshift(allItem);
+            industryData.data.unshift(allItem);
+            this.setState({
+                label:[{
+                    title: "政策主题：",
+                    item: themData.data
+                },
+                    {
+                        title: "应用类型：",
+                        item: typeData.data
+                    },
+                    {
+                        title:"所属行业：",
+                        item: industryData.data
+                    }]
+            })
+        }
     }
     getSms = async () => {
         const mobile = this.props.form.getFieldValue("mobile");
@@ -62,6 +97,12 @@ class Register extends Component {
             message.error("请输入手机号");
         }
     }
+    setDeclarePush = (list,idx) =>{
+        let key = ["organization_label_list","use_type_list","industry_label_list"];
+        this.setState({
+            [key[idx]]:list
+        })
+    }
     onFinish = (e) => {
         e.preventDefault();
         const _this = this;
@@ -74,9 +115,9 @@ class Register extends Component {
                     cookie.save('userId', data.data.id);
                     cookie.save('userName', values.username);
                     cookie.save('userType', 1);
-                    setTimeout(() => {
-                        _this.props.history.push('/matching');
-                    }, 1000);
+                    _this.setState({
+                        subscribeVisble: true,
+                    });
                 } else {
                     message.error(data.msg);
                 }
@@ -90,8 +131,34 @@ class Register extends Component {
     onBack = () =>{
         this.props.history.push('/login');
     }
+    handleOk = async () =>{
+        const {organization_label_list,use_type_list,industry_label_list} = this.state;
+        const res = await request('/common/my-company-sub', 'POST',{
+            member_id:cookie.load('userId'),
+            use_type_declare_list:use_type_list,
+            industry_label_list:industry_label_list,
+            policy_theme_label_list:organization_label_list
+        }); //订阅
+        const data = res.data;
+        if(data && data.success){
+            message.success(data.msg);
+            this.props.history.push('/matching');
+            this.setState({
+                subscribeVisble: false,
+            });
+        }else{
+            message.error(data.msg);
+        }
+
+    }
+    handleSubscribeCancel = e => {
+        // this.getLabel();
+        this.setState({
+            subscribeVisble: false,
+        });
+    };
     render() {
-        const {labelSelect,time} = this.state;
+        const {labelSelect,time,label,subScribeData} = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="register-template">
@@ -245,7 +312,29 @@ class Register extends Component {
                 </Form>
                 </div>
                 </div>
-            {/*<Footer/>*/}
+                {this.state.subscribeVisble ? <Modal
+                    title="订阅编辑"
+                    visible
+                    onOk={this.handleOk}
+                    onCancel={this.handleSubscribeCancel}
+                    width={900}
+                    footer={[
+                        <div>
+                            <Button key="submit" type="primary" onClick={this.handleOk}>
+                                确定
+                            </Button>
+                            <Button type="primary" onClick={this.handleSubscribeCancel}>
+                                取消
+                            </Button>
+                        </div>
+                    ]}
+                >
+                    <Alert message="注册成功" type="success" showIcon />
+                    <p>请选择您感兴趣的标签，智能匹配相关申报政策。</p>
+                    {label && label.map((labelItem,labelIdx)=>{
+                        return <Label callback={(list)=>this.setDeclarePush(list,labelIdx)} span={{title:3,label:21}} title={labelItem.title} item={labelItem.item} key={labelIdx} />
+                    })}
+                </Modal> : null}
             </div>
         );
     };

@@ -74,8 +74,14 @@ class Information extends Component {
                 register_address,
                 set_up_value:data.set_up_value
             },()=>{
-                if(data.set_up_value) {
-                    data.set_up_value = moment(data.set_up_value, 'YYYY-MM');
+                let strTime = data.set_up_value;
+                if(strTime) {
+                    if(strTime == 200000){
+                        strTime += 1;
+                    }
+                    strTime +="";
+                    console.log(strTime.substr(0,4)+"-"+strTime.substr(4));
+                    data.set_up_value = moment(strTime.substr(0,4)+"-"+strTime.substr(4), 'YYYY-MM');
                 }
                 this.props.form.setFieldsValue(data);
             });

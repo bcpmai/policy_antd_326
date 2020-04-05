@@ -94,3 +94,10 @@
    min-height: 60px;
     margin-bottom: 0px;
 }
+.ant-alert-success{
+    display: inline-block;
+    line-height: 14px;
+}
+.ant-alert-success .ant-alert-icon{
+    top:8px
+}

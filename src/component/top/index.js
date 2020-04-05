@@ -79,7 +79,14 @@ class Top extends Component {
         // }
         console.log(window.location.pathname ? window.location.pathname.replace("/","") : "home")
     }
-    componentWillMount() {}
+    componentWillMount() {
+        const {current,isLogin} = this.state;
+        const cHref = window.location.pathname.replace("/","");
+        if(current == "login" && !isLogin && cHref!= "login" && cHref!= "register" && cHref!= "forgotYour"){
+            window.location.href = '/login'
+            // this.props.history.push('/login');
+        }
+    }
 
     handleClick = () => {
 

@@ -63,7 +63,7 @@
 .latestPolicy-template .label-box .ant-col-4,
 .latestPolicy-template .Label-component-template .ant-col-2{
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
     text-indent: 15px;
     padding-top: 5px;
     text-align: left;
@@ -105,7 +105,7 @@
 }
 .latestPolicy-template .Label-component-template .ant-btn{
     color: #000;
-    font-size: 16px;
+    font-size: 14px;
     border:0;
     padding: 0;
     margin: 5px 20px 5px 0;
@@ -118,24 +118,24 @@
     display: none;
 }
 .release_date-year,.release_date-date{
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
     color: #666;
     text-align: center;
     margin-bottom: 0;
 }
 .release_date-date{
-    font-size: 18px;
+    font-size: 16px;
 }
 .policy-title-box{
-    font-size: 16px;
+    font-size: 14px;
 }
 .policy-title-box p{
     margin-bottom: 5px;
     color: #666;
 }
 .policy-title-box .policy-title{
-    font-size: 18px;
+    font-size: 16px;
 }
 .policy-title-box .title{
     color: #333;

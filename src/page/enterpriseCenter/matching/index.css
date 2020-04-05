@@ -48,19 +48,41 @@
     /*margin-top: 80px;*/
     /*margin-bottom: 60px;*/
 /*}*/
-.matching-template .ant-btn{
+.matching-template .information-title-h1 .ant-btn{
     background: #fff;
     color: #ae242b;
     border:1px solid #ae242b;
-    border-radius: 20px;
-    height: 32px;
-    padding: 0 20px;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 10px;
     font-size: 14px;
 }
-.matching-template .ant-btn:hover{
-    background: #ae242b;
-    color: #fff;
+.matching-template .information-title-h1 .ant-btn:hover{
+    background-color: #f3a7a7;
+    animation: bg-color 10s infinite;
+    -webkit-animation: bg-color 10s infinite;
 }
+/*.matching-template .ant-btn:hover{*/
+    /*background: #ae242b;*/
+    /*color: #fff;*/
+/*}*/
 .matching-template .title-component-template:before{
     margin-left: 0px;
+}
+.matching-template .ant-table-thead{
+    display: none;
+}
+.matching-template .ant-table-content{
+    border-top: 1px solid #efefef;
+}
+.matching-template .action-butn p{
+    margin-bottom: 10px;
+}
+.matching-template .action-butn .ant-btn{
+    width: 90px;
+}
+.matching-template .score-box p{
+    margin: 2px 0;
+    padding: 0;
+    color: #999;
 }

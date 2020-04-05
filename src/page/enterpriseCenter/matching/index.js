@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Button, Row, Col, Select,Menu,Table, Modal,Icon} from 'antd';
+import { Button, Row, Col, Select,Menu,Table, Modal,Icon,Progress} from 'antd';
 //import { EditOutlined } from '@ant-design/icons';
 // import { EditOutlined,AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -43,84 +43,56 @@ class Matching extends Component {
 
         this.columns = [
             {
+                title: '发文日期',
+                key: 'release_date',
+                dataIndex: 'release_date',
+                render: (text, record) => {
+                    return (
+                        <div>
+                            <p className="release_date-year">{text.substr(0,4)}</p>
+                            <p className="release_date-date">{text.substr(5)}</p>
+                        </div>
+                    )
+                }
+            },
+            {
+                title: '匹配度',
+                dataIndex: 'score',
+                key: 'score',
+                width:100,
+                render: (text, record) =>
+                    <div align="center" className="score-box">
+                        <p><Progress
+                            format={percent => `${percent}%`} type="circle" percent={record.score} width={60} /></p>
+                        <p>匹配度</p>
+                    </div>,
+            },
+            {
                 title: '项目标题',
                 dataIndex: 'title',
                 key: 'title',
-                width:350,
-                render: (text, record) => <a href={`/itemText/${record.id}`} target="_blank">{text}</a>,
-            },
-            {
-                title: '应用类型',
-                dataIndex: 'hierarchy',
-                key: 'hierarchy'
-            },
-            {
-                title: '发布机构',
-                dataIndex: 'address',
-                key: 'address',
-            },
-            {
-                title: '扶持金额',
-                dataIndex: 'theme',
-                key: 'theme'
-            },
-            {
-                title: '申报日期',
-                key: 'time',
-                dataIndex: 'time',
-                width:200
+                render: (text, record) => {
+                    return (
+                        <div className="policy-title-box">
+                            <p className="policy-title"><a href={`/itemText/${record.id}`}>{text}</a></p>
+                            <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
+                            <p><span className="title">应用类型：</span>{record.use_type_label_str}</p>
+                            <p><span className="title">扶持金额：</span>{record.money}</p>
+                            <p><span className="title">申报日期：</span>{record.declare_start_date} 至 {record.declare_end_date}</p>
+                        </div>
+                    )
+                }
             },
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) => (<span><a onClick={this.showModal}>立即申报</a><a onClick={()=>this.onCollection(record.id)} className="ml15">收藏</a></span>),
+                render: (text, record) => (
+                    <div align="right" className="action-butn">
+                        <p><Button onClick={this.showModal}>立即申报</Button></p>
+                        <Button icon="star" onClick={()=>this.onCollection(record.id)}>收藏</Button>
+                    </div>),
             },
         ];
-
-        this.data = [
-            {
-                key: '1',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            },
-            {
-                key: '2',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            },
-            {
-                key: '3',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            },
-            {
-                key: '4',
-                title: '科技部国际合作司关于征集2020年度中国亚太经合组织合作基金项目的通知',
-                hierarchy: "资金支持",
-                address: '工业和信息化部',
-                theme: '10万',
-                time:'2019-02-01 12:05:11'
-            }
-        ];
-        function onShowSizeChange(current, pageSize) {
-            console.log(current, pageSize);
-        }
-        this.pagination = {
-            showSizeChanger:true,
-            defaultCurrent:1,
-            total:500,
-            pageSizeOptions:['10', '20', '30', '50','100','150'],
-            onShowSizeChange:onShowSizeChange
-        }
     }
     async componentDidMount() {
         this.getTableData()

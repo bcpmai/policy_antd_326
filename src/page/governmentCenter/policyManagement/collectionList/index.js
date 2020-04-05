@@ -34,7 +34,7 @@ class CollectionList extends Component {
                 key: 'title',
                 width:400,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`/policyText/${record.id}`} target="_blank">{text.length < 25 ? text : text.substr(0,25)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`/policyText/${record.id}`}>{text.length < 25 ? text : text.substr(0,25)+"..."}</a></Tooltip>
                 }
             },
             {
