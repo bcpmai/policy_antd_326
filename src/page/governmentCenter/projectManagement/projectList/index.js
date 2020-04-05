@@ -82,7 +82,7 @@ class ProjectList extends Component {
                 key: 'title',
                 width: 180,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`} target="_blank">{text.length < 8 ? text : text.substr(0,8)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`}>{text.length < 8 ? text : text.substr(0,8)+"..."}</a></Tooltip>
                 }
             },
             {

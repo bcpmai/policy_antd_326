@@ -49,7 +49,7 @@ class LatestPolicy extends Component {
                 render: (text, record) => {
                     return (
                         <div className="policy-title-box">
-                            <p className="policy-title"><a href={`/policyText/${record.id}`} target="_blank">{text}</a></p>
+                            <p className="policy-title"><a href={`/policyText/${record.id}`}>{text}</a></p>
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">发文字号：</span>{record.post_shop_name}</p>
                         </div>
@@ -339,7 +339,7 @@ class LatestPolicy extends Component {
                                         <Col span={20}>
                                             <Form.Item>
                                                 {getFieldDecorator('belong')(
-                                                    <Select style={{width: 360}} onChange={this.belongChange}>
+                                                    <Select style={{width: "360px"}} onChange={this.belongChange}>
                                                         {belongData ? belongData.map((item, idx) => <Option value={item.id}
                                                                                                             key={item.id}>{item.name}</Option>) : ''}
                                                     </Select>
@@ -354,7 +354,7 @@ class LatestPolicy extends Component {
                                         <Col span={20}>
                                             <Form.Item>
                                                 {getFieldDecorator('industry_label_id_list')(
-                                                    <Select style={{width: 360}}>
+                                                    <Select style={{width: "360px"}}>
                                                         {industryData ? industryData.map((item, idx) => <Option value={item.id}
                                                                                                                 key={item.id}>{item.name}</Option>) : ''}
                                                     </Select>
@@ -384,7 +384,7 @@ class LatestPolicy extends Component {
                             <Col span={22}>
                                 <Form.Item>
                                     {getFieldDecorator('release_date')(
-                                        <RangePicker onChange={this.onDateChange} />
+                                        <RangePicker style={{width: "360px"}} onChange={this.onDateChange} />
                                     )}
                                     {/*<DatePicker onChange={this.onDateChange} />*/}
                                 </Form.Item>

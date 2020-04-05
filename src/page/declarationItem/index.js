@@ -3,7 +3,7 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Table, Input, Row, Col, Button, Select, DatePicker, Modal,Form,Icon } from 'antd';
+import {Table, Input, Row, Col, Button, Select, DatePicker, Modal, Form, Icon} from 'antd';
 import Top from './../../component/top';
 import Label from "../../component/label";
 import './index.css';
@@ -11,109 +11,114 @@ import {request} from "../../utils/request";
 import cookie from "react-cookies";
 import {message} from "antd/lib/index";
 
-const { Search } = Input;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
+const {Search} = Input;
+const {Option} = Select;
+const {RangePicker} = DatePicker;
 const layout = {
     labelCol: {span: 4},
     wrapperCol: {span: 18},
 };
 
 class DeclarationItem extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            arrdown:false,
-            arrProduct:false,
-            tableData:[],
-            labelDate:{
-                title:"发文日期",
-                item:[
+            arrdown: true,
+            arrProduct: false,
+            tableData: [],
+            labelDate: {
+                title: "发文日期",
+                item: [
                     {
-                        id:0,
-                        name:"全部",
+                        id: 0,
+                        name: "全部",
                     },
                     {
-                        id:2020,
-                        name:"2020年",
+                        id: 2020,
+                        name: "2020年",
                     },
                     {
-                        id:2019,
-                        name:"2019年",
+                        id: 2019,
+                        name: "2019年",
                     },
                     {
-                        id:2018,
-                        name:"2018年",
+                        id: 2018,
+                        name: "2018年",
                     },
                     {
-                        id:2017,
-                        name:"2017年",
+                        id: 2017,
+                        name: "2017年",
                     },
                     {
-                        id:2016,
-                        name:"2016年",
+                        id: 2016,
+                        name: "2016年",
                     },
                     {
-                        id:2015,
-                        name:"2015年",
+                        id: 2015,
+                        name: "2015年",
                     },
                     {
-                        id:2014,
-                        name:"2014年",
+                        id: 2014,
+                        name: "2014年",
                     },
                     {
-                        id:2013,
-                        name:"2013年",
+                        id: 2013,
+                        name: "2013年",
                     },
                     {
-                        id:2012,
-                        name:"2012年",
+                        id: 2012,
+                        name: "2012年",
                     },
                     {
-                        id:2011,
-                        name:"2011年",
+                        id: 2011,
+                        name: "2011年",
                     }]
             }
         }
         this.columns = [
             {
+                title: '发文日期',
+                key: 'release_date',
+                dataIndex: 'release_date',
+                render: (text, record) => {
+                    return (
+                        <div>
+                            <p className="release_date-year">{text.substr(0,4)}</p>
+                            <p className="release_date-date">{text.substr(5)}</p>
+                        </div>
+                    )
+                }
+            },
+            {
                 title: '项目标题',
                 dataIndex: 'title',
                 key: 'title',
-                render: (text,record) => <a href={`/itemText/${record.id}`} target="_blank">{text}</a>,
-            },
-            {
-                title: '应用类型',
-                dataIndex: 'use_type_label_str',
-                key: 'use_type_label_str',
-            },
-            {
-                title: '发布机构',
-                dataIndex: 'organization_label_str',
-                key: 'organization_label_str',
-            },
-            {
-                title: '扶持金额',
-                key: 'money',
-                dataIndex: 'money'
-            },
-            {
-                title: '发文日期',
-                key: 'release_date',
-                dataIndex: 'release_date'
+                render: (text, record) => {
+                    return (
+                        <div className="policy-title-box">
+                            <p className="policy-title"><a href={`/itemText/${record.id}`}>{text}</a></p>
+                            <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
+                            <p><span className="title">应用类型：</span>{record.use_type_label_str}</p>
+                            <p><span className="title">扶持金额：</span>{record.money}</p>
+                            <p><span className="title">申报日期：</span>{record.money}</p>
+                        </div>
+                    )
+                }
             }
+
         ];
-        if(cookie.load("userType") != 2){
+        if (cookie.load("userType") != 2) {
             this.columns.push({
                 title: '操作',
                 key: 'action',
                 render: (text, record) => (
-                    <span><a onClick={() => this.showModal(record)}>立即申报</a><a className="ml15"
-                                                                               onClick={() => this.onCollection(record.id, record.resource_id != "0")}>{record.resource_id != "0" ? "已收藏" : "收藏"}</a></span>),
+                    <span><Button onClick={() => this.showModal(record)}>立即申报</Button><Button icon="star" className="ml15"
+                                                                                    onClick={() => this.onCollection(record.id, record.resource_id != "0")}>{record.resource_id != "0" ? "已收藏" : "收藏"}</Button></span>),
             })
         }
 
     }
+
     async componentWillMount() {
         this.getTableData({});
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
@@ -128,7 +133,7 @@ class DeclarationItem extends Component {
         const industryData = selectIndustryData.data;
 
         if (themData && themData.success && typeData && themData.success && belongData && belongData.success && industryData && industryData.success) {
-            const allItem = {id: 0,name: "全部"};
+            const allItem = {id: 0, name: "全部"};
             themData.data.unshift(allItem);
             typeData.data.unshift(allItem);
             // belongData.data.unshift(allItem);
@@ -148,44 +153,49 @@ class DeclarationItem extends Component {
             })
         }
     }
+
     //收藏
-    onCollection = async (id,isCollection) =>{
+    onCollection = async (id, isCollection) => {
         let url = '/common/my-company-collection';
-        if(isCollection){
+        if (isCollection) {
             url = '/common/cancel-company-collection';
         }
-        const responest = await request(url, 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:2}); //收藏
+        const responest = await request(url, 'POST', {
+            member_id: cookie.load('userId'),
+            resource_id: id,
+            resource_type: 2
+        }); //收藏
         const data = responest.data;
-        if(data && data.success){
+        if (data && data.success) {
             message.success(data.msg);
             this.getTableData(this.state.formValues);
-        }else{
+        } else {
             message.error(data.msg);
         }
     }
-    getTableData = async (values={}) =>{
-        if(cookie.load('userId')){
+    getTableData = async (values = {}) => {
+        if (cookie.load('userId')) {
             values.member_id = parseInt(cookie.load('userId'));
         }
-        const tableData = await request('/declare/list', 'POST',{...values,status:2}); //获取table
-        if(tableData.status == 200){
+        const tableData = await request('/declare/list', 'POST', {...values, status: 2}); //获取table
+        if (tableData.status == 200) {
             this.setState({
                 tableData: tableData.data,
-                formValues:values
+                formValues: values
             });
         }
     }
-    onShowSizeChange = (current, pageSize) =>{
+    onShowSizeChange = (current, pageSize) => {
         console.log(current, pageSize);
-        let {formValues={}} = this.state;
+        let {formValues = {}} = this.state;
         formValues.page = current;
         formValues.max_line = pageSize;
         this.getTableData(formValues);
     }
 
-    onPaginChange = (page, pageSize) =>{
+    onPaginChange = (page, pageSize) => {
         console.log(page, pageSize);
-        let {formValues={}} = this.state;
+        let {formValues = {}} = this.state;
         formValues.page = page;
         formValues.max_line = pageSize;
         this.getTableData(formValues);
@@ -202,14 +212,14 @@ class DeclarationItem extends Component {
             })
         }
     }
-    setArrdown = () =>{
+    setArrdown = () => {
         this.setState({
-            arrdown:!this.state.arrdown
+            arrdown: !this.state.arrdown
         });
     }
-    setArrProduct = () =>{
+    setArrProduct = () => {
         this.setState({
-            arrProduct:!this.state.arrProduct
+            arrProduct: !this.state.arrProduct
         })
     }
     showModal = (record) => {
@@ -231,18 +241,18 @@ class DeclarationItem extends Component {
             visible: false,
         });
     };
-    onSelectProduct = (value) =>{
+    onSelectProduct = (value) => {
         this.setState({
-            organization_label_list:value
+            organization_label_list: value
         })
     }
-    onSearchTitle = (value) =>{
-        this.getTableData({title:value});
+    onSearchTitle = (value) => {
+        this.getTableData({title: value});
     }
     onFinish = async (e) => {
         e.preventDefault();
         const _this = this;
-        this.props.form.validateFields(async(err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             const title = _this.refs.seachInput.props.children.props.value;
             const {release_date, policy_theme_label_list, organization_label_list, use_type_list, created_date} = this.state;
             if (policy_theme_label_list != null) {
@@ -266,59 +276,59 @@ class DeclarationItem extends Component {
     }
     onReset = () => {
         this.setState({
-            source:null,
-            policy_theme_label_list:null,
-            organization_label_list:null,
-            use_type_list:null,
-            status:null,
-            release_date:null,
-            created_date:null
-        },()=>{
+            source: null,
+            policy_theme_label_list: null,
+            organization_label_list: null,
+            use_type_list: null,
+            status: null,
+            release_date: null,
+            created_date: null
+        }, () => {
             this.props.form.resetFields();
         })
     };
     //label 主题
-    onSelectTheme = (value) =>{
+    onSelectTheme = (value) => {
         this.setState({
-            policy_theme_label_list:value
+            policy_theme_label_list: value
         })
     }
     //label 发布机构
-    onSelectProduct = (value) =>{
+    onSelectProduct = (value) => {
         this.setState({
-            organization_label_list:value
+            organization_label_list: value
         })
     }
     //label 应用类型
-    onSelectType = (value) =>{
+    onSelectType = (value) => {
         this.setState({
-            use_type_list:value
+            use_type_list: value
         })
     }
     //发文日期
-    onCreatedDate = (value) =>{
+    onCreatedDate = (value) => {
         this.setState({
-            created_date:value
+            created_date: value
         })
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
-        const {arrdown,record,labelType,labelProduct,arrProduct,belongData,industryData,labelTheme,labelDate,tableData,formValues,policy_theme_label_list,organization_label_list,use_type_list,created_date} = this.state;
+        const {getFieldDecorator} = this.props.form;
+        const {arrdown, record, labelType, labelProduct, arrProduct, belongData, industryData, labelTheme, labelDate, tableData, formValues, policy_theme_label_list, organization_label_list, use_type_list, created_date} = this.state;
         const pagination = {
-            current:formValues && formValues.page ? formValues.page : 1,
+            current: formValues && formValues.page ? formValues.page : 1,
             showSizeChanger: true,
             defaultCurrent: 1,
-            defaultPageSize:20,
-            total:tableData.sum || 0,
-            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
+            defaultPageSize: 20,
+            total: tableData.sum || 0,
+            showTotal: (total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
             pageSizeOptions: ['10', '20', '30', '50', '100', '150'],
             onShowSizeChange: this.onShowSizeChange,
-            onChange:this.onPaginChange
+            onChange: this.onPaginChange
         }
         return (
             <div className="declarationItem-template">
-                <Top />
+                <Top/>
                 <div className="declarationItem-label-box max-weight-box">
                     <Row className="declarationItem-serach">
                         <Col span={12}>
@@ -336,74 +346,91 @@ class DeclarationItem extends Component {
                         <Col span={8} className="serach-arrow">
                             {arrdown ? <span onClick={this.setArrdown}>收起筛选
                                 {/*<ArrowUpOutlined />*/}
-                                <Icon type="arrow-up" />
+                                <Icon type="arrow-up"/>
                             </span> : <span onClick={this.setArrdown}>展开筛选
                                 {/*<ArrowDownOutlined />*/}
-                                <Icon type="arrow-down" />
+                                <Icon type="arrow-down"/>
                             </span>}
                         </Col>
                     </Row>
-                    <div className="label-box" style={!arrdown ? {display:"none"} : {}}>
+                    <div className="label-box" style={!arrdown ? {display: "none"} : {}}>
                         <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
-                        {labelTheme ?
-                            <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list} span={{title:4,label:20}} title={labelTheme.title} item={labelTheme.item} key="labelTheme"/> : ''}
-                        <Row className="mt10">
-                            <Col span={4}>所属层级</Col>
-                            <Col span={20}>
-                                <Form.Item>
-                                    {getFieldDecorator('belong')(
-                                        <Select style={{width: 300}} onChange={this.belongChange}>
-                                            {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                                key={item.id}>{item.name}</Option>) : ''}
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <div className="label-product-box">
-                            {labelProduct ?
-                                <Label callback={this.onSelectProduct} defalutValue={organization_label_list} title={labelProduct.title} item={labelProduct.item} key="labelProduct"
-                                       span={{title:4,label:20}} className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
-                            {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
-                                                                 className="more-label">
+                            {labelTheme ?
+                                <Label callback={this.onSelectTheme} defalutValue={policy_theme_label_list}
+                                       span={{title: 2, label: 22}} title={labelTheme.title} item={labelTheme.item}
+                                       key="labelTheme"/> : ''}
+                            {labelType ?
+                                <div style={{marginBottom:"8px"}}><Label callback={this.onSelectType} defalutValue={use_type_list}
+                                       span={{title: 2, label: 22}} title={labelType.title} item={labelType.item}
+                                                                         key="labelType"/></div> : ''}
+                            <Row style={{height:"25px"}}>
+                                <Col span={12}>
+                                    <Row>
+                                        <Col span={4}>所属层级</Col>
+                                        <Col span={20}>
+                                            <Form.Item>
+                                                {getFieldDecorator('belong')(
+                                                    <Select style={{width: 300}} onChange={this.belongChange}>
+                                                        {belongData ? belongData.map((item, idx) => <Option
+                                                            value={item.id}
+                                                            key={item.id}>{item.name}</Option>) : ''}
+                                                    </Select>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={12}>
+                                    <Row>
+                                        <Col span={4}>所属行业</Col>
+                                        <Col span={20}>
+                                            <Form.Item>
+                                                {getFieldDecorator('industry_label_id_list')(
+                                                    <Select style={{width: 300}}>
+                                                        {industryData ? industryData.map((item, idx) => <Option
+                                                            value={item.id}
+                                                            key={item.id}>{item.name}</Option>) : ''}
+                                                    </Select>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                            <div className="label-product-box">
+                                {labelProduct ?
+                                    <Label callback={this.onSelectProduct} defalutValue={organization_label_list}
+                                           title={labelProduct.title} item={labelProduct.item} key="labelProduct"
+                                           span={{title: 2, label: 22}}
+                                           className={arrProduct ? "allLabel" : "minLabel"}/> : ''}
+                                {labelProduct ? (!arrProduct ? <span onClick={this.setArrProduct}
+                                                                     className="more-label">
                                     {/*<PlusOutlined/>*/}
-                                    <Icon type="plus" />
+                                        <Icon type="plus"/>
                                     展开</span> :
-                                <span onClick={this.setArrProduct}
-                                      className="more-label">
+                                    <span onClick={this.setArrProduct}
+                                          className="more-label">
                                     {/*<MinusOutlined/>*/}
-                                    <Icon type="minus" />
+                                        <Icon type="minus"/>
                                     收起</span>) : ''}
-                        </div>
-                        {labelType ?
-                            <Label callback={this.onSelectType} defalutValue={use_type_list} span={{title:4,label:20}} title={labelType.title} item={labelType.item} key="labelType"/> : ''}
-                        <Row className="mt10">
-                            <Col span={4}>所属行业</Col>
-                            <Col span={20}>
-                                <Form.Item>
-                                    {getFieldDecorator('industry_label_id_list')(
-                                        <Select style={{width: 300}}>
-                                            {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                    key={item.id}>{item.name}</Option>) : ''}
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Label callback={this.onCreatedDate} defalutValue={created_date} span={{title:4,label:20}} title={labelDate.title} item={labelDate.item} key="labelDate" />
-                        {/*<Row className="mt10">*/}
+                            </div>
+                            <Label callback={this.onCreatedDate} defalutValue={created_date}
+                                   span={{title: 2, label: 22}} title={labelDate.title} item={labelDate.item}
+                                   key="labelDate"/>
+                            {/*<Row className="mt10">*/}
                             {/*<Col span={2}>发文日期：</Col>*/}
                             {/*<Col span={22}>*/}
-                                {/*<RangePicker showTime />*/}
+                            {/*<RangePicker showTime />*/}
                             {/*</Col>*/}
-                        {/*</Row>*/}
-                        <div className="declarationItem-button">
-                            <Button type="primary" htmlType="submit">检索</Button>
-                            <Button className="ml15" onClick={this.onReset}>重置</Button>
-                        </div>
+                            {/*</Row>*/}
+                            <div className="declarationItem-button">
+                                <Button type="primary" htmlType="submit">检索</Button>
+                                <Button className="ml15" onClick={this.onReset}>重置</Button>
+                            </div>
                         </Form>
                     </div>
-                    {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
+                    {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination}
+                                        rowKey="id"/> : null}
                 </div>
                 <Modal
                     title="申报提示"
@@ -422,13 +449,14 @@ class DeclarationItem extends Component {
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
-                            <span>{record!=undefined ? record.declare_net : null}</span>
-                            {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
+                            <span>{record != undefined ? record.declare_net : null}</span>
+                            {record != undefined ?
+                                <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
                     </Row>
                     <Row>
                         <Col span={8}>2.纸质材料提交至</Col>
-                        <Col span={16}>{record!=undefined ? record.post_material : null}
+                        <Col span={16}>{record != undefined ? record.post_material : null}
                         </Col>
                     </Row>
                 </Modal>

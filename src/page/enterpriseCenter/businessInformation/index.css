@@ -1,0 +1,87 @@
+.information-template{
+}
+.information-template .information-title{
+    margin-top: 20px;
+    color: #000;
+    font-size: 16px;
+}
+.information-template .information-title:before{
+    content: '';
+    width: 5px;
+    height: 18px;
+    float:left;
+    background: #aa2426;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+.information-template .information-title-h1{
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 10px;
+    /*margin-left: 30px;*/
+}
+.information-template .alert-box{
+    font-size: 12px;
+    color: #fdbc3c;
+    border:1px solid #f7c13d;
+    padding: 5px 10px;
+    background: #faf4e4;
+    display: inline-block;
+}
+.information-template .alert-box .anticon-exclamation-circle{
+    font-size: 14px;
+    vertical-align: -3px;
+    margin-right: 5px;
+}
+.information-template .alert-box .ant-btn{
+    background: #fed482;
+    color: #d39d07;
+    border:1px solid #fed482;
+    font-size: 12px;
+    padding: 1px 10px;
+    height: auto;
+    border-radius: 10px;
+    vertical-align: middle;
+}
+.information-template .button-edit{
+    float:right;
+}
+.information-template .button-matching{
+    margin-left: 10px;
+    vertical-align: 3px;
+}
+.information-template .information-form{
+    margin-top: 40px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+.information-template .information-form .information-title{
+    margin-bottom: 10px;
+}
+/*.information-template .title-component-template{*/
+    /*margin-top: 80px;*/
+    /*margin-bottom: 60px;*/
+/*}*/
+.information-template .ant-btn{
+    background: #fff;
+    color: #ae242b;
+    border:1px solid #ae242b;
+    border-radius: 20px;
+    height: 32px;
+    padding: 0 20px;
+    font-size: 14px;
+}
+.information-template .ant-btn:hover{
+    background: #ae242b;
+    color: #fff;
+}
+.information-template .ant-form-item-label{
+    text-align: left;
+    color: #999;
+    text-indent: 15px;
+}
+.information-template .ant-form-item-label > label{
+    color: #999;
+}
+.information-template .text-right .ant-form-item-label{
+    text-align: right;
+}

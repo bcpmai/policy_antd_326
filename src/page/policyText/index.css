@@ -3,7 +3,8 @@
     padding-top: 20px;
 }
 .policyText-template .policyText-descriptions{
-    padding: 20px;
+    border:1px solid #efefef;
+    padding: 15px;
     margin: 10px 0;
 }
 .policyText-template .policyText-content-box{
@@ -20,8 +21,10 @@
     margin: 0 auto;
 }
 .policyText-template .policyText-content .policyText-content-text{
-    padding: 20px 0;
+    padding: 40px 0;
     border-top:1px solid #eeeeee;
+    font-size: 16px;
+    color: #333;
 }
 /*面包屑*/
 /*.policyText-template .ant-breadcrumb {*/
@@ -33,12 +36,15 @@
     /*padding-left: 110px;*/
 /*}*/
 .policyText-template .ant-descriptions-item-label{
-    font-size: 14px;
+    font-size: 16px;
     color: #666;
 }
 .policyText-template .ant-descriptions-item-content{
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
+}
+.policyText-template .ant-descriptions-row > td{
+    padding-bottom: 10px;
 }
 /*.policyText-template .ant-breadcrumb > span:last-child a,*/
 /*.policyText-template .ant-breadcrumb .ant-breadcrumb-separator {*/
@@ -53,17 +59,36 @@
 }
 .policyText-template .labelAdd .ant-descriptions-item-content .ant-tag{
     margin-bottom: 10px;
-    font-size: 14px;
-    padding: 2px 15px;
-    background: #f5f5f5;
+    font-size: 16px;
+    padding: 0 25px 0 0;
+    background: #fff;
+    border: 0px;
+    color: #000;
 }
 .policyText-template .policy-butn .ant-btn{
-    background: #fff;
-    color: #ae242b;
-    border:1px solid #ae242b;
-    border-radius: 20px;
+    /*background: #fff;*/
+    /*color: #ae242b;*/
+    /*border:1px solid #ae242b;*/
+    border-radius: 5px;
     height: 30px;
     padding: 0 20px;
     font-size: 14px;
-    margin: 0px 40px 0px 10px;
+    margin: 0px 10px 0px 0px;
+    cursor: pointer;
+}
+.policyText-template .policy-butn .ant-btn-primary{
+    background: #fff;
+    border:1px solid #d13234;
+    color: #d13234;
+}
+/*.policyText-template .policy-butn .back-butn{*/
+    /*border: 1px solid #cecece;*/
+    /*color: #8a8a8a;*/
+/*}*/
+.policyText-template .policy-butn .ant-btn:hover{
+    background-color: #f3a7a7;
+    border: 1px solid #f3a7a7;
+    color: #fff;
+    animation: bg-color 10s infinite;
+    -webkit-animation: bg-color 10s infinite;
 }

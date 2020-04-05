@@ -32,11 +32,9 @@ class PolicyMenu extends Component {
         const { isLogin,current,menu} = this.state;
         return (
             <div className="policy-menu-component-template">
-                <Affix>
                 <Menu
-                    style={{ width: 180 }}
                     defaultSelectedKeys={[current]}
-                    defaultOpenKeys={[menu]}
+                    defaultOpenKeys={["sub1","systemManagement"]}
                     mode="inline"
                 >
                     <SubMenu
@@ -78,7 +76,6 @@ class PolicyMenu extends Component {
                         <Menu.Item key="accountManagement"><a href="/accountManagement">账户管理</a></Menu.Item>
                     </SubMenu>
                 </Menu>
-                </Affix>
             </div>
         );
     };

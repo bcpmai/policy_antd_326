@@ -97,7 +97,8 @@ class ItemText extends Component {
                         <Breadcrumb.Item href="">项目正文</Breadcrumb.Item>
                     </Breadcrumb>
                    <div className="itemText-descriptions">
-                    <Descriptions title={detailInfo ? "项目标题：" + detailInfo.declare.title : "项目标题："}>
+                    <Descriptions>
+                        <Descriptions.Item label="政策标题" span={3}><span>{detailInfo && detailInfo.declare.title}</span></Descriptions.Item>
                         <Descriptions.Item label="发布机构" span={2}><span title={detailInfo && detailInfo.declare.organization_label_str}>{detailInfo && detailInfo.declare.organization_label_str}</span></Descriptions.Item>
                         <Descriptions.Item label="发文日期">{detailInfo && detailInfo.declare.release_date}</Descriptions.Item>
                         <Descriptions.Item label="政策标题" span={3}>{detailInfo && detailInfo.declare.pc_title}</Descriptions.Item>
@@ -105,7 +106,8 @@ class ItemText extends Component {
                    </div>
                     <div className="collection-butn">
                         <Button onClick={()=>this.showModal()} type="primary">立即申报</Button>
-                        {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection()} type="primary" icon={<Icon type="star" />} className="ml15">{butnText}</Button> : null}
+                        {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection()} type="primary" icon="star" className="ml15">{butnText}</Button> : null}
+                        <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history.goBack()}}>返回</Button>
                     </div>
                     <div className="itemText-infor item-box">
                         <TitleTwo name="基本信息" />
@@ -117,30 +119,39 @@ class ItemText extends Component {
                             </tr>
                             </thead>
                             <tbody>
+                            {detailInfo && detailInfo.declare.organization_label_str ?
                             <tr>
                                 <td>发布机构</td>
                                 <td>{detailInfo && detailInfo.declare.organization_label_str}</td>
-                            </tr>
+                            </tr>:null}
+                            {detailInfo && detailInfo.declare.web_url ?
                             <tr>
                                 <td>官文网址</td>
                                 <td>{detailInfo ? <a href={detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</td>
-                            </tr>
+                            </tr>:null}
+                            {detailInfo && detailInfo.declare.money ?
                             <tr>
-                                <td>申报网址</td>
-                                <td>{detailInfo ? <a href={detailInfo.declare.declare_net} target="_blank">{detailInfo.declare.declare_net}</a> : "/"}</td>
+                                <td>扶持金额</td>
+                                <td>{detailInfo ? detailInfo.declare.money : "-"}</td>
                             </tr>
+                                :null}
+                            {detailInfo && detailInfo.declare.declare_start_date ?
                             <tr>
                                 <td>申报时间</td>
-                                <td>{detailInfo && detailInfo.declare.declare_start_date}</td>
+                                <td>{detailInfo.declare.declare_start_date}</td>
                             </tr>
+                                :null}
+                            {detailInfo && detailInfo.declare.use_type_label_str ?
                             <tr>
                                 <td>应用类型</td>
-                                <td>{detailInfo && detailInfo.declare.use_type_label_str}</td>
+                                <td>{detailInfo.declare.use_type_label_str}</td>
                             </tr>
+                            :null}
+                            {detailInfo && detailInfo.declare.industry_label_str ?
                             <tr>
                                 <td>所属行业</td>
-                                <td>{detailInfo && detailInfo.declare.industry_label_str}</td>
-                            </tr>
+                                <td>{detailInfo.declare.industry_label_str}</td>
+                            </tr> : null}
                             </tbody>
                         </table>
                     </div>

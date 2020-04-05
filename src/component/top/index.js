@@ -59,6 +59,9 @@ class Top extends Component {
             if(pathName.indexOf("policyText") != -1){
                 current = "latestPolicy";
             }
+            if(pathName.indexOf("itemText") != -1){
+                current = "declarationItem";
+            }
         }
         console.log(current,"current");
         this.state = {
@@ -117,7 +120,7 @@ class Top extends Component {
                         </Menu>
                     </Col>
                     <Col span={3}>
-                        <div className="serach"><Search placeholder="请输入关键词" onSearch={this.serachLatestPolicy} enterButton /></div>
+                        {/*<div className="serach"><Search placeholder="请输入关键词" onSearch={this.serachLatestPolicy} enterButton /></div>*/}
                     </Col>
                     {!isLogin ? <Col span={4} className="right-button">
                         <Link to="/login"><Button icon="user">登录</Button></Link>

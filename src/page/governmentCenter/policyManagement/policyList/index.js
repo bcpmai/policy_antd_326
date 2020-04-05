@@ -66,9 +66,9 @@ class PolicyList extends Component {
                 title: '政策标题',
                 dataIndex: 'title',
                 key: 'title',
-                width: 180,
+                width: 500,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/policyText" : "/policyPreview"}/${record.id}`} target="_blank">{text.length < 8 ? text : text.substr(0,8)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/policyText" : "/policyPreview"}/${record.id}`}>{text.length < 30 ? text : text.substr(0,30)+"..."}</a></Tooltip>
                 }
             },
             {
@@ -91,25 +91,25 @@ class PolicyList extends Component {
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
                 }
             },
-            {
-                title: '政策主题',
-                dataIndex: 'policy_theme_label_str',
-                key: 'policy_theme_label_str',
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
-                }
-            },
-            {
-                title: '应用类型',
-                dataIndex: 'use_type_label_str',
-                key: 'use_type_label_str',
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
-                }
-            },
+            // {
+            //     title: '政策主题',
+            //     dataIndex: 'policy_theme_label_str',
+            //     key: 'policy_theme_label_str',
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+            //     }
+            // },
+            // {
+            //     title: '应用类型',
+            //     dataIndex: 'use_type_label_str',
+            //     key: 'use_type_label_str',
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+            //     }
+            // },
             // {
             //     title: '关联解析',
             //     dataIndex: 'analysis',
@@ -141,12 +141,12 @@ class PolicyList extends Component {
                     }
                 }
             },
-            {
-                title: '操作人员',
-                key: 'username',
-                dataIndex: 'username',
-                width:100,
-            },
+            // {
+            //     title: '操作人员',
+            //     key: 'username',
+            //     dataIndex: 'username',
+            //     width:100,
+            // },
             {
                 title: '操作',
                 key: 'action',

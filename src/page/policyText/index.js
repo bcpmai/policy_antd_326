@@ -85,7 +85,7 @@ class PolicyText extends Component {
     }
     render() {
         const {policy,resource_file_list=[],isCollection} = this.state;
-        const labelStr = policy.label_add_str ? policy.label_add_str.split(",") : null;
+        // const labelStr = policy.label_add_str ? policy.label_add_str.split(",") : null;
         return (
             <div className="policyText-template">
                 <Top />
@@ -100,15 +100,16 @@ class PolicyText extends Component {
                            <Descriptions.Item label="发布机构"><span title="重庆市发改委重庆市发改委重庆市发改委">重庆市发改委</span></Descriptions.Item>
                            <Descriptions.Item label="发文日期">{policy.release_date}</Descriptions.Item>
                            <Descriptions.Item label="发文字号">{policy.post_shop_name}</Descriptions.Item>
-                           {labelStr ? <Descriptions.Item label="政策标签" span={3} className="labelAdd">
-                               {labelStr.map((item,idx)=><Tag key={idx}>{item}</Tag>)}</Descriptions.Item> : null}
-                           {labelStr ? <Descriptions.Item label="政策有效期">
+                           {policy.label_add_str ? <Descriptions.Item label="政策标签" span={3} className="labelAdd">
+                                   {policy.label_add_str}</Descriptions.Item> : null}
+                           {policy.life_date ? <Descriptions.Item label="政策有效期">
                                {policy.life_date}
                            </Descriptions.Item> : null}
                        </Descriptions>
                    </div>
                     <div className="policy-butn">
-                        {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection(policy.id)} type="primary" icon={<Icon type="star" />}>{isCollection ? "已收藏" : "收藏" }</Button> : null}
+                        {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection(policy.id)} type="primary" icon="star">{isCollection ? "已收藏" : "收藏" }</Button> : null}
+                        <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history.goBack()}}>返回</Button>
                     </div>
                     <Row gutter={16} className="policyText-content-box">
                         <Col span={24} className="policyText-content">

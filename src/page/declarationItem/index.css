@@ -3,7 +3,7 @@
 .declarationItem-template .declarationItem-serach{
     margin-left: 300px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 20px!important;
 }
 .declarationItem-template .declarationItem-serach .serach-arrow{
     display: inline-block;
@@ -13,8 +13,9 @@
     font-size: 14px;
 }
 .declarationItem-template .label-box{
-    padding: 0px 100px;
+    padding: 10px;
     margin-bottom: 20px;
+    border: 1px solid #efefef;
 }
 .declarationItem-template .label-product-box{
     position: relative;
@@ -38,29 +39,30 @@
     display: inline-block;
     vertical-align: -2px;
     margin-right: 10px;
+    display: none;
 }
 .declarationItem-template .declarationItem-button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 96px;
     text-align: left;
-    margin-top: 40px;
-    margin-bottom: 30px;
-    padding-left: 145px;
 }
 .declarationItem-template .declarationItem-button .ant-btn{
     background: #fff;
     color: #ae242b;
     border:1px solid #ae242b;
     border-radius: 20px;
-    height: 35px;
-    padding: 0 40px;
+    height: 30px;
+    padding: 0 30px;
     font-size: 16px;
-    margin: 0 40px;
+    margin: 0 10px;
 }
 .declarationItem-template .declarationItem-button .ant-btn:hover{
     background: #ae242b;
     color: #fff;
 }
 .declarationItem-template .ant-row{
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 .declarationItem-template .declarationItem-serach .serach{
     width: 370px;
@@ -82,4 +84,36 @@
 }
 .declarationItem-template .declarationItem-serach .ant-input-group .ant-input-group-addon{
     background: none;
+}
+.declarationItem-template .label-box .ant-col-2,
+.declarationItem-template .label-box .ant-col-4,
+.declarationItem-template .Label-component-template .ant-col-2{
+    color: #666;
+    font-size: 16px;
+    text-indent: 15px;
+    padding-top: 5px;
+    text-align: left;
+}
+.declarationItem-template .ant-form-item{
+    margin-bottom: 5px;
+}
+/*.declarationItem-template .label-box .ant-col-4{*/
+    /*text-indent: 0;*/
+/*}*/
+.declarationItem-template .Label-component-template .ant-btn{
+    color: #000;
+    font-size: 16px;
+    border:0;
+    padding: 0;
+    margin: 5px 20px 5px 0;
+    background: none;
+}
+.declarationItem-template .Label-component-template .select-button{
+    color: #ae242b;
+}
+.declarationItem-template .Label-component-template{
+    margin-top: 5px;
+}
+.declarationItem-template .ant-table-thead{
+    display: none;
 }

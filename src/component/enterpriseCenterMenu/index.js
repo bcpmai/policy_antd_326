@@ -8,6 +8,7 @@ import { Menu,Icon} from 'antd';
 //     BankOutlined
 // } from '@ant-design/icons';
 import './index.css';
+import BusinessInformation from "../../page/enterpriseCenter/businessInformation";
 
 
 const { SubMenu } = Menu;
@@ -47,6 +48,7 @@ class EnterpriseMenu extends Component {
                         }
                     >
                         <Menu.Item key="information"><a href="/information" >企业信息</a></Menu.Item>
+                        <Menu.Item key="businessInformation"><a href="/businessInformation" >工商信息</a></Menu.Item>
                         <Menu.Item key="matching"><a href="/matching" >精准匹配</a></Menu.Item>
                         <Menu.Item key="mySubscribe"><a href="/mySubscribe" >我的订阅</a></Menu.Item>
                         <Menu.Item key="myCollection"><a href="/myCollection" >我的收藏</a></Menu.Item>

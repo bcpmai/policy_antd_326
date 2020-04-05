@@ -488,7 +488,7 @@ class AddProject extends Component {
 
         // 1. Limit the number of uploaded files
         // Only to show two recent uploaded files, and old ones will be replaced by the new
-        fileList = fileList.slice(-2);
+        //fileList = fileList.slice(-2);
 
         // 2. Read from response and show file link
         fileList = fileList.map(file => {
@@ -868,7 +868,7 @@ class AddProject extends Component {
                                                 message: '请选择发布日期'
                                             }]
                                         })(
-                                            <DatePicker onChange={this.onDatePickerChange} />
+                                            <DatePicker style={{width:"300px"}} onChange={this.onDatePickerChange} />
                                         )}
                                     </Form.Item>
 
@@ -876,7 +876,7 @@ class AddProject extends Component {
                                 <Col span={12} className="declare_start_date">
                                     <Form.Item labelCol={{span: 6}} label="申报时间">
                                         {getFieldDecorator('declare_start_date')(
-                                            <RangePicker onChange={this.onDateChange} />
+                                            <RangePicker style={{width:"300px"}} onChange={this.onDateChange} />
                                         )}
                                     </Form.Item>
                                 </Col>
@@ -885,7 +885,7 @@ class AddProject extends Component {
                                 <Col span={12} className="release_date">
                                     <Form.Item labelCol={{span: 6}} label="扶持金额">
                                         {getFieldDecorator('money')(
-                                            <InputNumber style={{width:'200px'}} />
+                                            <Input prefix="￥" suffix="万元" style={{width:"300px"}} />
                                         )}
                                     </Form.Item>
                                 </Col>
@@ -897,7 +897,7 @@ class AddProject extends Component {
                                                 message: '请输入官文网址'
                                             }]
                                         })(
-                                            <Input />
+                                            <Input style={{width:"300px"}} />
                                         )}
                                     </Form.Item>
                                 </Col>

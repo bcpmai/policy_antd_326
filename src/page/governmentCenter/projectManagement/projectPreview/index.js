@@ -108,36 +108,46 @@ class policyPreview extends Component {
                             <div className="policyPreview-content">
                                 <table className="itemText-infor-table">
                                     <thead>
+                                    {detailInfo && detailInfo.declare.belong_str ?
                                     <tr>
                                         <td style={{width:'200px'}}>所属层级</td>
                                         <td>{detailInfo && detailInfo.declare.belong_str}</td>
                                     </tr>
+                                        : null}
                                     </thead>
                                     <tbody>
+                                    {detailInfo && detailInfo.declare.organization_label_str ?
                                     <tr>
                                         <td>发布机构</td>
                                         <td>{detailInfo && detailInfo.declare.organization_label_str}</td>
                                     </tr>
+                                        : null}
+                                    {detailInfo && detailInfo.declare.web_url ?
                                     <tr>
                                         <td>官文网址</td>
                                         <td>{detailInfo ? <a href={detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</td>
-                                    </tr>
+                                    </tr> : null}
+                                    {detailInfo && detailInfo.declare.declare_net ?
                                     <tr>
                                         <td>申报网址</td>
                                         <td>{detailInfo ? <a href={detailInfo.declare.declare_net} target="_blank">{detailInfo.declare.declare_net}</a> : "/"}</td>
                                     </tr>
+                                        : null}
+                                    {detailInfo && detailInfo.declare.declare_start_date ?
                                     <tr>
                                         <td>申报时间</td>
                                         <td>{detailInfo && detailInfo.declare.declare_start_date}</td>
-                                    </tr>
+                                    </tr>:null}
+                                    {detailInfo && detailInfo.declare.use_type_label_str ?
                                     <tr>
                                         <td>应用类型</td>
                                         <td>{detailInfo && detailInfo.declare.use_type_label_str}</td>
-                                    </tr>
+                                    </tr>:null}
+                                    {detailInfo && detailInfo.declare.industry_label_str ?
                                     <tr>
                                         <td>所属行业</td>
                                         <td>{detailInfo && detailInfo.declare.industry_label_str}</td>
-                                    </tr>
+                                    </tr>:null}
                                     </tbody>
                                 </table>
                             </div>

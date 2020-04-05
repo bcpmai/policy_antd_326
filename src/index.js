@@ -9,7 +9,7 @@ import 'react-app-polyfill/ie9';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { ConfigProvider } from 'antd';
+import { ConfigProvider,BackTop } from 'antd';
 import Index from "./page/index/index.js"; //首页
 import Login from "./page/login/index.js"; //登录
 import Register from "./page/register/index.js"; //注册
@@ -40,6 +40,7 @@ import RoleManagement from "./page/governmentCenter/systemManagement/roleManagem
 import Enterprise from "./page/governmentCenter/systemManagement/enterprise/index.js"; //企业用户
 import LabelManage from "./page/governmentCenter/systemManagement/labelManage/index.js"; //标签管理
 import CarouselManage from "./page/governmentCenter/systemManagement/carouselManage/index.js"; //轮播图管理
+import BusinessInformation from "./page/enterpriseCenter/businessInformation/index.js"; //轮播图管理
 
 
 
@@ -78,10 +79,10 @@ ReactDOM.render(
             <Route exact path="/enterprise" component={Enterprise} />
             <Route exact path="/labelManage" component={LabelManage} />
             <Route exact path="/carouselManage" component={CarouselManage} />
-
-
+            <Route exact path="/businessInformation" component={BusinessInformation} />
         </div>
             <Footer />
+            <BackTop />
         </ConfigProvider>
     </Router>
     , document.getElementById('root'));

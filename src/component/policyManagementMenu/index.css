@@ -1,70 +1,104 @@
+/*.policy-menu-component-template{*/
+    /*padding-top: 28px;*/
+    /*!*position: fixed;*!*/
+    /*!*top:180px;*!*/
+    /*position: absolute;*/
+    /*left:0*/
+/*}*/
+/*.policy-menu-component-template .ant-menu-submenu-title,*/
+/*.policy-menu-component-template .project-management,*/
+/*.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .project-management.ant-menu-item-active{*/
+    /*background: #ae242b;*/
+    /*font-size: 17px;*/
+    /*color: #fff;*/
+    /*border-radius: 20px;*/
+    /*text-indent:5px;*/
+    /*margin-bottom: 20px;*/
+    /*cursor: pointer;*/
+/*}*/
+/*.policy-menu-component-template .project-management a,*/
+/*.policy-menu-component-template .project-management .anticon,*/
+/*.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .project-management.ant-menu-item-active .anticon{*/
+    /*color:#fff;*/
+    /*margin-right:10px;*/
+/*}*/
+
+/*.policy-menu-component-template .ant-menu-submenu-title .ant-menu-submenu-arrow:after,*/
+/*.policy-menu-component-template .ant-menu-submenu-title .ant-menu-submenu-arrow:before,*/
+/*.policy-menu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:after,*/
+/*.policy-menu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:before*/
+/*{*/
+    /*color: #fff;*/
+    /*background-image: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));*/
+/*}*/
+/*.policy-menu-component-template .ant-menu{*/
+    /*border:0px;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu .ant-menu-item{*/
+    /*color: #666;*/
+    /*font-size: 17px;*/
+    /*border:1px solid #b94147;*/
+    /*border-radius: 20px;*/
+    /*text-indent:10px;*/
+    /*margin-bottom: 20px;*/
+    /*cursor: pointer;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{*/
+    /*background: #fff;*/
+    /*color: #ae242b;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu .project-management,*/
+/*.policy-menu-component-template .project-management.ant-menu-item-selected{*/
+    /*text-indent: 5px;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected a,*/
+/*.policy-menu-component-template .project-management.ant-menu-item-selected a .anticon,*/
+/*.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-active a{*/
+    /*color: #ae242b;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu .ant-menu-inline .ant-menu-item-selected::after,*/
+/*.policy-menu-component-template .ant-menu .project-management.ant-menu-item-selected::after{*/
+    /*display: none;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu-submenu-title .anticon,*/
+/*.policy-menu-component-template .project-management .anticon{*/
+    /*font-size: 20px;*/
+/*}*/
+/*.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .project-management.ant-menu-item-active a{*/
+    /*color:#fff;*/
+    /*border:0;*/
+/*}*/
 .policy-menu-component-template{
-    padding-top: 28px;
-    /*position: fixed;*/
-    /*top:180px;*/
-    position: absolute;
-    left:0
+    border-top:4px solid #ae242b;
+    width: 180px;
+    margin-top: 30px;
 }
 .policy-menu-component-template .ant-menu-submenu-title,
-.policy-menu-component-template .project-management,
-.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .project-management.ant-menu-item-active{
-    background: #ae242b;
-    font-size: 17px;
-    color: #fff;
-    border-radius: 20px;
-    text-indent:5px;
-    margin-bottom: 20px;
-    cursor: pointer;
+.policy-menu-component-template .ant-menu-submenu-title .anticon{
+    font-size: 16px;
 }
-.policy-menu-component-template .project-management a,
-.policy-menu-component-template .project-management .anticon,
-.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .project-management.ant-menu-item-active .anticon{
-    color:#fff;
-    margin-right:10px;
+.policy-menu-component-template .ant-menu-submenu-selected{
+    color: #ae242b;
 }
+.policy-menu-component-template .ant-menu-item-selected > a,
+.policy-menu-component-template .ant-menu-item-selected > a:hover{
+    color: #ae242b;
+}
+.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+    background: #f3a7a7;
+}
+.policy-menu-component-template .ant-menu-inline .ant-menu-item::after{
+    border-right: 3px solid #ae242b;
+}
+.policy-menu-component-template .ant-menu-submenu-active:hover,
+.policy-menu-component-template .ant-menu-submenu-active:hover .ant-menu-submenu-title,
+.policy-menu-component-template .ant-menu-item a:hover{
+    color: #ae242b;
 
+}
 .policy-menu-component-template .ant-menu-submenu-title .ant-menu-submenu-arrow:after,
 .policy-menu-component-template .ant-menu-submenu-title .ant-menu-submenu-arrow:before,
 .policy-menu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:after,
-.policy-menu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:before
-{
-    color: #fff;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
-}
-.policy-menu-component-template .ant-menu{
-    border:0px;
-}
-.policy-menu-component-template .ant-menu .ant-menu-item{
-    color: #666;
-    font-size: 17px;
-    border:1px solid #b94147;
-    border-radius: 20px;
-    text-indent:10px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
-    background: #fff;
-    color: #ae242b;
-}
-.policy-menu-component-template .ant-menu .project-management,
-.policy-menu-component-template .project-management.ant-menu-item-selected{
-    text-indent: 5px;
-}
-.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected a,
-.policy-menu-component-template .project-management.ant-menu-item-selected a .anticon,
-.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-active a{
-    color: #ae242b;
-}
-.policy-menu-component-template .ant-menu .ant-menu-inline .ant-menu-item-selected::after,
-.policy-menu-component-template .ant-menu .project-management.ant-menu-item-selected::after{
-    display: none;
-}
-.policy-menu-component-template .ant-menu-submenu-title .anticon,
-.policy-menu-component-template .project-management .anticon{
-    font-size: 20px;
-}
-.policy-menu-component-template .ant-menu:not(.ant-menu-horizontal) .project-management.ant-menu-item-active a{
-    color:#fff;
-    border:0;
+.policy-menu-component-template .ant-menu-submenu-active .ant-menu-submenu-title .ant-menu-submenu-arrow:before{
+    background-image: linear-gradient(to right, rgba(174, 36, 43, 1), rgba(174, 36, 43, 1));
 }

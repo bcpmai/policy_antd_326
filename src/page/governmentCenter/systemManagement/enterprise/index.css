@@ -57,18 +57,26 @@
 }
 .policyUser-template .label-box .ant-col-2,
 .policyUser-template .label-box .ant-col-6,
-.policyUser-template .label-box .ant-col-9{
+.policyUser-template .label-box .ant-col-9,
+.policyUser-template .label-box .ant-col-7{
     font-size: 16px;
     color: #000;
     padding-top: 6px;
     text-align: left;
 }
-.ant-col-7{
-    padding-top: 6px;
+.policyUser-template .label-box .Label-component-template .ant-col-6 {
+    padding-top: 0px;
 }
 .policyUser-template .ant-form-item .ant-col-16{
     width: 160px;
 }
 .policyUser-template .Label-component-template .ant-btn{
     margin-right: 5px;
+    /*border: 0;*/
+    /*background: none;*/
+    /*color: #000;*/
+    /*font-size: 16px;*/
+    padding: 2px 10px;
+    margin-top: 0px;
+    vertical-align: 5px;
 }
