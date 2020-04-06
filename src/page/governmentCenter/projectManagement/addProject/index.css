@@ -138,6 +138,7 @@
     border-radius:15px 0 0 15px;
     padding:3px 11px;
     text-indent: 0;
+    height: 30px;
 }
 .select-porject-modal .ant-input-group .ant-btn{
     border:1px solid #a72329;

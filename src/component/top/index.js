@@ -53,7 +53,7 @@ class Top extends Component {
                     break;
 
             }
-            if(pathName.indexOf("addPolicy") != -1 || pathName.indexOf("policyPreview") != -1){
+            if(pathName.indexOf("addPolicy") != -1 || pathName.indexOf("addProject") != -1 || pathName.indexOf("policyPreview") != -1 || pathName.indexOf("projectPreview") != -1){
                 current = "login";
             }
             if(pathName.indexOf("policyText") != -1){

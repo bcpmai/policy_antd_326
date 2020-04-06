@@ -73,13 +73,13 @@ class AddProject extends Component {
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
                 }
             },
             {
                 title: '发文日期',
-                key: 'updated_date',
-                dataIndex: 'updated_date',
+                key: 'release_date',
+                dataIndex: 'release_date',
                 width: 200
             }
         ];
@@ -115,6 +115,25 @@ class AddProject extends Component {
         const elem = this.refs[editorElem]; //获取editorElem盒子
         //const submit = this.refs.submit; //获取提交按钮
         const editor = new E(elem)  //new 一个 editorElem富文本
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'quote',  // 引用
+            'image',  // 插入图片
+            'table',  // 表格
+            'undo',  // 撤销
+            'redo'  // 重复
+        ]
         editor.customConfig.uploadFileName = 'file'; //置上传接口的文本流字段
         editor.customConfig.uploadImgServer = uploadUrl;//服务器接口地址
         editor.customConfig.onchange = html => {
@@ -359,11 +378,11 @@ class AddProject extends Component {
             if (data.data && data.data.success) {
                 message.success(data.data.msg);
                 setTimeout(() => {
-                    if(url){
-                        window.open(url + "/" + data.data.data.id);
-                    }else{
-                        this.props.history.push('/projectList');
-                    }
+                    // if(url){
+                    //     window.open(url + "/" + data.data.data.id);
+                    // }else{
+                        this.props.history.push(url ? url + "/" + data.data.data.id : '/projectList');
+                    //}
                     // this.props.history.push(url ? url+"/"+data.data.data.id : '/projectList');
                 }, 2000);
             } else {

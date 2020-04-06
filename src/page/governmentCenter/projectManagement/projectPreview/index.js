@@ -22,23 +22,6 @@ class policyPreview extends Component {
             id:props.match.params ? props.match.params.id : null,
             policy:{}
         };
-        this.listData = [
-            {
-                title: '国家企业技术中心认定管理办法',
-                time:'2016-02-26',
-                link:'www.baidu.com'
-            },
-            {
-                title: '工业和信息化部关于申报2019年工业和信息化领域公共服务能力提升专项的通知',
-                time:'2016-02-26',
-                link:'www.baidu.com'
-            },
-            {
-                title: '关于申报2019年科研机构绩效激励引导专项的通知',
-                time:'2016-02-26',
-                link:'www.baidu.com'
-            },
-        ];
     }
     componentDidMount() {
         this.getDefalutData();
@@ -95,7 +78,7 @@ class policyPreview extends Component {
                        <div className="policyPreview-descriptions">
                         <Descriptions column={2}>
                             <Descriptions.Item label="项目标题" span={2}><span>{detailInfo && detailInfo.declare.title}</span></Descriptions.Item>
-                            <Descriptions.Item label="发布机构" span={2}><span title={detailInfo && detailInfo.declare.organization_label_str}>{detailInfo && detailInfo.declare.organization_label_str}</span></Descriptions.Item>
+                            <Descriptions.Item label="发布机构"><span title={detailInfo && detailInfo.declare.organization_label_str}>{detailInfo && detailInfo.declare.organization_label_str}</span></Descriptions.Item>
                             <Descriptions.Item label="发文日期">{detailInfo && detailInfo.declare.release_date}</Descriptions.Item>
                             <Descriptions.Item label="政策标题" span={3}>{detailInfo && detailInfo.declare.pc_title}</Descriptions.Item>
                         </Descriptions>

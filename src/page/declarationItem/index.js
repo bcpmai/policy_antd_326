@@ -99,7 +99,7 @@ class DeclarationItem extends Component {
                             <p className="policy-title"><a href={`/itemText/${record.id}`}>{text}</a></p>
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">应用类型：</span>{record.use_type_label_str}</p>
-                            <p><span className="title">扶持金额：</span>{record.money}</p>
+                            <p><span className="title">扶持金额：</span>{record.money}万元</p>
                             <p><span className="title">申报日期：</span>{record.declare_start_date} 至 {record.declare_end_date}</p>
 
                         </div>

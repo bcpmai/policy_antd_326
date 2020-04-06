@@ -7,7 +7,7 @@
     /*border-top:50px solid #ae242b;*/
 }
 .policyPreview-template .policyPreview-descriptions{
-    padding: 20px 35px 0px 35px;
+    padding: 10px 20px 10px 20px;
     margin: 10px 0;
     border: 1px solid #e6e6e6;
 }
@@ -42,15 +42,15 @@
     margin-left: 0px;
 }
 .policyPreview-template .ant-descriptions-item-label{
-    font-size: 16px;
+    font-size: 14px;
     color: #666;
 }
 .policyPreview-template .ant-descriptions-item-content{
-    font-size: 16px;
+    font-size: 14px;
     color: #000;
 }
 .policyPreview-template .ant-descriptions-row > td{
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 .policyPreview-template .labelAdd .ant-descriptions-item-label{
     vertical-align: top;
@@ -66,6 +66,7 @@
     width: 96%;
     margin: 20px auto;
     border:1px solid #eee;
+    font-size: 14px;
 }
 .policyPreview-template .itemText-infor-table tr td{
     padding: 5px 10px;
