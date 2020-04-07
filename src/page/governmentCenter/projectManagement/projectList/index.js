@@ -80,46 +80,14 @@ class ProjectList extends Component {
                 title: '项目标题',
                 dataIndex: 'title',
                 key: 'title',
-                width: 180,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`}>{text.length < 8 ? text : text.substr(0,8)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`}>{text.length < 45 ? text : text.substr(0,45)+"..."}</a></Tooltip>
                 }
             },
             {
                 title: '发布机构',
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
-                }
-            },
-            {
-                title: '所属层级',
-                dataIndex: 'belong',
-                key: 'belong',
-                width:100,
-                render: text => {
-                    if(text==1) {
-                        return "国家级"
-                    }else if(text==2) {
-                        return "重庆市级"
-                    }else{
-                        return "区县级"
-                    }
-                }
-            },
-            {
-                title: '政策主题',
-                dataIndex: 'policy_theme_label_str',
-                key: 'policy_theme_label_str',
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
-                }
-            },
-            {
-                title: '应用类型',
-                dataIndex: 'use_type_label_str',
-                key: 'use_type_label_str',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
                 }
@@ -148,12 +116,6 @@ class ProjectList extends Component {
             //     dataIndex: 'updated_date',
             //     width: 130
             // },
-            {
-                title: '操作人员',
-                key: 'username',
-                dataIndex: 'username',
-                width:100,
-            },
             {
                 title: '操作',
                 key: 'action',
