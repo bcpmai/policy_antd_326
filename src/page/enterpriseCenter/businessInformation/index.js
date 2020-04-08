@@ -13,6 +13,7 @@ import {request} from "../../../utils/request";
 import TitleTwo from "../../../component/titleTwo";
 import EnterpriseMenu from '../../../component/enterpriseCenterMenu';
 import moment from 'moment';
+import PolicyManagementMenu from "../../../component/policyManagementMenu/index";
 
 const {MonthPicker} = DatePicker;
 const {Option} = Select;
@@ -25,8 +26,10 @@ const layout = {
 class BusinessInformation extends Component {
     constructor(props) {
         super(props);
+        const id = props.match.params ? props.match.params.id : null;
         this.state = {
-            isEdit:false
+            isEdit:id ? true : false,
+            id:id
         }
     }
 
@@ -42,8 +45,12 @@ class BusinessInformation extends Component {
         console.log(date, dateString);
     }
     getDefaultData = async () =>{
-        const requestData = await request('/company/get-company-user', 'POST',{member_id:cookie.load('userId')});
-        const tableData = await request('/company/get-details','POST',{member_id:cookie.load('userId')});
+        let id = cookie.load('userId');
+        if(this.state.id){
+            id = parseInt(this.state.id);
+        }
+        const requestData = await request('/company/get-company-user', 'POST',{member_id:id});
+        const tableData = await request('/company/get-details','POST',{member_id:id});
         const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
         const industryData = selectIndustryData.data;
         const data = requestData.data;
@@ -204,7 +211,7 @@ class BusinessInformation extends Component {
     };
 
     render() {
-        const {provinceSelect, citySelect, areaSelect, industryData,isEdit,register_address} = this.state;
+        const {provinceSelect, citySelect, areaSelect, industryData,isEdit,register_address,id} = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="b-information-template">
@@ -212,7 +219,8 @@ class BusinessInformation extends Component {
                 <div className="information-form-box max-weight-box">
                     <Row>
                         <Col span={4}>
-                            <EnterpriseMenu menuKey="businessInformation"/>
+                            {id ? <PolicyManagementMenu current="enterprise"/>:<EnterpriseMenu menuKey="businessInformation"/>}
+
                         </Col>
                         <Col span={20}>
                             <Title name="企业工商信息"/>
@@ -265,7 +273,7 @@ class BusinessInformation extends Component {
                                     <th>法人代表</th>
                                     <td colSpan={3}>
                                         {getFieldDecorator('legal_person')(
-                                            <Input />
+                                            <Input disabled={isEdit} />
                                         )}
                                     </td>
                                 </tr>
@@ -289,7 +297,7 @@ class BusinessInformation extends Component {
                                                                                    key={idx}>{item.value}</Option>)}
                                         </Select> : null}
                                         {getFieldDecorator('address')(
-                                            <Input placeholder="街道" style={{width:"300px",marginLeft:"10px"}} />
+                                            <Input disabled={isEdit} placeholder="街道" style={{width:"300px",marginLeft:"10px"}} />
                                         )}
                                     </td>
                                 </tr>
@@ -297,7 +305,7 @@ class BusinessInformation extends Component {
                                     <th>经营范围</th>
                                     <td colSpan={5}>
                                         {getFieldDecorator('scope_business')(
-                                            <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
+                                            <TextArea disabled={isEdit} autoSize={{ minRows: 2, maxRows: 6 }} />
                                         )}
                                     </td>
                                 </tr>
@@ -337,7 +345,7 @@ class BusinessInformation extends Component {
                                 <th>企业经营场地类型</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('a4')(
-                                    <Radio.Group>
+                                    <Radio.Group disabled={isEdit}>
                                         <Radio value={1}>写字楼</Radio>
                                         <Radio value={2}>工厂</Radio>
                                         <Radio value={3}>其他</Radio>
@@ -357,7 +365,7 @@ class BusinessInformation extends Component {
                                 <th>经营规模</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('a5')(
-                                    <Radio.Group>
+                                    <Radio.Group disabled={isEdit}>
                                         <Radio value={1}>微型</Radio>
                                         <Radio value={2}>小型</Radio>
                                         <Radio value={3}>中型</Radio>
@@ -690,7 +698,7 @@ class BusinessInformation extends Component {
                                 <th>是否在金融办报备上市储备库</th>
                                 <td colSpan={3}>
                                     {getFieldDecorator('f1')(
-                                    <Radio.Group>
+                                    <Radio.Group disabled={isEdit}>
                                         <Radio value={1}>是</Radio>
                                         <Radio value={2}>否</Radio>
                                     </Radio.Group>
@@ -701,7 +709,7 @@ class BusinessInformation extends Component {
                                 <th>三年内是否有上市计划</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('f2')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -712,7 +720,7 @@ class BusinessInformation extends Component {
                                 <th>拟上市板块 </th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('f3')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>主板</Radio>
                                             <Radio value={2}>中小板</Radio>
                                             <Radio value={3}>创业板|科创板</Radio>
@@ -733,7 +741,7 @@ class BusinessInformation extends Component {
                                 <th>成长型微型企业培育入库</th>
                                 <td colSpan={3}>
                                     {getFieldDecorator('g1')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -744,7 +752,7 @@ class BusinessInformation extends Component {
                                 <th>科技型企业入库 </th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g2')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -755,7 +763,7 @@ class BusinessInformation extends Component {
                                 <th>企业研发准备金备案</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g3')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -766,7 +774,7 @@ class BusinessInformation extends Component {
                                 <th>知识产权管理规范贯标认证</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g4')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -777,7 +785,7 @@ class BusinessInformation extends Component {
                                 <th>工业与信息化两化融合贯标认证</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g5')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -788,7 +796,7 @@ class BusinessInformation extends Component {
                                 <th>已成为知识产权优势企业</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g6')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -799,7 +807,7 @@ class BusinessInformation extends Component {
                                 <th>已通过质量管理体系认证</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g7')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -810,7 +818,7 @@ class BusinessInformation extends Component {
                                 <th>是否获得对外投资</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g8')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -842,10 +850,16 @@ class BusinessInformation extends Component {
                             </tbody>
                         </table>
                     </div>
-                    <div className="b-information-butn">
-                        <Button htmlType="submit" type="primary">确定</Button>
-                        <Button onClick={()=>{this.props.history.push("/matching")}}>取消</Button>
-                    </div>
+                    {id ? <div className="b-information-butn"><Button onClick={() => {
+                            this.props.history.goBack()
+                        }}>返回</Button></div> :
+                        <div className="b-information-butn">
+                            <Button htmlType="submit" type="primary">确定</Button>
+                            <Button onClick={() => {
+                                this.props.history.push("/matching")
+                            }}>取消</Button>
+                        </div>
+                    }
                 </Form>
                         </Col>
                     </Row>

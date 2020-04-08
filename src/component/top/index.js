@@ -122,7 +122,7 @@ class Top extends Component {
                                 <a href="/declarationItem">申报政策</a>
                             </Menu.Item>
                             <Menu.Item key="login">
-                                <a href={isLogin ? (userType == 1 ? "/information" : "/policyList") : "/login"}>个人中心</a>
+                                <a href={isLogin ? (userType == 1 ? "/matching" : "/policyList") : "/login"}>个人中心</a>
                             </Menu.Item>
                         </Menu>
                     </Col>

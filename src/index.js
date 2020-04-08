@@ -79,7 +79,7 @@ ReactDOM.render(
             <Route exact path="/enterprise" component={Enterprise} />
             <Route exact path="/labelManage" component={LabelManage} />
             <Route exact path="/carouselManage" component={CarouselManage} />
-            <Route exact path="/businessInformation" component={BusinessInformation} />
+            <Route exact path="/businessInformation/:id?" component={BusinessInformation} />
             <Route exact path="/declarationForm/:id" component={DeclarationForm} />
 
         </div>

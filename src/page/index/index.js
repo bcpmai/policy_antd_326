@@ -222,7 +222,7 @@ class Home extends Component {
                                 {dataList && dataList.length ? dataList.map((item,idx)=>{
                                    return <Col span={8} key={idx}>
                                         <div className="item">
-                                            <p className="title"><a href={`/itemText/${item.id}`} target="_blank" title={item.title}>{item.title.length < 45 ? item.title : item.title.substr(0,45)+"..."}</a></p>
+                                            <p className="title"><a href={`/itemText/${item.id}`} title={item.title}>{item.title.length < 45 ? item.title : item.title.substr(0,45)+"..."}</a></p>
                                             <p align="center">{item.use_type_label_str ? item.use_type_label_str.map((tagItem,tagIdx)=>{
                                                 return <span className="tips mr10" key={tagIdx}>{tagItem}</span>
                                             }) : null}</p>
