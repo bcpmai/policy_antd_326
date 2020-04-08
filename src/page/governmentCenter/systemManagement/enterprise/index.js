@@ -48,29 +48,29 @@ class enterprise extends Component {
                 key: 'company_name',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}><span>{text.length < 4 ? text : text.substr(0, 4) + "..."}</span></Tooltip>
+                                    title={text}><span>{text.length < 15 ? text : text.substr(0, 15) + "..."}</span></Tooltip>
                 }
             },
-            {
-                title: '统一社会信用代码',
-                dataIndex: 'code',
-                key: 'code',
-                width: 150,
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft"
-                                    title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
-                }
-            },
-            {
-                title: '所属行业',
-                dataIndex: 'industry_label_str',
-                key: 'industry_label_str',
-                width: 150,
-                render: (text, record) => {
-                    return <Tooltip placement="topLeft"
-                                    title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
-                }
-            },
+            // {
+            //     title: '统一社会信用代码',
+            //     dataIndex: 'code',
+            //     key: 'code',
+            //     width: 150,
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft"
+            //                         title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
+            //     }
+            // },
+            // {
+            //     title: '所属行业',
+            //     dataIndex: 'industry_label_str',
+            //     key: 'industry_label_str',
+            //     width: 150,
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft"
+            //                         title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
+            //     }
+            // },
             {
                 title: '用户名',
                 dataIndex: 'username',
@@ -348,7 +348,7 @@ class enterprise extends Component {
                         padding: "40px 30px 10px 30px",
                         fontSize: "16px",
                         color: "#6e6e6e"
-                    }}>确认重置密码？确认后，初始密码为123abc，请及时通知联系人。</p>
+                    }}>确认重置密码？确认后，初始密码为abc123，请及时通知联系人。</p>
                 </Modal>
                 {this.state.addVisible ? <AddUser record={record} callback={() => this.userCallback()}
                                                   handleCancel={this.handleCancel}/> : null}

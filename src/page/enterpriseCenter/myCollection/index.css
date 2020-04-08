@@ -40,8 +40,10 @@
     margin-top: 20px;
 }
 .myCollection-template .myCollection-search{
-    width: 60%;
-    margin: 0 auto 20px;
+    width: 30%;
+    margin-bottom:20px;
+    text-align: right;
+    margin-left: 70%;
 }
 /*.myCollection-template .title-component-template{*/
     /*margin-top: 80px;*/
@@ -60,11 +62,12 @@
     background: #ae242b;
     color: #fff;
 }
-.myCollection-template .myCollection-search .ant-input-group .ant-input{
-    border:1px solid #c8000a;
-    border-radius:15px 0 0 15px;
-    padding:5px 11px;
-    height: 34px;
+.myCollection-template .myCollection-search .ant-input-affix-wrapper .ant-input{
+    border:1px solid #d13334;
+    border-radius:0px 0 0 0px;
+    padding:4px 11px;
+    height: 30px;
+    font-size:14px;
 }
 .myCollection-template .myCollection-search .ant-input-group .ant-btn{
     border:1px solid #c8000a;
@@ -80,7 +83,7 @@
     background: none;
 }
 .myCollection-template .ant-tabs-bar{
-    border-bottom: 2px solid #a72329;
+    border-bottom: 1px solid #d13334;
 }
 .myCollection-template .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-container{
     height: 35px;
@@ -88,15 +91,15 @@
 .myCollection-template .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab{
     background: #f4f2f2;
     color: #aaa;
-    border-radius: 15px 15px 0 0 ;
+    border-radius: 2px 2px 0 0 ;
     font-weight: bold;
     padding: 0 20px;
     margin-right: 10px;
-    border-bottom: 1px solid #a72329;
+    border-bottom: 1px solid #d13334;
     font-size: 14px;
     height: 35px;
 }
 .myCollection-template .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
-    background: #a72329;
+    background: #d13334;
     color: #fff;
 }

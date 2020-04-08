@@ -41,13 +41,13 @@
     /*margin-bottom: 60px;*/
 /*}*/
 .mySubscribe-template .mySubscribe-form-box .ant-btn{
-    background: #fff;
-    color: #ae242b;
-    border:1px solid #ae242b;
-    border-radius: 20px;
+    background: #d13334;
+    color: #fff;
+    border:1px solid #d13334;
+    border-radius: 2px;
     height: 30px;
-    padding: 0 15px;
-    font-size: 14px;
+    padding: 0 10px;
+    font-size: 12px;
 }
 .mySubscribe-template .mySubscribe-form-box .ant-btn:hover{
     background: #ae242b;

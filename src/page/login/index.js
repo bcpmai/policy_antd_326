@@ -62,7 +62,7 @@ class Login extends Component {
         return (
             <div className="login-template">
                 <Top />
-                <div className="login-form-box">
+                <div className="login-form-box" style={{minHeight:window.innerHeight-70-140}}>
                     <div className="max-weight-box login-max-weight">
                         <div className="login-form-bg"></div>
                         <div className="login-form">
@@ -72,14 +72,14 @@ class Login extends Component {
                                     {getFieldDecorator('username', {
                                         rules: [{ required: true, message: '请输入用户账号!' }],
                                     })(
-                                        <Input prefix={<Icon type="user" />} placeholder="请输入用户账号"/>
+                                        <Input placeholder="请输入用户账号"/>
                                     )}
                                 </Form.Item>
                                 <Form.Item >
                                     {getFieldDecorator('password', {
                                         rules: [{ required: true, message: '请输入密码!' }],
                                     })(
-                                        <Input.Password prefix={<Icon type="lock" />} placeholder="请输入密码"/>
+                                        <Input.Password placeholder="请输入密码"/>
                                     )}
                                 </Form.Item>
                                 <Form.Item wrapperCol={{span: 24, offset: 0}} className="login-button">

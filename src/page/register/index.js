@@ -161,7 +161,7 @@ class Register extends Component {
         const {labelSelect,time,label,subScribeData} = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="register-template">
+            <div className="register-template" style={{minHeight:window.innerHeight-70}}>
                 <Top />
                 <div className="register-form-box max-weight-box">
                     <div className="register-form-bg"></div>
@@ -300,7 +300,7 @@ class Register extends Component {
                         <Button className={time >0 ? "ant-form-text ant-form-disabled" : "ant-form-text"} disabled={time>0 ? true : false} onClick={time>0 ? null : this.getSms}> {time>0 ? `${time}秒后可再次发送短信`:"获取短信验证码"}</Button>
                     </Form.Item>
                     <div className="register-button">
-                        <Form.Item wrapperCol={{...layout.wrapperCol, offset: 8}} >
+                        <Form.Item wrapperCol={{...layout.wrapperCol, offset: 6}} >
                             <Button type="primary" htmlType="submit">
                                 立即注册
                             </Button>

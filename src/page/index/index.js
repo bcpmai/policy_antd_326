@@ -253,11 +253,8 @@ class Home extends Component {
                 <div className="index-footer-box">
                     <div className="max-weight-box">
                         <p className="title">建议使用1920×768分辨率 IE9.0及以上版本浏览</p>
-                        <p>联系电话：023-xxxxxxxxx<br />
-                            ICP备案：渝ICP备xxxxxxxxxx号-x<br />
-                            国际联网备案： 渝公网安备 5001xxxxxxxxxx号<br />
-                            网站标识码：500xxxxxxx
-
+                        <p>联系电话：023-61739999<br />
+                            ICP备案：渝ICP备19013939号-1
                         </p>
                     </div>
                 </div>

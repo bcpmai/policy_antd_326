@@ -181,7 +181,7 @@ class Matching extends Component {
                                     <Icon type="exclamation-circle" theme="filled" />
                                     <span>您可完善企业信息，精准匹配申报政策</span>
                                 </div>
-                                <Button onClick={()=>{window.location.href="/information"}} type="primary" icon={<Icon type="edit" />} className="button-edit">完善信息</Button>
+                                <Button onClick={()=>{window.location.href="/information"}} type="primary" icon="edit" className="button-edit">完善信息</Button>
                             </div>
                             {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                         </Col>

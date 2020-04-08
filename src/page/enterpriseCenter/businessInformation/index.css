@@ -59,13 +59,14 @@
 }
 .b-information-butn .ant-btn{
     margin: 0 10px;
-    border:1px solid #c8000a;
-    background: #fff;
-    border-radius:5px;
-    padding: 0px 20px;
+    background: #d13234;
+    color: #fff;
+    border:1px solid #d13234;
+    border-radius: 0px;
     height: 30px;
+    padding: 0 20px;
     font-size: 14px;
-    color: #c8000a;
+    margin: 0 10px;
 }
 .b-information-butn .ant-btn:hover{
     background-color: #f3a7a7;

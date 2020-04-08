@@ -200,7 +200,7 @@ class Information extends Component {
         })
     }
     handleOk = async(e) => {
-        this.onFinish(this.refs.form.getFieldsValue());
+        this.onFinish(e);
         this.setState({
             visible: false
         });

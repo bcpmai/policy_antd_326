@@ -1,88 +1,67 @@
-.itemText-template{}
-.itemText-template .itemText-label-box{
-    padding-top: 20px;
+.d-information-item table{
+    width:100%;
+    border-top:1px solid #e6e6e6;
+    border-left:1px solid #e6e6e6;
+    margin-bottom: 30px;
 }
-.itemText-template .itemText-descriptions{
-    border:1px solid #efefef;
-    padding: 10px;
-    margin: 10px 0;
+.d-information-item table th,
+.d-information-item table td{
+    border-bottom:1px solid #e6e6e6;
+    border-right:1px solid #e6e6e6;
+    padding: 0px 10px;
 }
-.itemText-template .itemText-content-box{
-    padding-bottom: 20px;
-}
-.itemText-template .itemText-content{
-    margin-top: 20px;
-}
-.itemText-template .itemText-content .itemText-content-title{
-    font-size: 20px;
-    color: #333;
-    text-align: center;
-    width: 70%;
-    margin: 0 auto;
-}
-.itemText-template .itemText-content .itemText-content-text{
-    padding: 10px 0;
-}
-.itemText-template .itemText-infor .itemText-infor-table{
-    width: 97%;
-    margin: 20px auto;
-    border:1px solid #eee;
-}
-.itemText-template .itemText-infor .itemText-infor-table tr td{
-    padding: 7px 10px;
-    border-left:1px solid #efefef;
-    border-top:1px solid #efefef;
-    text-align: center;
-    color: #333;
-}
-.itemText-template .itemText-infor .itemText-infor-table tr:nth-child(2n) td{
-    background: #f5f5f5;
-}
-.itemText-template .itemText-infor .itemText-infor-table tr td:first-child{
-    color: #666;
-}
-.itemText-template .item-box{
-    margin-top: 20px;
-}
-.itemText-template .collection-butn .ant-btn{
-    border-radius: 5px;
-    height: 30px;
-    padding: 0 20px;
+.d-information-item table th{
     font-size: 14px;
-    margin: 0px 10px 0px 0px;
-    cursor: pointer;
+    color: #666;
+    font-weight: normal;
+    line-height: 30px;
+    /*background: #f2f2f2;*/
 }
-.itemText-template .collection-butn .ant-btn-primary{
+.d-information-item table td{
+    padding: 5px 10px;
+}
+.d-information-item .ant-form-item{
+    margin-bottom: 0px;
+}
+.d-information-item .ant-form-item .ant-input{
+    width: 100%;
+}
+.d-information-item .address-box .ant-form-item{
+    /*width: 25%;*/
+    display: inline-block;
+}
+.d-information-item .ant-input,
+.d-information-item .ant-select-selection{
+    /*border: 1px solid #f5f5f5;*/
+}
+.d-information-item .ant-radio-group{
+    padding: 2px 0;
+}
+.d-information-item table th{
+    width: 12%;
+}
+.d-information-item table .address-box{
+    width: 630px;
+}
+.d-information-template .title-two-component-template{
+    margin-bottom: 5px;
+}
+.d-information-butn{
+    text-align: center;
+    padding-bottom: 30px;
+}
+.d-information-butn .ant-btn{
+    margin: 0 10px;
+    border:1px solid #c8000a;
     background: #fff;
-    border:1px solid #d13234;
-    color: #d13234;
+    border-radius:5px;
+    padding: 0px 20px;
+    height: 30px;
+    font-size: 14px;
+    color: #c8000a;
 }
-.itemText-template .collection-butn .ant-btn:hover{
+.d-information-butn .ant-btn:hover{
     background-color: #f3a7a7;
-    border: 1px solid #f3a7a7;
-    color: #fff;
     animation: bg-color 10s infinite;
     -webkit-animation: bg-color 10s infinite;
-}
-.itemText-template .item-desc{
-    padding: 20px;
-    font-size: 14px;
-    color: #000;
-}
-.itemText-template .ant-descriptions-item-label{
-    font-size: 14px;
-    color: #666;
-}
-.itemText-template .ant-descriptions-item-content{
-    font-size: 14px;
-    color: #000;
-}
-.itemText-template .ant-descriptions-row > td{
-    padding-bottom: 10px;
-}
-.itemText-template .title-two-component-template{
-    padding: 7px 20px;
-    font-size: 14px;
-    margin-top: 30px;
-    border-top:1px solid #e2e2e2;
 }

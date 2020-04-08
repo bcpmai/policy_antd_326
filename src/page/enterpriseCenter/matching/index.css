@@ -17,10 +17,10 @@
 }
 .matching-template .alert-box{
     font-size: 12px;
-    color: #fdbc3c;
-    border:1px solid #f7c13d;
+    color: #f8c54b;
+    border:1px solid #fad887;
     padding: 5px 10px;
-    background: #faf4e4;
+    background: #fff;
     display: inline-block;
 }
 .matching-template .alert-box .anticon-exclamation-circle{
@@ -49,13 +49,13 @@
     /*margin-bottom: 60px;*/
 /*}*/
 .matching-template .information-title-h1 .ant-btn{
-    background: #fff;
-    color: #ae242b;
-    border:1px solid #ae242b;
-    border-radius: 5px;
+    background: #d13334;
+    color: #fff;
+    border:1px solid #d13334;
+    border-radius: 2px;
     height: 30px;
     padding: 0 10px;
-    font-size: 14px;
+    font-size: 12px;
 }
 .matching-template .information-title-h1 .ant-btn:hover{
     background-color: #f3a7a7;

@@ -81,7 +81,7 @@ class ForgotYour extends Component {
         return (
             <div className="forgotYour-template">
                 <Top />
-                <div className="forgotYour-form-box">
+                <div className="forgotYour-form-box" style={{minHeight:window.innerHeight-70}}>
                     <div className="max-weight-box login-max-weight">
                         <div className="login-form-bg"></div>
                         <div className="login-form">
@@ -94,7 +94,7 @@ class ForgotYour extends Component {
                                     message: '请输入手机号'
                                 }]
                             })(
-                                <Input prefix={<Icon type="mobile" />} placeholder="请输入手机号"/>
+                                <Input placeholder="请输入手机号"/>
                             )}
                         </Form.Item>
                         <Form.Item>
@@ -132,7 +132,7 @@ class ForgotYour extends Component {
                                             }
                                     }]
                             })(
-                                <Input.Password prefix={<Icon type="lock" />} placeholder="字母、数字和符号两种以上的6-25字符组合"/>
+                                <Input.Password placeholder="字母、数字和符号两种以上的6-25字符组合"/>
                             )}
                         </Form.Item>
                         <Form.Item>
@@ -151,10 +151,10 @@ class ForgotYour extends Component {
                                     }
                                 }]
                             })(
-                                <Input.Password prefix={<Icon type="lock" />} placeholder="再次输入密码"/>
+                                <Input.Password placeholder="再次输入密码"/>
                             )}
                         </Form.Item>
-                        <Form.Item wrapperCol={{span: 19, offset: 5}} className="forgotYour-button">
+                        <Form.Item wrapperCol={{span: 24, offset: 0}} className="forgotYour-button">
                             <Button type="primary" htmlType="submit">
                                 提交
                             </Button>

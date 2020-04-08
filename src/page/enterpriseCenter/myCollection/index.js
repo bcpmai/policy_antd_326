@@ -189,13 +189,13 @@ class MyCollection extends Component {
                         <Tabs onChange={this.callback} type="card">
                             <TabPane tab="最新政策" key="1">
                                 <div className="myCollection-search">
-                                    <Search onSearch={value => this.onSearchTitle(value)} enterButton="查询" />
+                                    <Search placeholder="请输入关键字" onSearch={value => this.onSearchTitle(value)} />
                                 </div>
                                 {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                             </TabPane>
                             <TabPane tab="申报政策" key="2">
                                 <div className="myCollection-search">
-                                    <Search onSearch={value => this.onSearchTitle(value)} enterButton="查询" />
+                                    <Search placeholder="请输入关键字" onSearch={value => this.onSearchTitle(value)} />
                                 </div>
                                 {tableData ? <Table columns={this.columns2} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                             </TabPane>

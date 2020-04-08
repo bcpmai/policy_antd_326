@@ -300,12 +300,11 @@ class LatestPolicy extends Component {
                 <Top />
                 <div className="latestPolicy-label-box max-weight-box">
                     <Row className="latestPolicy-serach">
-                        <Col span={12}>
+                        <Col span={6}>
                             <Form ref="seachForm">
                                 <Form.Item ref="seachInput">
                                     {getFieldDecorator('title')(
                                         <Search
-                                            enterButton="查询"
                                             size="large"
                                             placeholder="请输入关键词查询政策标题"
                                             onSearch={value => this.onSearchTitle(value)}

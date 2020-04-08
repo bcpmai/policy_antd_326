@@ -11,7 +11,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+#root{
+  position: relative;
+  z-index: 1;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -39,7 +42,6 @@ code {
   position: relative;
   z-index: 2;
   background: #fff;
-  min-height: 797px;
 }
 /*分页*/
 .ant-pagination .ant-pagination-item-active{

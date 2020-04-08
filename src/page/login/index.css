@@ -4,7 +4,7 @@
 .login-template .login-form-box{
     margin: 0 auto;
     background: url("./img/bg.jpg") center top no-repeat;
-    height: 797px;
+    /*height: 797px;*/
 }
 .login-template .login-title{
     text-align: center;
@@ -14,19 +14,20 @@
 }
 .login-template .login-button .ant-btn{
     width: 100%;
-    margin-bottom: 40px;
-    background: #ae242b;
+    margin-bottom: 20px;
+    background: #d13334;
     color: #fff;
-    border:1px solid #ae242b;
-    border-radius: 20px;
-    height: 40px;
+    border:1px solid #d13334;
+    border-radius: 0px;
+    height: 38px;
     padding: 0 45px;
-    font-size: 18px;
+    font-size: 16px;
     margin-right: 20px;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 .login-template .login-button p{
     text-align: right;
+    margin: 0px;
 }
 .login-template .ant-col-8 {
     color: #000;
@@ -49,17 +50,17 @@
 .login-template .login-max-weight{
     position: relative;
     z-index: 1;
-    background: url('./img/text.png') left center no-repeat;
+    /*background: url('./img/text.png') left center no-repeat;*/
     min-height: 558px;
 }
 .login-template .login-form,.login-template .login-form-bg{
-    width: 445px;
-    height: 558px;
+    width: 408px;
+    height: 408px;
     position: absolute;
     z-index: 2;
     right: 0;
     top: 117px;
-    border-radius: 25px;
+    border-radius: 0px;
     padding: 40px;
 }
 .login-template .login-form-bg{
@@ -68,21 +69,25 @@
     opacity: 0.6;
 }
 .login-template .ant-divider-inner-text{
-    font-size: 22px;
+    font-size: 24px;
     color: #ac242a;
+}
+.login-template .ant-divider-horizontal.ant-divider-with-text-center{
+    margin-top: 0px;
 }
 .login-template .ant-divider-horizontal.ant-divider-with-text-center::before,
 .login-template .ant-divider-horizontal.ant-divider-with-text-center::after{
-    border-top:1px solid #a72329;
+    border-top:0px solid #a72329;
 }
 .login-template .ant-form{
-    margin-top: 50px;
+    margin-top: 0px;
 }
 .login-template .ant-input-prefix{
     font-size: 20px;
 }
 .login-template .ant-form-item{
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom: 0px;
 }
 .login-template .ant-input:focus,.login-template .ant-input:hover{
     border: 0!important;
@@ -91,4 +96,11 @@
 .login-template .ant-input-affix-wrapper:hover{
     border: 1px solid #a72329!important;
     box-shadow: 0 0 0 2px rgba(167,35,41,0.2)!important;
+}
+.login-template .ant-input{
+    height: 36px;
+    line-height: 36px;
+    border: 1px solid #e0e0e0;
+    padding: 0 10px;
+    border-radius: 2px;
 }

@@ -4,7 +4,7 @@
 .forgotYour-template .forgotYour-form-box{
     margin: 0 auto;
     background: url("./img/bg.jpg") center top no-repeat;
-    height: 797px;
+    /*height: 797px;*/
 }
 .forgotYour-template .forgotYour-title{
     text-align: center;
@@ -22,13 +22,13 @@
 .forgotYour-template .forgotYour-button .ant-btn{
     width: 100%;
     margin-bottom: 20px;
-    background: #ae242b;
+    background: #d13334;
     color: #fff;
-    border:1px solid #ae242b;
-    border-radius: 20px;
-    height: 40px;
+    border:1px solid #d13334;
+    border-radius: 0px;
+    height: 36px;
     padding: 0 45px;
-    font-size: 18px;
+    font-size: 16px;
     margin-right: 20px;
     margin-top: 20px;
 }
@@ -66,17 +66,17 @@
 .forgotYour-template .login-max-weight{
     position: relative;
     z-index: 1;
-    min-height: 558px;
+    /*min-height: 558px;*/
 }
 .forgotYour-template .login-form,.forgotYour-template .login-form-bg{
     width: 445px;
-    height: 558px;
+    height: 510px;
     position: absolute;
     z-index: 2;
     right: 0;
-    top: 117px;
-    border-radius: 25px;
-    padding: 40px;
+    top: 50px;
+    border-radius: 0px;
+    padding: 20px 40px;
 }
 .forgotYour-template .login-form-bg{
     z-index: 1;
@@ -84,15 +84,15 @@
     opacity: 0.6;
 }
 .forgotYour-template .ant-divider-inner-text{
-    font-size: 22px;
-    color: #ac242a;
+    font-size: 24px;
+    color: #c02023;
 }
 .forgotYour-template .ant-divider-horizontal.ant-divider-with-text-center::before,
 .forgotYour-template .ant-divider-horizontal.ant-divider-with-text-center::after{
-    border-top:1px solid #a72329;
+    border-top:0px solid #a72329;
 }
 .forgotYour-template .ant-form{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .forgotYour-template .ant-input-prefix{
     font-size: 20px;
@@ -100,4 +100,9 @@
 .forgotYour-template .ant-form-item{
     min-height: 65px;
     margin: 0;
+}
+.forgotYour-template .ant-input{
+    border:1px solid #e0e0e0;
+    border-radius: 1px;
+    height: 35px;
 }

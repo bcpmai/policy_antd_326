@@ -69,9 +69,15 @@ class ItemText extends Component {
         }
     }
     showModal = () => {
-        this.setState({
-            visible: true
-        });
+        const {id} = this.props.match.params;
+        console.log(id);
+        if(id == 59 || id == 60){
+            this.props.history.push(`/declarationForm/${id}`);
+        }else {
+            this.setState({
+                visible: true
+            });
+        }
     };
     handleOk = e => {
         console.log(e);

@@ -241,7 +241,7 @@ class MySubscribe extends Component {
                         </Col>
                         <Col span={20}>
                             <div>
-                                <Button style={{float:"right"}} onClick={this.subscribeVisble}>订阅编辑</Button>
+                                <Button icon="edit" style={{float:"right"}} onClick={this.subscribeVisble}>订阅编辑</Button>
                                 <Title name="我的订阅" />
                                 </div>
                     <div>

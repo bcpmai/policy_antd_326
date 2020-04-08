@@ -227,7 +227,7 @@ class policyUser extends Component {
                         padding: "40px 30px 10px 30px",
                         fontSize: "16px",
                         color: "#6e6e6e"
-                    }}>确认重置密码？确认后，初始密码为123abc，请及时通知联系人。</p>
+                    }}>确认重置密码？确认后，初始密码为abc123，请及时通知联系人。</p>
                 </Modal>
 
                 {this.state.addVisible ? <AddUser record={record} callback={()=>this.userCallback()} handleCancel={this.handleCancel} /> : null}

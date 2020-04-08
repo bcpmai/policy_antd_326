@@ -224,10 +224,15 @@ class DeclarationItem extends Component {
         })
     }
     showModal = (record) => {
-        this.setState({
-            visible: true,
-            record
-        });
+        const {id} = record;
+        if(id == 59 || id == 60){
+            this.props.history.push(`/declarationForm/${id}`);
+        }else {
+            this.setState({
+                visible: true,
+                record
+            });
+        }
     };
     handleOk = e => {
         console.log(e);
@@ -332,12 +337,11 @@ class DeclarationItem extends Component {
                 <Top/>
                 <div className="declarationItem-label-box max-weight-box">
                     <Row className="declarationItem-serach">
-                        <Col span={12}>
+                        <Col span={6}>
                             <Form ref="seachForm">
                                 <Form.Item name="title" ref="seachInput">
                                     {getFieldDecorator('title')(
                                         <Search
-                                            enterButton="查询"
                                             size="large"
                                             onSearch={value => this.onSearchTitle(value)}
                                         />)}

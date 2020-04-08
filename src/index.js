@@ -46,11 +46,12 @@ import DeclarationForm from "./page/declarationForm/index.js";
 import Footer from "./component/footer";
 
 
+// alert(window.location.href,1111);
 
 ReactDOM.render(
     <Router>
         <ConfigProvider locale={zhCN}>
-        <div className="main-box" id="main">
+        <div className="main-box" id="main" style={{minHeight:window.innerHeight-140}}>
             <Route exact path="/" component={Index} />
             <Route exact path="/home" component={App} />
             <Route exact path="/login" component={Login} />
@@ -79,7 +80,7 @@ ReactDOM.render(
             <Route exact path="/labelManage" component={LabelManage} />
             <Route exact path="/carouselManage" component={CarouselManage} />
             <Route exact path="/businessInformation" component={BusinessInformation} />
-            <Route exact path="/declarationForm" component={DeclarationForm} />
+            <Route exact path="/declarationForm/:id" component={DeclarationForm} />
 
         </div>
             <Footer />
