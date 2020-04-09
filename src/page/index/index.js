@@ -154,17 +154,17 @@ class Home extends Component {
                             </Col>
                             <Col span={6}>
                                 <img src={Icon2} />
-                                <p className="number">{policy_click_count}<span>条</span></p>
+                                <p className="number">{policy_click_count}<span>次</span></p>
                                 <p className="desc">政策点击次数</p>
                             </Col>
                             <Col span={6}>
                                 <img src={Icon3} />
-                                <p className="number">{macthing_declare}<span>条</span></p>
+                                <p className="number">{macthing_declare}<span>次</span></p>
                                 <p className="desc">精准匹配次数</p>
                             </Col>
                             <Col span={6}>
                                 <img src={Icon4} />
-                                <p className="number">{company_count}<span>条</span></p>
+                                <p className="number">{company_count}<span>家</span></p>
                                 <p className="desc">服务企业总数</p>
                             </Col>
                         </Row>
