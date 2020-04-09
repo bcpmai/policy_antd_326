@@ -126,14 +126,14 @@ class Top extends Component {
                             </Menu.Item>
                         </Menu>
                     </Col>
-                    <Col span={3}>
-                        {/*<div className="serach"><Search placeholder="请输入关键词" onSearch={this.serachLatestPolicy} enterButton /></div>*/}
-                    </Col>
-                    {!isLogin ? <Col span={4} className="right-button">
+                    {/*<Col span={3}>*/}
+                        {/*/!*<div className="serach"><Search placeholder="请输入关键词" onSearch={this.serachLatestPolicy} enterButton /></div>*!/*/}
+                    {/*</Col>*/}
+                    {!isLogin ? <Col span={7} className="right-button">
                         <Link to="/login"><Button icon="user">登录</Button></Link>
                         {/*<u className="line-u">|</u>*/}
                         <Link to="/register"><Button icon="export" className="ml15">注册</Button></Link>
-                    </Col> : <Col span={4} className="right-button"><span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></Col>}
+                    </Col> : <Col span={7} className="right-button"><span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></Col>}
 
                 </Row>
                 </div>
