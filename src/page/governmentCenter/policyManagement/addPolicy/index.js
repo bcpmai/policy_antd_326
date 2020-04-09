@@ -378,9 +378,6 @@ class AddPolicy extends Component {
                                             <Form.Item labelCol={{span: 11}} label="政策有效期">
                                                 {getFieldDecorator('life_date', {
                                                     rules: [{
-                                                        required: true,
-                                                        message: '请选择政策有效期'
-                                                    },{
                                                         validator: (rule, value, callback) => {
 
                                                             const { form } = this.props;
