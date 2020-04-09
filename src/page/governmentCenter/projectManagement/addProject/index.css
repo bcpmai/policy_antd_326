@@ -69,17 +69,23 @@
 }
 .addProject-template .addProject-button .ant-btn{
     background: #fff;
-    color: #ae242b;
-    border:1px solid #ae242b;
-    border-radius: 20px;
-    height: 35px;
-    padding: 0 45px;
+    color: #d13334;
+    border: 1px solid #d13334;
+    border-radius: 2px;
+    height: 31px;
+    padding: 0 25px;
     font-size: 14px;
-    margin-right: 20px;
+    margin: 20px 40px 0px 0px;
+    cursor: pointer;
+}
+.addProject-template .addProject-button .ant-btn-primary{
+    background: #d13334;
+    color: #fff;
 }
 .addProject-template .addProject-button .ant-btn:hover{
-    background: #ae242b;
-    color: #fff;
+    background-color: #f3a7a7;
+    animation: bg-color 10s infinite;
+    -webkit-animation: bg-color 10s infinite;
 }
 /*.addProject-template .label-box{*/
     /*padding: 40px 10px 60px 100px;*/
@@ -129,6 +135,7 @@
 }
 .main-box .addProject-template .label-box{
     border:0px;
+    padding-left: 20px;
 }
 .select-porject-modal .ant-input-search{
     margin-bottom: 10px;

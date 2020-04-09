@@ -102,7 +102,7 @@
     padding-bottom: 190px;
 }
 .index-template .application-box .application-item-box{
-    margin-left: 20px;
+    margin-left: 60px;
 }
 .index-template .application-box .application-item-box .item{
     width: 365px;
@@ -391,15 +391,40 @@
     margin: 0;
     padding: 0;
     cursor: pointer;
+    animation: 0.1s itemSize 0s 1; -webkit-animation: 0.1s itemSize 0s 1;-moz-animation: 0.1s itemSize 0s 1;
 }
 .index-item-link .ant-col-8:nth-child(2) .item{
     background: url("./img/item-icon2.png") right bottom no-repeat;
     background-size: 70px auto;
+    animation: 0.1s itemSize 0s 1; -webkit-animation: 0.1s itemSize 0s 1;-moz-animation: 0.1s itemSize 0s 1;
 }
 .index-item-link .ant-col-8:nth-child(3) .item{
     background: url("./img/item-icon3.png") right bottom no-repeat;
     background-size: 70px auto;
+    animation: 0.1s itemSize 0s 1; -webkit-animation: 0.1s itemSize 0s 1;-moz-animation: 0.1s itemSize 0s 1;
 }
+@keyframes itemSize{
+    100%{background-size: 70px auto}
+    75%{background-size: 85px auto}
+    50%{background-size: 95px auto}
+    25%{background-size: 115px auto}
+    0%{background-size: 121px auto}
+}
+@-webkit-keyframes itemSize{
+    100%{background-size: 70px auto}
+    75%{background-size: 85px auto}
+    50%{background-size: 95px auto}
+    25%{background-size: 115px auto}
+    0%{background-size: 121px auto}
+}
+@-moz-keyframes itemSize{
+    100%{background-size: 70px auto}
+    75%{background-size: 85px auto}
+    50%{background-size: 95px auto}
+    25%{background-size: 115px auto}
+    0%{background-size: 121px auto}
+}
+
 .index-item-link .ant-col-8 .item:hover{
     background-size: 121px auto;
 }
@@ -428,7 +453,7 @@
 .desc-item-box{
     background:url('./img/desc-bg.jpg') 500px 120px no-repeat;
     padding-top: 80px;
-    padding-left:80px;
+    padding-left:60px;
     padding-bottom: 80px;
 }
 .desc-item-box ul,
@@ -483,4 +508,5 @@
 }
 .index-footer-box .max-weight-box{
     background: url('./img/footer-logo.jpg') 1000px center no-repeat;
+    padding-left: 60px;
 }

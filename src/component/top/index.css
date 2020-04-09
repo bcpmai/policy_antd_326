@@ -21,6 +21,7 @@
     margin-right:0px;
     border-radius: 5px;
     padding: 0px 15px;
+    height: 32px;
 }
 .top-component-template .welcome-box .ant-btn:hover{
     background-color: #f3a7a7;

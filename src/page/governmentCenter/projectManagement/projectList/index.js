@@ -349,7 +349,7 @@ class ProjectList extends Component {
                             <div className="label-box">
                                 <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                                 <Row className="mt10">
-                                    <Col span={2}>项目标题</Col>
+                                    <Col span={2} style={{fontSize:"16px",color:"#000"}}>项目标题</Col>
                                     <Col span={18}>
                                         <Form.Item>
                                             {getFieldDecorator('title')(

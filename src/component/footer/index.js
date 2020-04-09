@@ -30,7 +30,7 @@ class Footer extends Component {
                 <div className="footer-component-template">
                     <div className="max-weight-box">
                         <p>Copyright © www.cqxxx.gov.cn All Rights Reserved.</p>
-                        <p>重庆市九龙坡区民营经济发展局版权所有  去除那个政府办公室承办</p>
+                        <p>重庆市九龙坡区民营经济发展局版权所有</p>
                     </div>
                 </div>
         );

@@ -61,7 +61,7 @@
     /*margin-top: 80px;*/
     /*margin-bottom: 60px;*/
 /*}*/
-.information-template .ant-btn{
+.information-template .information-form-box .ant-btn{
     background: #d13334;
     color: #fff;
     border:1px solid #d13334;
@@ -70,7 +70,7 @@
     padding: 0 10px;
     font-size: 12px;
 }
-.information-template .ant-btn:hover{
+.information-template .information-form-box .ant-btn:hover{
     background-color: #f3a7a7;
     animation: bg-color 10s infinite;
     -webkit-animation: bg-color 10s infinite;

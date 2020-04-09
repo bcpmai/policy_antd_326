@@ -380,7 +380,7 @@ class PolicyList extends Component {
                             <div className="label-box">
                                 <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}>
                                 <Row>
-                                    <Col span={2}>政策标题</Col>
+                                    <Col span={2} style={{fontSize:"16px",color:"#000"}}>政策标题</Col>
                                     <Col span={18}>
                                         <Form.Item>
                                             {getFieldDecorator('title')(

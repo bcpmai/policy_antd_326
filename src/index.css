@@ -76,12 +76,15 @@ code {
 }
 .ant-modal-footer button,
 .ant-modal .model-button{
-  border:1px solid #ae242b;
-  color:#ae242b;
   background: #fff;
-  border-radius: 20px;
-  padding: 0 40px;
-  height: 35px;
+  color: #d13334;
+  border: 1px solid #d13334;
+  border-radius: 2px;
+  height: 31px;
+  padding: 0 25px;
+  font-size: 14px;
+  margin: 20px 40px 0px 0px;
+  cursor: pointer;
 }
 .ant-modal .model-button{
   padding: 0 10px;
@@ -94,9 +97,11 @@ code {
 }
 .ant-modal-footer button:hover,
 .ant-modal .model-button:hover{
-  background:#ae242b;
+  background:#f3a7a7;
   border:1px solid #ae242b;
   color:#fff!important;
+  animation: bg-color 10s infinite;
+  -webkit-animation: bg-color 10s infinite;
 }
 .ant-modal-footer button:focus{
   background:#fff;
@@ -171,7 +176,7 @@ code {
 }
 /*搜索表单*/
 .main-box .label-box{
-  padding: 20px 10px 30px 20px;
+  padding: 20px 10px 30px 70px;
   /*margin-bottom: 20px;*/
   border-bottom: 1px solid #ae242b;
 }
@@ -192,19 +197,22 @@ code {
   margin-right: 10px;
 }
 .main-box .search-button{
-  padding-left: 135px;
+  /*padding-left: 135px;*/
+  text-align: center;
+  padding-top: 20px;
 }
 .main-box .search-button .ant-btn,
 .main-box .operation-button .ant-btn,
 .main-box .manage-add-butn .ant-btn{
-  background: #fff;
-  color: #ae242b;
-  border: 1px solid #ae242b;
-  border-radius: 20px;
-  height: 33px;
-  padding: 0 40px;
-  font-size: 16px;
-  margin: 20px 40px 0px 40px;
+  background: #d13334;
+  color: #fff;
+  border: 1px solid #d13334;
+  border-radius: 2px;
+  height: 31px;
+  padding: 0 25px;
+  font-size: 14px;
+  margin: 20px 20px 0px 20px;
+  cursor: pointer;
 }
 .main-box .operation-button .ant-btn{
   margin-left: 10px;
@@ -217,8 +225,9 @@ code {
 }
 .main-box .search-button .ant-btn:hover,
 .main-box .operation-button .ant-btn:hover{
-  background: #ae242b;
-  color: #fff;
+  background-color: #f3a7a7;
+  animation: bg-color 10s infinite;
+  -webkit-animation: bg-color 10s infinite;
 }
 .main-box .manage-add-butn .ant-btn{
   margin-left: 0;

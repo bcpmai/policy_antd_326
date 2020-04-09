@@ -73,3 +73,6 @@
 .policyUser-template .operation-button .ant-btn{
     margin-left: 0px;
 }
+.policyUser-template .ant-input-affix-wrapper .ant-input{
+    border: 1px solid #d13334;
+}

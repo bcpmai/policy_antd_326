@@ -181,9 +181,9 @@ class policyUser extends Component {
                         <Breadcrumb.Item href="">运营用户</Breadcrumb.Item>
                     </Breadcrumb>
                         <div className="policyUser-search">
-                            <Search onSearch={this.searchTabel} enterButton />
+                            <Search onSearch={this.searchTabel} />
                         </div>
-                        <p className="operation-button" style={{textAlign:"right"}}><Button style={{marginRight:0}} type="primary" onClick={(type,id)=>this.showModal("addVisible")}>添加用户</Button></p>
+                        <p className="operation-button" style={{textAlign:"center"}}><Button style={{marginRight:0,marginTop:0,marginBottom:20}} type="primary" onClick={(type,id)=>this.showModal("addVisible")}>添加用户</Button></p>
                         {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                     </Col>
                 </Row>
