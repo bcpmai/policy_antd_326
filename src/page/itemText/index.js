@@ -104,10 +104,10 @@ class ItemText extends Component {
                     </Breadcrumb>
                    <div className="itemText-descriptions">
                     <Descriptions>
-                        <Descriptions.Item label="政策标题" span={3}><span>{detailInfo && detailInfo.declare.title}</span></Descriptions.Item>
+                        <Descriptions.Item label="项目标题" span={3}><span>{detailInfo && detailInfo.declare.title}</span></Descriptions.Item>
                         <Descriptions.Item label="发布机构" span={2}><span title={detailInfo && detailInfo.declare.organization_label_str}>{detailInfo && detailInfo.declare.organization_label_str}</span></Descriptions.Item>
                         <Descriptions.Item label="发文日期">{detailInfo && detailInfo.declare.release_date}</Descriptions.Item>
-                        <Descriptions.Item label="政策标题" span={3}>{detailInfo && detailInfo.declare.pc_title}</Descriptions.Item>
+                        <Descriptions.Item label="政策标题" span={3}><a href={`/policyText/${detailInfo && detailInfo.declare.policy_id}`} >{detailInfo && detailInfo.declare.pc_title}</a></Descriptions.Item>
                     </Descriptions>
                    </div>
                     <div className="collection-butn">
@@ -133,7 +133,7 @@ class ItemText extends Component {
                             {detailInfo && detailInfo.declare.web_url ?
                             <tr>
                                 <td>官文网址</td>
-                                <td>{detailInfo ? <a href={detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</td>
+                                <td><div style={{wordBreak:"break-all"}}>{detailInfo ? <a href={detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</div></td>
                             </tr>:null}
                             {detailInfo && detailInfo.declare.money ?
                             <tr>
