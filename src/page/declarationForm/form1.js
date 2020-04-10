@@ -27,9 +27,25 @@ class Form1 extends Component {
     }
 
     async componentDidMount() {
+        this.getDefalutData();
         this.getProvinceData();
     }
 
+    getDefalutData = async () => {
+        const requestData = await request('/company/get-company-user', 'POST',{member_id:cookie.load('userId')});
+        console.log(requestData);
+        const data = requestData.data;
+        if (data) {
+            this.props.form.setFieldsValue({
+                "a1":data.company_name,
+                "a3":data.code,
+                "a2":data.legal_person
+            })
+        }
+        //company_name
+        //code
+        //legal_person
+    }
     getProvinceData = async () => {
         const provinceData = await request('/common/get-province', 'POST'); //获取省
         if (provinceData.status == 200) {
@@ -68,6 +84,7 @@ class Form1 extends Component {
     onProvinceChange = (value, option) => {
         let {addressArr = {}} = this.state;
         let arrValue = value.split("|");
+        console.log(arrValue,"p")
         addressArr = {
             province: arrValue[0],
             provinceValue:arrValue[1]
@@ -78,7 +95,7 @@ class Form1 extends Component {
             areaSelect: null,
             register_address: null
         }, () => {
-            this.getCityData(value[0]);
+            this.getCityData(arrValue[0]);
         });
     }
     onCityChange = (value, option) => {
@@ -95,7 +112,7 @@ class Form1 extends Component {
             areaSelect: null,
             register_address: register_address ? [register_address[0], register_address[1]] : null
         }, () => {
-            this.getAreaData(value);
+            this.getAreaData(arrValue[0]);
         });
     }
     onAreaChange = (value, option) => {
@@ -150,9 +167,7 @@ class Form1 extends Component {
                 <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
                     <div className="collection-butn mt10">
                         <Button type="primary" htmlType="submit" className="ml15">一键生成申请书</Button>
-                        <Button className="back-butn" icon="rollback" onClick={() => {
-                            this.props.history.goBack()
-                        }}>返回</Button>
+                        <Button className="back-butn" icon="rollback"  onClick={()=>{this.props.history ? this.props.history.goBack() : window.history.go(-1);}}>返回</Button>
                     </div>
                     <div className="d-information-item">
                         <TitleTwo name="企业申报信息"/>

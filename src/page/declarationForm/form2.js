@@ -139,9 +139,7 @@ class Form2 extends Component {
                 <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
                     <div className="collection-butn mt10">
                         <Button type="primary" htmlType="submit" className="ml15">一键生成申请书</Button>
-                        <Button className="back-butn" icon="rollback" onClick={() => {
-                            this.props.history.goBack()
-                        }}>返回</Button>
+                        <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history ? this.props.history.goBack() : window.history.go(-1);}}>返回</Button>
                     </div>
                     <div className="d-information-item">
                         <TitleTwo name="企业实行特殊工时制度申请表"/>
@@ -155,7 +153,7 @@ class Form2 extends Component {
                                         </Col>
                                         <Col span={22}>
                                     {getFieldDecorator('a0')(
-                                    <Input placeholder="请输入单位名称"/>
+                                    <Input placeholder="重庆市xxxxxx有限公司"/>
                                 )}
                                         </Col>
                                     </Row>
@@ -165,13 +163,13 @@ class Form2 extends Component {
                                 <th style={{width: "180px"}}>单位性质</th>
                                 <td>
                                     {getFieldDecorator('a1')(
-                                        <Input placeholder="请输入单位性质"/>
+                                        <Input placeholder="有限责任"/>
                                     )}
                                 </td>
                                 <th>法定代表人</th>
                                 <td>
                                     {getFieldDecorator('a2')(
-                                        <Input/>
+                                        <Input placeholder="xxx"/>
                                     )}
                                 </td>
                             </tr>
@@ -181,13 +179,13 @@ class Form2 extends Component {
                                 <th>工商登记注册地</th>
                                 <td>
                                     {getFieldDecorator('a3')(
-                                        <Input/>
+                                        <Input placeholder="重庆市九龙坡区XX路XX号"/>
                                     )}
                                 </td>
                                 <th>单位代码</th>
                                 <td className="address-box">
                                     {getFieldDecorator('a4')(
-                                        <Input/>
+                                        <Input placeholder="（填统一社会信用代码）"/>
                                     )}
                                 </td>
                             </tr>
@@ -195,13 +193,13 @@ class Form2 extends Component {
                                 <th>经营范围</th>
                                 <td>
                                     {getFieldDecorator('a5')(
-                                        <Input/>
+                                        <Input placeholder="按照营业执照的经营范围填写"/>
                                     )}
                                 </td>
                                 <th>职工总数</th>
                                 <td>
                                     {getFieldDecorator('a6')(
-                                        <Input/>
+                                        <Input placeholder="填所有职工总数"/>
                                     )}
                                 </td>
                             </tr>
@@ -213,7 +211,7 @@ class Form2 extends Component {
                                         </Col>
                                         <Col span={22}>
                                             {getFieldDecorator('a7')(
-                                                <Input/>
+                                                <Input placeholder="2017年 7月至 2018年6月"/>
                                             )}
                                         </Col>
                                     </Row>
