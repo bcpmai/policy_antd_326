@@ -829,7 +829,7 @@ class BusinessInformation extends Component {
                                 <th>产品已列入《技术创新指导性项目推荐目录》</th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g9')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
@@ -840,7 +840,7 @@ class BusinessInformation extends Component {
                                 <th>最近3年未列入失信联合惩戒对象名单(年) </th>
                                 <td colSpan={4}>
                                     {getFieldDecorator('g10')(
-                                        <Radio.Group>
+                                        <Radio.Group disabled={isEdit}>
                                             <Radio value={1}>是</Radio>
                                             <Radio value={2}>否</Radio>
                                         </Radio.Group>
