@@ -130,6 +130,27 @@ class Form2 extends Component {
         });
 
     };
+    onSave = (e) =>{
+        e.preventDefault();
+        const _this = this;
+        this.props.form.validateFields(async (err, values) => {
+            if (!err) {
+                values.pdf_id = this.state.id;
+                Object.keys(values).forEach((item,idx)=>{
+                    if(!values[item]){
+                        values[item] = '';
+                    }
+                })
+                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id});
+                const data = responest.data;
+                if (data && data.success) {
+                    message.success(data.msg);
+                } else {
+                    message.error(data.msg);
+                }
+            }
+        });
+    }
 
     render() {
         const {detailInfo, provinceSelect, citySelect, areaSelect, register_address} = this.state;
@@ -138,6 +159,7 @@ class Form2 extends Component {
             <div>
                 <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
                     <div className="collection-butn mt10">
+                        <Button type="primary" onClick={this.onSave} className="ml15">保存</Button>
                         <Button type="primary" htmlType="submit" className="ml15">一键生成申请书</Button>
                         <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history ? this.props.history.goBack() : window.history.go(-1);}}>返回</Button>
                     </div>
