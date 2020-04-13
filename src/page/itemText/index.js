@@ -138,7 +138,7 @@ class ItemText extends Component {
                             {detailInfo && detailInfo.declare.money ?
                             <tr>
                                 <td>扶持金额</td>
-                                <td>{detailInfo ? detailInfo.declare.money : "-"}</td>
+                                <td>{detailInfo ? detailInfo.declare.money+"万元" : "-"}</td>
                             </tr>
                                 :null}
                             {detailInfo && detailInfo.declare.declare_start_date ?
