@@ -100,7 +100,7 @@ class DeclarationItem extends Component {
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">应用类型：</span>{record.use_type_label_str}</p>
                             <p><span className="title">扶持金额：</span>{record.money}万元</p>
-                            {record.declare_start_date == "1970-01-01" ? null :<p><span className="title">申报日期：</span>{record.declare_start_date} 至 {record.declare_end_date}</p>}
+                            {record.declare_start_at == 0 && record.declare_end_at == 0 ? <p><span className="title">申报日期：</span>——</p> :<p><span className="title">申报日期：</span>{record.declare_start_date} 至 {record.declare_end_date}</p>}
                         </div>
                     )
                 }
