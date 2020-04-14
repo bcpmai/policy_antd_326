@@ -219,18 +219,20 @@ class MyCollection extends Component {
                     ]}
                 >
                     <p>该项目网上申报后，需提交纸质材料。</p>
+                    {record!=undefined && record.declare_net ?
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
                             <span>{record!=undefined ? record.declare_net : null}</span>
                             {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
-                    </Row>
+                    </Row> : null}
+                    {record!=undefined && record.post_material ?
                     <Row>
-                        <Col span={8}>2.纸质材料提交至</Col>
+                        <Col span={8}>{record!=undefined && record.declare_net ? "2" : "1"}.纸质材料提交至</Col>
                         <Col span={16}>{record!=undefined ? record.post_material : null}
                         </Col>
-                    </Row>
+                    </Row> : null}
                 </Modal>
             </div>
         );

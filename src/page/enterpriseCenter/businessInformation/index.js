@@ -223,10 +223,15 @@ class BusinessInformation extends Component {
 
                         </Col>
                         <Col span={20}>
+                            {id ? <div className="b-information-butn" style={{float:"right",marginTop: "30px"}}><Button onClick={() => {
+                                this.props.history.goBack()
+                            }}>返回</Button></div> : null
+                            }
                             <Title name="企业工商信息"/>
                 <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
                     <div className="b-information-item">
                         <TitleTwo name="企业工商信息" />
+
                         <table>
                             <thead>
                                 <tr>
@@ -850,9 +855,7 @@ class BusinessInformation extends Component {
                             </tbody>
                         </table>
                     </div>
-                    {id ? <div className="b-information-butn"><Button onClick={() => {
-                            this.props.history.goBack()
-                        }}>返回</Button></div> :
+                    {id ? null :
                         <div className="b-information-butn">
                             <Button htmlType="submit" type="primary">确定</Button>
                             <Button onClick={() => {

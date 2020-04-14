@@ -54,7 +54,7 @@ class PolicyMenu extends Component {
                     <Menu.Item
                         key="projectList"
                         className="project-management">
-                            <a href="/projectList">
+                            <a href="/projectList" style={{fontSize:"15px",fontWeight:"bold"}}>
                                 {/*<ProfileOutlined />*/}
                                 <img src={Icon4} />
                                 项目管理</a>

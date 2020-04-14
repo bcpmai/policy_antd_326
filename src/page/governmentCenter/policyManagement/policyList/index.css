@@ -126,6 +126,9 @@
     color: #000;
     padding: 2px 0;
 }
+.policyList-template .Label-component-template .select-button{
+    color: #d13334;
+}
 /*.policyList-template .Label-component-template .ant-btn{*/
     /*border: 0;*/
     /*background:none;*/

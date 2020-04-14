@@ -237,7 +237,7 @@ class Home extends Component {
                                                 </Row>
                                                 <Row>
                                                     <Col span={8}>发布日期：</Col>
-                                                    <Col span={13}>{item.created_date}</Col>
+                                                    <Col span={13}>{item.release_date}</Col>
                                                 </Row>
                                             </div>
                                             <p className="button-center" onClick={()=>this.showModal(idx)}><Button type="primary" shape="round" >立即申报</Button></p>
@@ -272,6 +272,7 @@ class Home extends Component {
                     ]}
                 >
                     <p>该项目网上申报后，需提交纸质材料。</p>
+                    {idx!=undefined && dataList[idx].declare_net ?
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
@@ -279,11 +280,14 @@ class Home extends Component {
                             {idx!=undefined ? <a className="model-button" href={dataList[idx].declare_net} target="_blank">网上申报</a> : null}
                         </Col>
                     </Row>
+                        : null}
+                    {idx!=undefined && dataList[idx].post_material ?
                     <Row>
-                        <Col span={8}>2.纸质材料提交至</Col>
+                        <Col span={8}>{idx!=undefined && dataList[idx].declare_net ? "2" : "1"}.纸质材料提交至</Col>
                         <Col span={16}>{idx!=undefined ? dataList[idx].post_material : null}
                         </Col>
                     </Row>
+                        : null}
                 </Modal>
             </div>
         );

@@ -226,18 +226,20 @@ class ItemText extends Component {
                     ]}
                 >
                     <p>该项目网上申报后，需提交纸质材料。</p>
+                    {detailInfo!=undefined && detailInfo.declare.declare_net ?
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
                             <span>{detailInfo!=undefined ? detailInfo.declare.declare_net : null}</span>
                             {detailInfo!=undefined ? <a className="model-button" href={detailInfo.declare.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
-                    </Row>
+                    </Row> : null}
+                    {detailInfo!=undefined && detailInfo.declare.post_material ?
                     <Row>
-                        <Col span={8}>2.纸质材料提交至</Col>
+                        <Col span={8}>{detailInfo!=undefined && detailInfo.declare.declare_net ? "2": "1" }.纸质材料提交至</Col>
                         <Col span={16}>{detailInfo!=undefined ? detailInfo.declare.post_material : null}
                         </Col>
-                    </Row>
+                    </Row> : null}
                 </Modal>
             </div>
         );

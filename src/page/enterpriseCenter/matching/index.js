@@ -89,7 +89,7 @@ class Matching extends Component {
                 render: (text, record) => (
                     <div align="right" className="action-butn">
                         <p><Button onClick={this.showModal}>立即申报</Button></p>
-                        <Button icon="star" onClick={()=>this.onCollection(record.id)}>收藏</Button>
+                        <Button icon={record.resource_id <= 0 ? "star" : ""} onClick={()=>this.onCollection(record.id,record.resource_id)}>{record.resource_id > 0 ? "已收藏" : "收藏"}</Button>
                     </div>),
             },
         ];
@@ -98,8 +98,12 @@ class Matching extends Component {
         this.getTableData()
     }
     //收藏
-    onCollection = async (id) =>{
-        const responest = await request('/common/my-company-collection', 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:2}); //收藏
+    onCollection = async (id,isColle) =>{
+        let url = '/common/my-company-collection';
+        if(isColle){
+            url = '/common/cancel-company-collection';
+        }
+        const responest = await request(url, 'POST',{member_id:cookie.load('userId'),resource_id:id,resource_type:2}); //收藏
         const data = responest.data;
         if(data && data.success){
             message.success(data.msg);
@@ -201,18 +205,20 @@ class Matching extends Component {
                     ]}
                 >
                     <p>该项目网上申报后，需提交纸质材料。</p>
+                    {record!=undefined && record.declare_net ?
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
                             <span>{record!=undefined ? record.declare_net : null}</span>
                             {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
-                    </Row>
+                    </Row> : null}
+                    {record!=undefined && record.post_material ?
                     <Row>
-                        <Col span={8}>2.纸质材料提交至</Col>
+                        <Col span={8}>{record!=undefined && record.declare_net ? "2" : "1"}.纸质材料提交至</Col>
                         <Col span={16}>{record!=undefined ? record.post_material : null}
                         </Col>
-                    </Row>
+                    </Row> : null}
                 </Modal>
             </div>
         );

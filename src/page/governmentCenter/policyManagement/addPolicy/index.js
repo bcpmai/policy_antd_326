@@ -354,7 +354,7 @@ class AddPolicy extends Component {
                                                         validator: (rule, value, callback) => {
 
                                                             const { form } = this.props;
-                                                            if(form.getFieldValue('declare_start_date')) {
+                                                            if(form.getFieldValue('declare_start_date') && value) {
                                                                 const rData = new Date(form.getFieldValue('declare_start_date'));
                                                                 const dData = new Date(value);
 
@@ -381,7 +381,7 @@ class AddPolicy extends Component {
                                                         validator: (rule, value, callback) => {
 
                                                             const { form } = this.props;
-                                                            if(form.getFieldValue('release_date')) {
+                                                            if(form.getFieldValue('release_date') && value) {
                                                                 const rData = new Date(form.getFieldValue('release_date'));
                                                                 const dData = new Date(value);
 

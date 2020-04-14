@@ -46,6 +46,17 @@
     background: #1890ff;
     margin-right: 5px;
 }
+.collectionList-template .Label-component-template .ant-btn{
+    margin-right: 15px;
+    /*margin-bottom: 5px;*/
+    background: none;
+    border: none;
+    color: #000;
+    padding: 2px 0;
+}
+.collectionList-template .Label-component-template .select-button{
+    color: #d13334;
+}
 /*.collectionList-template .ant-breadcrumb {*/
     /*background: #ae242b;*/
     /*height: 50px;*/
