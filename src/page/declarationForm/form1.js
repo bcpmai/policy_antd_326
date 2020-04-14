@@ -33,14 +33,14 @@ class Form1 extends Component {
 
     getDefalutData = async () => {
         if(cookie.load('userId')) {
-            const initData = await request('/common/get-pdf-info', 'POST',{member_id:cookie.load('userId')});
+            const initData = await request('/common/get-pdf-info', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
             const iData = initData.data;
             if (iData) {
                 this.props.form.setFieldsValue(iData);
             }
         }
 
-        const requestData = await request('/company/get-company-user', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
+        const requestData = await request('/company/get-company-user', 'POST',{member_id:cookie.load('userId')});
         const data = requestData.data;
         if (data) {
             this.props.form.setFieldsValue({
