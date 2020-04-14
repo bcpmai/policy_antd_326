@@ -159,7 +159,7 @@ class Form1 extends Component {
                         values[item] = '';
                     }
                 })
-                const responest = await request('/common/get-pdf', 'POST', {...values,pdf_id:this.state.id});
+                const responest = await request('/common/get-pdf', 'POST', {...values,pdf_id:this.state.id,member_id:cookie.load('userId')});
                 const data = responest.data;
                 if (data && data.success) {
                     message.success(data.msg);

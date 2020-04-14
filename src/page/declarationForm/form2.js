@@ -17,6 +17,7 @@ const layout = {
     wrapperCol: {span: 16},
 };
 const {Option} = Select;
+const { TextArea } = Input;
 
 class Form2 extends Component {
     constructor(props) {
@@ -127,6 +128,7 @@ class Form2 extends Component {
         const _this = this;
         this.props.form.validateFields(async (err, values) => {
             values.pdf_id = this.state.id;
+            values.member_id = cookie.load('userId')
             Object.keys(values).forEach((item,idx)=>{
                 if(!values[item]){
                     values[item] = '';
@@ -228,13 +230,15 @@ class Form2 extends Component {
                             </tr>
                             <tr>
                                 <th>经营范围</th>
-                                <td>
+                                <td colSpan={3}>
                                     {getFieldDecorator('a5')(
-                                        <Input placeholder="按照营业执照的经营范围填写"/>
+                                        <TextArea placeholder="按照营业执照的经营范围填写"/>
                                     )}
                                 </td>
+                            </tr>
+                            <tr>
                                 <th>职工总数</th>
-                                <td>
+                                <td colSpan={3}>
                                     {getFieldDecorator('a6')(
                                         <Input placeholder="填所有职工总数"/>
                                     )}
