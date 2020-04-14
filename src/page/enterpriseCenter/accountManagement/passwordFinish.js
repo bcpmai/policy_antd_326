@@ -34,7 +34,7 @@ class PasswordFinish extends Component {
                 const requestData = await request('/common/reset-password', 'POST', {
                     member_id: cookie.load('userId'),
                     password: values.password,
-                    new_password: values.password
+                    new_password: values.new_password
                 });
                 const data = requestData.data;
                 if (data && data.success) {
