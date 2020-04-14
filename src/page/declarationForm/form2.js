@@ -27,7 +27,22 @@ class Form2 extends Component {
     }
 
     async componentDidMount() {
+        if(cookie.load('userId')) {
+            this.getDefalutData();
+        }
         this.getProvinceData();
+    }
+
+    getDefalutData = async () => {
+        const initData = await request('/common/get-pdf-info', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
+        const iData = initData.data;
+        if(iData){
+            this.props.form.setFieldsValue(iData.info);
+        }
+
+        //company_name
+        //code
+        //legal_person
     }
 
     getProvinceData = async () => {
@@ -141,7 +156,7 @@ class Form2 extends Component {
                         values[item] = '';
                     }
                 })
-                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id});
+                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id,member_id:cookie.load('userId')});
                 const data = responest.data;
                 if (data && data.success) {
                     message.success(data.msg);

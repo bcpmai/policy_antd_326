@@ -32,8 +32,15 @@ class Form1 extends Component {
     }
 
     getDefalutData = async () => {
-        const requestData = await request('/company/get-company-user', 'POST',{member_id:cookie.load('userId')});
-        console.log(requestData);
+        if(cookie.load('userId')) {
+            const initData = await request('/common/get-pdf-info', 'POST',{member_id:cookie.load('userId')});
+            const iData = initData.data;
+            if (iData) {
+                this.props.form.setFieldsValue(iData);
+            }
+        }
+
+        const requestData = await request('/company/get-company-user', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
         const data = requestData.data;
         if (data) {
             this.props.form.setFieldsValue({
@@ -42,6 +49,7 @@ class Form1 extends Component {
                 "a2":data.legal_person
             })
         }
+
         //company_name
         //code
         //legal_person
@@ -172,7 +180,7 @@ class Form1 extends Component {
                         values[item] = '';
                     }
                 })
-                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id});
+                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id,member_id:cookie.load('userId')});
                 const data = responest.data;
                 if (data && data.success) {
                     message.success(data.msg);
