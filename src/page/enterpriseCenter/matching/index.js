@@ -88,7 +88,7 @@ class Matching extends Component {
                 key: 'action',
                 render: (text, record) => (
                     <div align="right" className="action-butn">
-                        <p><Button onClick={this.showModal}>立即申报</Button></p>
+                        <p><Button onClick={()=>this.showModal(record)}>立即申报</Button></p>
                         <Button icon={record.resource_id <= 0 ? "star" : ""} onClick={()=>this.onCollection(record.id,record.resource_id)}>{record.resource_id > 0 ? "已收藏" : "收藏"}</Button>
                     </div>),
             },
@@ -139,9 +139,10 @@ class Matching extends Component {
     onChange = (date, dateString) =>{
         console.log(date, dateString);
     }
-    showModal = () => {
+    showModal = (record) => {
         this.setState({
             visible: true,
+            record
         });
     };
     handleOk = e => {
@@ -210,7 +211,7 @@ class Matching extends Component {
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
                             <span>{record!=undefined ? record.declare_net : null}</span>
-                            {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank">网上申报</a> : null}
+                            {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank" style={{margin:"0 0 0 5px"}}>网上申报</a> : null}
                         </Col>
                     </Row> : null}
                     {record!=undefined && record.post_material ?

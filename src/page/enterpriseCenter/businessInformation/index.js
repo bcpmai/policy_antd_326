@@ -225,7 +225,12 @@ class BusinessInformation extends Component {
                         <Col span={20}>
                             {id ? <div className="b-information-butn" style={{float:"right",marginTop: "30px"}}><Button onClick={() => {
                                 this.props.history.goBack()
-                            }}>返回</Button></div> : null
+                            }}>返回</Button></div> : <div className="b-information-butn" style={{float:"right",marginTop: "30px"}}>
+                                <Button htmlType="submit" type="primary">确定</Button>
+                                <Button onClick={() => {
+                                    this.props.history.push("/matching")
+                                }}>取消</Button>
+                            </div>
                             }
                             <Title name="企业工商信息"/>
                 <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
@@ -855,14 +860,6 @@ class BusinessInformation extends Component {
                             </tbody>
                         </table>
                     </div>
-                    {id ? null :
-                        <div className="b-information-butn">
-                            <Button htmlType="submit" type="primary">确定</Button>
-                            <Button onClick={() => {
-                                this.props.history.push("/matching")
-                            }}>取消</Button>
-                        </div>
-                    }
                 </Form>
                         </Col>
                     </Row>
