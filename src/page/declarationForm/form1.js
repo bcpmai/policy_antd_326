@@ -28,7 +28,7 @@ class Form1 extends Component {
 
     async componentDidMount() {
         this.getDefalutData();
-        this.getProvinceData();
+       // this.getProvinceData();
     }
 
     getDefalutData = async () => {
@@ -36,18 +36,24 @@ class Form1 extends Component {
             const initData = await request('/common/get-pdf-info', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
             const iData = initData.data;
             if (iData) {
-                this.props.form.setFieldsValue(iData);
+                this.props.form.setFieldsValue(iData.info);
             }
         }
 
         const requestData = await request('/company/get-company-user', 'POST',{member_id:cookie.load('userId')});
         const data = requestData.data;
         if (data) {
-            this.props.form.setFieldsValue({
-                "a1":data.company_name,
-                "a3":data.code,
-                "a2":data.legal_person
-            })
+            let fdata = {};
+            if(data.company_name){
+                fdata.a1 = data.company_name
+            }
+            if(data.legal_person){
+                fdata.a2 = data.legal_person
+            }
+            if(data.code){
+                fdata.a3 = data.code
+            }
+            this.props.form.setFieldsValue(fdata)
         }
 
         //company_name
@@ -144,10 +150,10 @@ class Form1 extends Component {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 const {addressArr} = this.state;
-                values.addressArr = '';
-                if(addressArr) {
-                    values.addressArr = (addressArr.provinceValue || '')+ (addressArr.cityValue || '') + (addressArr.areaValue || '');
-                }
+                // values.addressArr = '';
+                // if(addressArr) {
+                //     values.addressArr = (addressArr.provinceValue || '')+ (addressArr.cityValue || '') + (addressArr.areaValue || '');
+                // }
                 Object.keys(values).forEach((item,idx)=>{
                     if(!values[item]){
                         values[item] = '';
@@ -232,30 +238,30 @@ class Form1 extends Component {
                                 </td>
                                 <th>失业保险参保所在地</th>
                                 <td className="address-box">
-                                    {provinceSelect ?
-                                        <Select defaultValue={register_address ? parseInt(register_address[0]) : null}
-                                                placeholder="请选择省份" style={{width: 127}}
-                                                onChange={(value, option) => this.onProvinceChange(value, option)}>
-                                            {provinceSelect.map((item, idx) => <Option
-                                                value={item.id+"|"+item.value} key={idx}>{item.value}</Option>)}
-                                        </Select> : null}
-                                    {citySelect ? <Select
-                                        defaultValue={register_address && register_address[1] && parseInt(register_address[1])}
-                                        placeholder="请选择市" style={{width: 127, marginLeft: 5}}
-                                        onChange={(value, option) => this.onCityChange(value, option)}>
-                                        {citySelect.map((item, idx) => <Option value={item.id+"|"+item.value}
-                                                                               key={idx}>{item.value}</Option>)}
+                                    {/*{provinceSelect ?*/}
+                                        {/*<Select defaultValue={register_address ? parseInt(register_address[0]) : null}*/}
+                                                {/*placeholder="请选择省份" style={{width: 127}}*/}
+                                                {/*onChange={(value, option) => this.onProvinceChange(value, option)}>*/}
+                                            {/*{provinceSelect.map((item, idx) => <Option*/}
+                                                {/*value={item.id+"|"+item.value} key={idx}>{item.value}</Option>)}*/}
+                                        {/*</Select> : null}*/}
+                                    {/*{citySelect ? <Select*/}
+                                        {/*defaultValue={register_address && register_address[1] && parseInt(register_address[1])}*/}
+                                        {/*placeholder="请选择市" style={{width: 127, marginLeft: 5}}*/}
+                                        {/*onChange={(value, option) => this.onCityChange(value, option)}>*/}
+                                        {/*{citySelect.map((item, idx) => <Option value={item.id+"|"+item.value}*/}
+                                                                               {/*key={idx}>{item.value}</Option>)}*/}
 
-                                    </Select> : null}
-                                    {areaSelect ? <Select
-                                        defaultValue={register_address && register_address[2] && parseInt(register_address[2])}
-                                        placeholder="请选择区县" style={{width: 132, marginLeft: 5}}
-                                        onChange={(value, option) => this.onAreaChange(value, option)}>
-                                        {areaSelect.map((item, idx) => <Option value={item.id+"|"+item.value}
-                                                                               key={idx}>{item.value}</Option>)}
-                                    </Select> : null}
+                                    {/*</Select> : null}*/}
+                                    {/*{areaSelect ? <Select*/}
+                                        {/*defaultValue={register_address && register_address[2] && parseInt(register_address[2])}*/}
+                                        {/*placeholder="请选择区县" style={{width: 132, marginLeft: 5}}*/}
+                                        {/*onChange={(value, option) => this.onAreaChange(value, option)}>*/}
+                                        {/*{areaSelect.map((item, idx) => <Option value={item.id+"|"+item.value}*/}
+                                                                               {/*key={idx}>{item.value}</Option>)}*/}
+                                    {/*</Select> : null}*/}
                                     {getFieldDecorator('a4')(
-                                        <Input placeholder="街道" style={{width: "200px", marginLeft: "10px"}}/>
+                                        <Input placeholder="街道"/>
                                     )}
                                 </td>
                             </tr>
