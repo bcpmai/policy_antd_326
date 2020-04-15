@@ -129,7 +129,6 @@ class Form2 extends Component {
     onFinish = (e) => {
         e.preventDefault();
         if (cookie.load('userId')) {
-            const _this = this;
             this.props.form.validateFields(async (err, values) => {
                 values.pdf_id = this.state.id;
                 values.member_id = cookie.load('userId')
@@ -156,7 +155,6 @@ class Form2 extends Component {
     onSave = (e) => {
         e.preventDefault();
         if (cookie.load('userId')) {
-            const _this = this;
             this.props.form.validateFields(async (err, values) => {
                 if (!err) {
                     values.pdf_id = this.state.id;

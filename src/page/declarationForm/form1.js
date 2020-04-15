@@ -149,7 +149,6 @@ class Form1 extends Component {
     onFinish = (e) => {
         e.preventDefault();
         if (cookie.load('userId')) {
-            const _this = this;
             this.props.form.validateFields(async (err, values) => {
                 if (!err) {
                     const {addressArr} = this.state;
@@ -183,7 +182,6 @@ class Form1 extends Component {
     onSave = (e) => {
         e.preventDefault();
         if (cookie.load('userId')) {
-            const _this = this;
             this.props.form.validateFields(async (err, values) => {
                 if (!err) {
                     const {addressArr} = this.state;
