@@ -91,10 +91,11 @@ class Top extends Component {
     handleClick = () => {
 
     }
-    removeCookie = () =>{
-        cookie.remove('userId');
-        cookie.remove('userName');
-        cookie.remove('userType');
+    removeCookie = (e) =>{
+        e.preventDefault();
+        cookie.remove('userId',{ path: '/' });
+        cookie.remove('userName',{ path: '/' });
+        cookie.remove('userType',{ path: '/' });
         window.location.href='/login';
     }
     serachLatestPolicy = (keyString) =>{

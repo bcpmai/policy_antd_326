@@ -112,9 +112,9 @@ class Register extends Component {
                 const data = responest.data;
                 if (data && data.success) {
                     message.success(data.msg);
-                    cookie.save('userId', data.data.id);
-                    cookie.save('userName', values.username);
-                    cookie.save('userType', 1);
+                    cookie.save('userId', data.data.id,{ path: '/' });
+                    cookie.save('userName', values.username,{ path: '/' });
+                    cookie.save('userType', 1,{ path: '/' });
                     _this.setState({
                         subscribeVisble: true,
                     });

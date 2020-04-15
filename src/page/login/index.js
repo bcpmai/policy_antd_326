@@ -35,9 +35,9 @@ class Login extends Component {
                 const data = responest.data;
                 if(data && data.success){
                     message.success(data.msg);
-                    cookie.save('userId', data.id);
-                    cookie.save('userName', data.username);
-                    cookie.save('userType', data.member_type);
+                    cookie.save('userId', data.id,{ path: '/' });
+                    cookie.save('userName', data.username,{ path: '/' });
+                    cookie.save('userType', data.member_type,{ path: '/' });
                     setTimeout(()=>{
                         if(data.member_type == "1"){
                             _this.props.history.push('/matching');

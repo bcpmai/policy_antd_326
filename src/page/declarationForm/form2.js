@@ -17,7 +17,7 @@ const layout = {
     wrapperCol: {span: 16},
 };
 const {Option} = Select;
-const { TextArea } = Input;
+const {TextArea} = Input;
 
 class Form2 extends Component {
     constructor(props) {
@@ -28,16 +28,19 @@ class Form2 extends Component {
     }
 
     async componentDidMount() {
-        if(cookie.load('userId')) {
+        if (cookie.load('userId')) {
             this.getDefalutData();
         }
         this.getProvinceData();
     }
 
     getDefalutData = async () => {
-        const initData = await request('/common/get-pdf-info', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
+        const initData = await request('/common/get-pdf-info', 'POST', {
+            pdf_id: this.state.id,
+            member_id: cookie.load('userId')
+        });
         const iData = initData.data;
-        if(iData){
+        if (iData) {
             this.props.form.setFieldsValue(iData.info);
         }
 
@@ -125,48 +128,59 @@ class Form2 extends Component {
     }
     onFinish = (e) => {
         e.preventDefault();
-        const _this = this;
-        this.props.form.validateFields(async (err, values) => {
-            values.pdf_id = this.state.id;
-            values.member_id = cookie.load('userId')
-            Object.keys(values).forEach((item,idx)=>{
-                if(!values[item]){
-                    values[item] = '';
-                }
-            })
-            if (!err) {
-                const responest = await request('/common/get-pdf', 'POST', values);
-                const data = responest.data;
-                if (data && data.success) {
-                    message.success(data.msg);
-                    window.open(data.pdf_url);
-                } else {
-                    message.error(data.msg);
-                }
-            }
-        });
-
-    };
-    onSave = (e) =>{
-        e.preventDefault();
-        const _this = this;
-        this.props.form.validateFields(async (err, values) => {
-            if (!err) {
+        if (cookie.load('userId')) {
+            const _this = this;
+            this.props.form.validateFields(async (err, values) => {
                 values.pdf_id = this.state.id;
-                Object.keys(values).forEach((item,idx)=>{
-                    if(!values[item]){
+                values.member_id = cookie.load('userId')
+                Object.keys(values).forEach((item, idx) => {
+                    if (!values[item]) {
                         values[item] = '';
                     }
                 })
-                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id,member_id:cookie.load('userId')});
-                const data = responest.data;
-                if (data && data.success) {
-                    message.success(data.msg);
-                } else {
-                    message.error(data.msg);
+                if (!err) {
+                    const responest = await request('/common/get-pdf', 'POST', values);
+                    const data = responest.data;
+                    if (data && data.success) {
+                        message.success(data.msg);
+                        window.open(data.pdf_url);
+                    } else {
+                        message.error(data.msg);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            message.error("请登录后再操作！");
+        }
+    };
+    onSave = (e) => {
+        e.preventDefault();
+        if (cookie.load('userId')) {
+            const _this = this;
+            this.props.form.validateFields(async (err, values) => {
+                if (!err) {
+                    values.pdf_id = this.state.id;
+                    Object.keys(values).forEach((item, idx) => {
+                        if (!values[item]) {
+                            values[item] = '';
+                        }
+                    })
+                    const responest = await request('/common/save-pdf', 'POST', {
+                        ...values,
+                        pdf_id: this.state.id,
+                        member_id: cookie.load('userId')
+                    });
+                    const data = responest.data;
+                    if (data && data.success) {
+                        message.success(data.msg);
+                    } else {
+                        message.error(data.msg);
+                    }
+                }
+            });
+        } else {
+            message.error("请登录后再操作！");
+        }
     }
 
     render() {
@@ -178,22 +192,24 @@ class Form2 extends Component {
                     <div className="collection-butn mt10">
                         <Button type="primary" onClick={this.onSave} className="ml15">保存</Button>
                         <Button type="primary" htmlType="submit" className="ml15">一键生成申请书</Button>
-                        <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history ? this.props.history.goBack() : window.history.go(-1);}}>返回</Button>
+                        <Button className="back-butn" icon="rollback" onClick={() => {
+                            this.props.history ? this.props.history.goBack() : window.history.go(-1);
+                        }}>返回</Button>
                     </div>
                     <div className="d-information-item">
                         <TitleTwo name="企业实行特殊工时制度申请表"/>
                         <table>
                             <thead>
                             <tr>
-                                <th colSpan={4} style={{padding:"10px"}}>
+                                <th colSpan={4} style={{padding: "10px"}}>
                                     <Row>
-                                        <Col span={2} style={{width:"80px"}}>
-                                    单位名称
+                                        <Col span={2} style={{width: "80px"}}>
+                                            单位名称
                                         </Col>
                                         <Col span={22}>
-                                    {getFieldDecorator('a0')(
-                                    <Input placeholder="重庆市xxxxxx有限公司"/>
-                                )}
+                                            {getFieldDecorator('a0')(
+                                                <Input placeholder="重庆市xxxxxx有限公司"/>
+                                            )}
                                         </Col>
                                     </Row>
                                 </th>
@@ -245,9 +261,9 @@ class Form2 extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <th colSpan={4} style={{padding:"10px"}}>
+                                <th colSpan={4} style={{padding: "10px"}}>
                                     <Row>
-                                        <Col span={2} style={{width:"80px"}}>
+                                        <Col span={2} style={{width: "80px"}}>
                                             申请期限
                                         </Col>
                                         <Col span={22}>
@@ -256,7 +272,7 @@ class Form2 extends Component {
                                             )}
                                         </Col>
                                     </Row>
-                                    </th>
+                                </th>
                             </tr>
                             </tbody>
                         </table>

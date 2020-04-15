@@ -28,34 +28,36 @@ class Form1 extends Component {
 
     async componentDidMount() {
         this.getDefalutData();
-       // this.getProvinceData();
+        // this.getProvinceData();
     }
 
     getDefalutData = async () => {
-        if(cookie.load('userId')) {
-            const initData = await request('/common/get-pdf-info', 'POST',{pdf_id:this.state.id,member_id:cookie.load('userId')});
+        if (cookie.load('userId')) {
+            const initData = await request('/common/get-pdf-info', 'POST', {
+                pdf_id: this.state.id,
+                member_id: cookie.load('userId')
+            });
             const iData = initData.data;
             if (iData) {
                 this.props.form.setFieldsValue(iData.info);
             }
-        }
 
-        const requestData = await request('/company/get-company-user', 'POST',{member_id:cookie.load('userId')});
-        const data = requestData.data;
-        if (data) {
-            let fdata = {};
-            if(data.company_name){
-                fdata.a1 = data.company_name
+            const requestData = await request('/company/get-company-user', 'POST', {member_id: cookie.load('userId')});
+            const data = requestData.data;
+            if (data) {
+                let fdata = {};
+                if (data.company_name) {
+                    fdata.a1 = data.company_name
+                }
+                if (data.legal_person) {
+                    fdata.a2 = data.legal_person
+                }
+                if (data.code) {
+                    fdata.a3 = data.code
+                }
+                this.props.form.setFieldsValue(fdata)
             }
-            if(data.legal_person){
-                fdata.a2 = data.legal_person
-            }
-            if(data.code){
-                fdata.a3 = data.code
-            }
-            this.props.form.setFieldsValue(fdata)
         }
-
         //company_name
         //code
         //legal_person
@@ -98,10 +100,10 @@ class Form1 extends Component {
     onProvinceChange = (value, option) => {
         let {addressArr = {}} = this.state;
         let arrValue = value.split("|");
-        console.log(arrValue,"p")
+        console.log(arrValue, "p")
         addressArr = {
             province: arrValue[0],
-            provinceValue:arrValue[1]
+            provinceValue: arrValue[1]
         };
         this.setState({
             addressArr,
@@ -146,55 +148,70 @@ class Form1 extends Component {
     }
     onFinish = (e) => {
         e.preventDefault();
-        const _this = this;
-        this.props.form.validateFields(async (err, values) => {
-            if (!err) {
-                const {addressArr} = this.state;
-                // values.addressArr = '';
-                // if(addressArr) {
-                //     values.addressArr = (addressArr.provinceValue || '')+ (addressArr.cityValue || '') + (addressArr.areaValue || '');
-                // }
-                Object.keys(values).forEach((item,idx)=>{
-                    if(!values[item]){
-                        values[item] = '';
+        if (cookie.load('userId')) {
+            const _this = this;
+            this.props.form.validateFields(async (err, values) => {
+                if (!err) {
+                    const {addressArr} = this.state;
+                    // values.addressArr = '';
+                    // if(addressArr) {
+                    //     values.addressArr = (addressArr.provinceValue || '')+ (addressArr.cityValue || '') + (addressArr.areaValue || '');
+                    // }
+                    Object.keys(values).forEach((item, idx) => {
+                        if (!values[item]) {
+                            values[item] = '';
+                        }
+                    })
+                    const responest = await request('/common/get-pdf', 'POST', {
+                        ...values,
+                        pdf_id: this.state.id,
+                        member_id: cookie.load('userId')
+                    });
+                    const data = responest.data;
+                    if (data && data.success) {
+                        message.success(data.msg);
+                        window.open(data.pdf_url);
+                    } else {
+                        message.error(data.msg);
                     }
-                })
-                const responest = await request('/common/get-pdf', 'POST', {...values,pdf_id:this.state.id,member_id:cookie.load('userId')});
-                const data = responest.data;
-                if (data && data.success) {
-                    message.success(data.msg);
-                    window.open(data.pdf_url);
-                } else {
-                    message.error(data.msg);
                 }
-            }
-        });
-
+            });
+        } else {
+            message.error("请登录后再操作！");
+        }
     };
-    onSave = (e) =>{
+    onSave = (e) => {
         e.preventDefault();
-        const _this = this;
-        this.props.form.validateFields(async (err, values) => {
-            if (!err) {
-                const {addressArr} = this.state;
-                values.addressArr = '';
-                if(addressArr) {
-                    values.addressArr = (addressArr.provinceValue || '')+ (addressArr.cityValue || '') + (addressArr.areaValue || '');
-                }
-                Object.keys(values).forEach((item,idx)=>{
-                    if(!values[item]){
-                        values[item] = '';
+        if (cookie.load('userId')) {
+            const _this = this;
+            this.props.form.validateFields(async (err, values) => {
+                if (!err) {
+                    const {addressArr} = this.state;
+                    values.addressArr = '';
+                    if (addressArr) {
+                        values.addressArr = (addressArr.provinceValue || '') + (addressArr.cityValue || '') + (addressArr.areaValue || '');
                     }
-                })
-                const responest = await request('/common/save-pdf', 'POST', {...values,pdf_id:this.state.id,member_id:cookie.load('userId')});
-                const data = responest.data;
-                if (data && data.success) {
-                    message.success(data.msg);
-                } else {
-                    message.error(data.msg);
+                    Object.keys(values).forEach((item, idx) => {
+                        if (!values[item]) {
+                            values[item] = '';
+                        }
+                    })
+                    const responest = await request('/common/save-pdf', 'POST', {
+                        ...values,
+                        pdf_id: this.state.id,
+                        member_id: cookie.load('userId')
+                    });
+                    const data = responest.data;
+                    if (data && data.success) {
+                        message.success(data.msg);
+                    } else {
+                        message.error(data.msg);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            message.error("请登录后再操作！");
+        }
     }
 
     render() {
@@ -207,7 +224,9 @@ class Form1 extends Component {
                     <div className="collection-butn mt10">
                         <Button type="primary" onClick={this.onSave} className="ml15">保存</Button>
                         <Button type="primary" htmlType="submit" className="ml15">一键生成申请书</Button>
-                        <Button className="back-butn" icon="rollback"  onClick={()=>{this.props.history ? this.props.history.goBack() : window.history.go(-1);}}>返回</Button>
+                        <Button className="back-butn" icon="rollback" onClick={() => {
+                            this.props.history ? this.props.history.goBack() : window.history.go(-1);
+                        }}>返回</Button>
                     </div>
                     <div className="d-information-item">
                         <TitleTwo name="企业申报信息"/>
@@ -239,26 +258,26 @@ class Form1 extends Component {
                                 <th>失业保险参保所在地</th>
                                 <td className="address-box">
                                     {/*{provinceSelect ?*/}
-                                        {/*<Select defaultValue={register_address ? parseInt(register_address[0]) : null}*/}
-                                                {/*placeholder="请选择省份" style={{width: 127}}*/}
-                                                {/*onChange={(value, option) => this.onProvinceChange(value, option)}>*/}
-                                            {/*{provinceSelect.map((item, idx) => <Option*/}
-                                                {/*value={item.id+"|"+item.value} key={idx}>{item.value}</Option>)}*/}
-                                        {/*</Select> : null}*/}
+                                    {/*<Select defaultValue={register_address ? parseInt(register_address[0]) : null}*/}
+                                    {/*placeholder="请选择省份" style={{width: 127}}*/}
+                                    {/*onChange={(value, option) => this.onProvinceChange(value, option)}>*/}
+                                    {/*{provinceSelect.map((item, idx) => <Option*/}
+                                    {/*value={item.id+"|"+item.value} key={idx}>{item.value}</Option>)}*/}
+                                    {/*</Select> : null}*/}
                                     {/*{citySelect ? <Select*/}
-                                        {/*defaultValue={register_address && register_address[1] && parseInt(register_address[1])}*/}
-                                        {/*placeholder="请选择市" style={{width: 127, marginLeft: 5}}*/}
-                                        {/*onChange={(value, option) => this.onCityChange(value, option)}>*/}
-                                        {/*{citySelect.map((item, idx) => <Option value={item.id+"|"+item.value}*/}
-                                                                               {/*key={idx}>{item.value}</Option>)}*/}
+                                    {/*defaultValue={register_address && register_address[1] && parseInt(register_address[1])}*/}
+                                    {/*placeholder="请选择市" style={{width: 127, marginLeft: 5}}*/}
+                                    {/*onChange={(value, option) => this.onCityChange(value, option)}>*/}
+                                    {/*{citySelect.map((item, idx) => <Option value={item.id+"|"+item.value}*/}
+                                    {/*key={idx}>{item.value}</Option>)}*/}
 
                                     {/*</Select> : null}*/}
                                     {/*{areaSelect ? <Select*/}
-                                        {/*defaultValue={register_address && register_address[2] && parseInt(register_address[2])}*/}
-                                        {/*placeholder="请选择区县" style={{width: 132, marginLeft: 5}}*/}
-                                        {/*onChange={(value, option) => this.onAreaChange(value, option)}>*/}
-                                        {/*{areaSelect.map((item, idx) => <Option value={item.id+"|"+item.value}*/}
-                                                                               {/*key={idx}>{item.value}</Option>)}*/}
+                                    {/*defaultValue={register_address && register_address[2] && parseInt(register_address[2])}*/}
+                                    {/*placeholder="请选择区县" style={{width: 132, marginLeft: 5}}*/}
+                                    {/*onChange={(value, option) => this.onAreaChange(value, option)}>*/}
+                                    {/*{areaSelect.map((item, idx) => <Option value={item.id+"|"+item.value}*/}
+                                    {/*key={idx}>{item.value}</Option>)}*/}
                                     {/*</Select> : null}*/}
                                     {getFieldDecorator('a4')(
                                         <Input placeholder="街道"/>
