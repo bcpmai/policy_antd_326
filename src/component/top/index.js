@@ -12,6 +12,7 @@ import cookie from 'react-cookies';
 // } from '@ant-design/icons';
 import './index.css';
 import Logo from './img/logo.jpg';
+import Logo1 from './img/logo1.jpg';
 
 
 const { SubMenu } = Menu;
@@ -108,10 +109,12 @@ class Top extends Component {
             <div className="top-component-template">
                 <div className="welcome-box">
                 <Row className="max-weight-box">
-                    <Col span={6}><div className="top-name">
-                        <img src={Logo} style={{width:"35px",marginRIght:"10px",borderRadius: "5px"}} />
-                        政策与企业匹配服务平台</div></Col>
-                    <Col span={11}>
+                    <Col span={7}><div className="top-name">
+                        <img src={Logo} style={{width:"35px",marginRight:"10px",borderRadius: "5px"}} />
+                        政策与企业匹配服务平台
+                        <img src={Logo1} style={{width:"50px",marginLeft:"5px",marginRight:"0px"}} /></div>
+                    </Col>
+                    <Col span={10}>
                         <Menu onClick={this.handleClick} selectedKeys={[current || "home"]} mode="horizontal" theme="dark">
                             <Menu.Item key="home">
                                 <a href="/">首页</a>

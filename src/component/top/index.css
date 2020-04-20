@@ -169,7 +169,7 @@
 }
 .top-component-template .welcome-box .ant-menu-horizontal{
     line-height: 45px;
-    margin-left: 20px;
+    margin-left: 0px;
 }
 .top-component-template .welcome-box .ant-menu-dark .ant-menu-item{
     margin-top: 0;
