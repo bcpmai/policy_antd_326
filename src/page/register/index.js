@@ -204,6 +204,17 @@ class Register extends Component {
                             rules: [{
                                 required: true,
                                 message: '请输入统一社会信用代码'
+                            },{
+                                validator:
+                                    async (rule, value, callback) => {
+                                        console.log(rule, value, callback);
+                                        const responest = await request('/common/check-code','POST',{code:value});
+                                        console.log(responest)
+                                        if(responest.status == 200 && responest.data.success){
+                                            return Promise.reject(responest.data.msg);
+                                        }
+                                        return Promise.resolve();
+                                    }
                             }]
                         })(
                             <Input />
