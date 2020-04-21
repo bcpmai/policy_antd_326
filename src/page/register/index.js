@@ -161,7 +161,7 @@ class Register extends Component {
         const {labelSelect,time,label,subScribeData} = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="register-template" style={{minHeight:840}}>
+            <div className="register-template" style={{minHeight:898}}>
                 <Top />
                 <div className="register-form-box max-weight-box">
                     <div className="register-form-bg"></div>

@@ -78,10 +78,11 @@ class ForgotYour extends Component {
     render() {
         const {time} = this.state;
         const { getFieldDecorator } = this.props.form;
+        const minH = window.innerHeight-70-80;
         return (
             <div className="forgotYour-template">
                 <Top />
-                <div className="forgotYour-form-box" style={{minHeight:window.innerHeight-70}}>
+                <div className="forgotYour-form-box" style={{minHeight:minH > 600 ? window.innerHeight-70-80 : 600}}>
                     <div className="max-weight-box login-max-weight">
                         <div className="login-form-bg"></div>
                         <div className="login-form">

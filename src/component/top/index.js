@@ -112,7 +112,8 @@ class Top extends Component {
                     <Col span={7}><div className="top-name">
                         <img src={Logo} style={{width:"35px",marginRight:"10px",borderRadius: "5px"}} />
                         政策与企业匹配服务平台
-                        <img src={Logo1} style={{width:"50px",marginLeft:"5px",marginRight:"0px"}} /></div>
+                        {/*<img src={Logo1} style={{width:"50px",marginLeft:"5px",marginRight:"0px"}} />*/}
+                        </div>
                     </Col>
                     <Col span={10}>
                         <Menu onClick={this.handleClick} selectedKeys={[current || "home"]} mode="horizontal" theme="dark">

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import './index.css';
+import Logo1 from './img/logo1.png';
 
 class Footer extends Component {
     constructor(props){
@@ -29,8 +30,7 @@ class Footer extends Component {
         return (
                 <div className="footer-component-template">
                     <div className="max-weight-box">
-                        <p>Copyright © www.cqxxx.gov.cn All Rights Reserved.</p>
-                        <p>重庆市九龙坡区民营经济发展局版权所有</p>
+                        <p>版权所有：重庆市九龙坡区民营经济发展局 &nbsp;&nbsp; 技术支持：重庆大数据人工智能创新中心<img src={Logo1} style={{width:"45px",marginLeft:"5px"}} /></p>
                     </div>
                 </div>
         );

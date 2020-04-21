@@ -62,7 +62,7 @@ class Login extends Component {
         return (
             <div className="login-template">
                 <Top />
-                <div className="login-form-box" style={{minHeight:window.innerHeight-70-140}}>
+                <div className="login-form-box" style={{minHeight:window.innerHeight-70-80}}>
                     <div className="max-weight-box login-max-weight">
                         <div className="login-form-bg"></div>
                         <div className="login-form">

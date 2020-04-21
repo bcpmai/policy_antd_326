@@ -51,7 +51,7 @@ import Footer from "./component/footer";
 ReactDOM.render(
     <Router>
         <ConfigProvider locale={zhCN}>
-        <div className="main-box" id="main" style={{minHeight:window.innerHeight-140}}>
+        <div className="main-box" id="main" style={{minHeight:window.innerHeight-80}}>
             <Route exact path="/" component={Index} />
             <Route exact path="/home" component={App} />
             <Route exact path="/login" component={Login} />
