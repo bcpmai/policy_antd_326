@@ -48,7 +48,7 @@ class enterprise extends Component {
                 key: 'company_name',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}><a href={`/businessInformation/${record.id}`}>{text.length < 15 ? text : text.substr(0, 15) + "..."}</a></Tooltip>
+                                    title={text}><a href={`/businessInformation/${record.id}`}>{text ? (text.length < 15 ? text : text.substr(0, 15) + "...") : text}</a></Tooltip>
                 }
             },
             // {
@@ -77,7 +77,7 @@ class enterprise extends Component {
                 key: 'username',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}><span>{text.length < 10 ? text : text.substr(0, 10) + "..."}</span></Tooltip>
+                                    title={text}><span>{text ? (text.length < 10 ? text : text.substr(0, 10) + "...") : text}</span></Tooltip>
                 }
             },
             {

@@ -202,10 +202,10 @@ class AddProject extends Component {
                         let {addressArr = []} = this.state;
                         if (!addressArr[idx]) addressArr[idx] = {}
                         addressArr[idx].province = parseInt(itemList[0]);
-                        if (itemList.length >= 3) {
+                        if (itemList.length >= 3 && itemList[2]) {
                             addressArr[idx].city = parseInt(itemList[1]);
                             addressArr[idx].area = parseInt(itemList[2]);
-                        } else if (itemList.length == 2) {
+                        } else if (itemList.length == 2 && itemList[1]) {
                             addressArr[idx].city = parseInt(itemList[1]);
                         }
                         this.setState({
@@ -213,10 +213,10 @@ class AddProject extends Component {
                         });
                     }
                     itemList.forEach((iItem, iIdx) => {
-                        if (iIdx == 1) {
+                        if (iIdx == 1 && itemList[0]) {
                             this.getCityData(parseInt(itemList[0]), idx);
                         }
-                        if (iIdx == 2) {
+                        if (iIdx == 2 && itemList[1]) {
                             this.getAreaData(parseInt(itemList[1]), idx)
                         }
                     });
@@ -345,7 +345,9 @@ class AddProject extends Component {
         if(policyTitle,support_direction && declare_condition && support_content && declare_material && declare_process) {
 
             if (addressArr && addressArr.length) {
-                let register_address = addressArr.map((aitem, aidx) => aitem.province + "," + aitem.city + "," + aitem.area);
+                let register_address = addressArr.map((aitem, aidx) => {
+                    return (aitem.province ? aitem.province : '') + "," + (aitem.city ? aitem.city : '') + "," + (aitem.area ? aitem.area : '')
+                });
                 values.register_address = register_address.join("|"); //地址
             }
             if (selectedRowKeys && selectedRowKeys.length) {
