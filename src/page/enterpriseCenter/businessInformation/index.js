@@ -28,7 +28,7 @@ class BusinessInformation extends Component {
         super(props);
         const id = props.match.params ? props.match.params.id : null;
         this.state = {
-            isEdit:id ? true : false,
+            isEdit:true,
             id:id
         }
     }
@@ -217,6 +217,7 @@ class BusinessInformation extends Component {
             <div className="b-information-template">
                 <Top/>
                 <div className="information-form-box max-weight-box">
+                    <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
                     <Row>
                         <Col span={4}>
                             {id ? <PolicyManagementMenu current="enterprise"/>:<EnterpriseMenu menuKey="businessInformation"/>}
@@ -226,14 +227,14 @@ class BusinessInformation extends Component {
                             {id ? <div className="b-information-butn" style={{float:"right",marginTop: "30px"}}><Button onClick={() => {
                                 this.props.history.goBack()
                             }}>返回</Button></div> : <div className="b-information-butn" style={{float:"right",marginTop: "30px"}}>
-                                <Button htmlType="submit" type="primary">确定</Button>
-                                <Button onClick={() => {
+                                { isEdit ? <Button type="primary" icon="edit" className="button-edit" onClick={this.setEdit}>编辑</Button> : null}
+                                { !isEdit ? <Button htmlType="submit" type="primary">确定</Button> : null}
+                                { !isEdit ? <Button onClick={() => {
                                     this.props.history.push("/matching")
-                                }}>取消</Button>
+                                }}>取消</Button> : null}
                             </div>
                             }
                             <Title name="企业工商信息"/>
-                <Form ref="form" {...layout} name="nest-messages" onSubmit={this.onFinish}>
                     <div className="b-information-item">
                         <TitleTwo name="企业工商信息" />
 
@@ -860,9 +861,9 @@ class BusinessInformation extends Component {
                             </tbody>
                         </table>
                     </div>
-                </Form>
                         </Col>
                     </Row>
+                    </Form>
                 </div>
             </div>
         );
