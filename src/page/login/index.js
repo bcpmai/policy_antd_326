@@ -70,9 +70,9 @@ class Login extends Component {
                             <Form {...layout} name="nest-messages" onSubmit={this.onFinish}>
                                 <Form.Item>
                                     {getFieldDecorator('username', {
-                                        rules: [{ required: true, message: '请输入用户账号!' }],
+                                        rules: [{ required: true, message: '请输入用户名/手机号!' }],
                                     })(
-                                        <Input placeholder="请输入用户账号"/>
+                                        <Input placeholder="请输入用户名/手机号"/>
                                     )}
                                 </Form.Item>
                                 <Form.Item >
