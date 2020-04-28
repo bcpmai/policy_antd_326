@@ -62,11 +62,13 @@ class Information extends Component {
             const register_address = data.register_address != "" && data.register_address ? data.register_address.split(",") : null;
             this.getProvinceData();
             if(register_address && register_address.length>=1) {
-                this.getCityData(parseInt(register_address[0]));
-                if(register_address[1] != "undefined") {
-                    setTimeout(() => {
-                        this.getAreaData(parseInt(register_address[1]), parseInt(register_address[0]));
-                    });
+                if(register_address[1] && register_address[1] != "undefined") {
+                    this.getCityData(parseInt(register_address[0]));
+                    if(register_address[2] && register_address[2] != "undefined") {
+                        setTimeout(() => {
+                            this.getAreaData(parseInt(register_address[1]), parseInt(register_address[0]));
+                        },1000);
+                    }
                 }
             }
             this.setState({
@@ -168,7 +170,17 @@ class Information extends Component {
             if (!err) {
                 const {addressArr, set_up_value, register_address} = this.state;
                 if (addressArr) {
-                    values.register_address = addressArr.province + "," + addressArr.city + "," + addressArr.area;
+                    let register_address;
+                    if(addressArr.province){
+                        register_address = addressArr.province + ",";
+                    }
+                    if(addressArr.city){
+                        register_address += addressArr.city + ",";
+                        if(addressArr.area){
+                            register_address += addressArr.area;
+                        }
+                    }
+                    values.register_address = register_address;
                 } else if (register_address) {
                     values.register_address = register_address.join(",");
                 }
