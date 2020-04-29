@@ -24,6 +24,7 @@ class enterprise extends Component {
         super(props);
         this.state = {
             tableData: [],
+            userTableData:[],
             labelStatus: {
                 title: "状 态",
                 item: [
@@ -48,19 +49,19 @@ class enterprise extends Component {
                 key: 'company_name',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}><a href={`/businessInformation/${record.id}`}>{text ? (text.length < 15 ? text : text.substr(0, 15) + "...") : text}</a></Tooltip>
+                                    title={text}><a href={`/businessInformation/${record.id}`}>{text ? (text.length < 35 ? text : text.substr(0, 35) + "...") : text}</a></Tooltip>
                 }
             },
-            // {
-            //     title: '统一社会信用代码',
-            //     dataIndex: 'code',
-            //     key: 'code',
-            //     width: 150,
-            //     render: (text, record) => {
-            //         return <Tooltip placement="topLeft"
-            //                         title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
-            //     }
-            // },
+            {
+                title: '统一社会信用代码',
+                dataIndex: 'code',
+                key: 'code',
+                width: 300,
+                render: (text, record) => {
+                    return <Tooltip placement="topLeft"
+                                    title={text}><span>{text ? (text.length < 20 ? text : text.substr(0, 20) + "...") : text}</span></Tooltip>
+                }
+            },
             // {
             //     title: '所属行业',
             //     dataIndex: 'industry_label_str',
@@ -71,19 +72,71 @@ class enterprise extends Component {
             //                         title={text}><span>{text.length < 6 ? text : text.substr(0, 6) + "..."}</span></Tooltip>
             //     }
             // },
+            // {
+            //     title: '用户名',
+            //     dataIndex: 'username',
+            //     key: 'username',
+            //     render: (text, record) => {
+            //         return <Tooltip placement="topLeft"
+            //                         title={text}><span>{text ? (text.length < 10 ? text : text.substr(0, 10) + "...") : text}</span></Tooltip>
+            //     }
+            // },
+            // {
+            //     title: '手机号',
+            //     dataIndex: 'mobile',
+            //     width: 120,
+            //     key: 'mobile',
+            // },
+            // {
+            //     title: '注册时间',
+            //     dataIndex: 'created_date',
+            //     width: 150,
+            //     key: 'created_date'
+            // },
+            // {
+            //     title: '状态',
+            //     dataIndex: 'status',
+            //     key: 'status',
+            //     width: 80,
+            //     render: (text, record) => (<span>{text == 0 ? "正常" : "已禁用"}</span>),
+            // },
+            {
+                title: '操作',
+                key: 'action',
+                width: 80,
+                render: (text, record) => (
+                    <span>
+                        <a onClick={(type, id) => this.showModal("viewVisible", record)}>查看</a>
+                        {/*<a onClick={(type, id) => this.showModal("addVisible", record)}>修改</a>*/}
+                        {/*<a className="ml15"*/}
+                           {/*onClick={(type, id) => this.showModal("visible", record)}>{record.status == 0 ? "禁用" : "启用"}</a>*/}
+                        {/*<a className="ml15" onClick={(type, id) => this.showModal("passwordVisible", record)}>重置密码</a>*/}
+                    </span>),
+            },
+        ];
+        this.columns1 = [
+            {
+                title: '企业名称',
+                dataIndex: 'company_name',
+                key: 'company_name',
+                render: (text, record) => {
+                    return <Tooltip placement="topLeft"
+                                    title={text}><a href={`/businessInformation/${record.id}`}>{text ? (text.length < 12 ? text : text.substr(0, 12) + "...") : text}</a></Tooltip>
+                }
+            },
             {
                 title: '用户名',
                 dataIndex: 'username',
                 key: 'username',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}><span>{text ? (text.length < 10 ? text : text.substr(0, 10) + "...") : text}</span></Tooltip>
+                                    title={text}><span>{text ? (text.length < 8 ? text : text.substr(0, 8) + "...") : text}</span></Tooltip>
                 }
             },
             {
                 title: '手机号',
                 dataIndex: 'mobile',
-                width: 120,
+                width: 150,
                 key: 'mobile',
             },
             {
@@ -129,7 +182,7 @@ class enterprise extends Component {
         if (cookie.load('userId')) {
             values.member_id = parseInt(cookie.load('userId'));
         }
-        const tableData = await request('/company/list', 'POST', values); //获取table
+        const tableData = await request('/company/ori-list', 'POST', values); //获取table
         if (tableData.status == 200) {
             this.setState({
                 tableData: tableData.data,
@@ -157,13 +210,30 @@ class enterprise extends Component {
             [type]: true,
             record
         });
+        if(type==="viewVisible"){
+            this.getUserTableData(record);
+        }
     };
 
     handleCancel = type => {
         this.setState({
             [type]: false,
+            userTableData:[]
         });
     };
+    getUserTableData = async (values = {}) => {
+        if (cookie.load('userId')) {
+            values.member_id = parseInt(cookie.load('userId'));
+        }
+        const tableData = await request('/company/list', 'POST', values); //获取table
+        if (tableData.status == 200) {
+            this.setState({
+                userTableData: tableData.data,
+                userFormValues:values
+            });
+        }
+    }
+
     resetPasswordOk = async () => {
         const {record} = this.state;
         const res = await request('/admin/reset-password', 'POST', {member_id: record.id, password: record.password}); //获取table
@@ -181,7 +251,7 @@ class enterprise extends Component {
         }
     }
     handleStateOk = async () => {
-        const {record} = this.state;
+        const {record,userFormValues} = this.state;
         const res = await request('/admin/update-status-user', 'POST', {member_id: record.id, status: record.status}); //获取table
         if (res.data && res.data.success) {
             message.success(res.data.msg);
@@ -190,7 +260,7 @@ class enterprise extends Component {
                 record: null
             });
             setTimeout(() => {
-                this.getTableData(this.state.formValues);
+                this.getUserTableData(userFormValues);
             }, 1000);
         } else {
             message.error(res.data.msg);
@@ -231,7 +301,7 @@ class enterprise extends Component {
     }
 
     render() {
-        const {labelStatus, status, industryData, formValues, tableData, record} = this.state;
+        const {labelStatus, status, industryData, formValues, tableData, record,userTableData} = this.state;
         const {getFieldDecorator} = this.props.form;
         const pagination = {
             current: formValues && formValues.page ? formValues.page : 1,
@@ -262,13 +332,13 @@ class enterprise extends Component {
                                 <Form ref="searchForm" {...layout} name="dynamic_rule" onSubmit={this.onSearchFinish}>
                                     <div>
                                         <Row>
-                                            <Col span={8}>
+                                            <Col span={10}>
                                                 <Row>
                                                     <Col span={7}>企业名称</Col>
                                                     <Col span={17}>
                                                         <Form.Item>
                                                             {getFieldDecorator('company_name')(
-                                                                <Input/>
+                                                                <Input style={{width:"250px"}}/>
                                                             )}
                                                         </Form.Item>
 
@@ -281,19 +351,19 @@ class enterprise extends Component {
                                                     <Col span={15}>
                                                         <Form.Item>
                                                             {getFieldDecorator('code')(
-                                                                <Input/>
+                                                                <Input style={{width:"250px"}}/>
                                                             )}
                                                         </Form.Item>
 
                                                     </Col>
                                                 </Row>
                                             </Col>
-                                            <Col span={7}>
-                                                <Label callback={this.onSelectStatus} defalutValue={status}
-                                                       isRadio={true} span={{title: 6, label: 18}}
-                                                       title={labelStatus.title} item={labelStatus.item}
-                                                       key="labelStatus"/>
-                                            </Col>
+                                            {/*<Col span={7}>*/}
+                                                {/*<Label callback={this.onSelectStatus} defalutValue={status}*/}
+                                                       {/*isRadio={true} span={{title: 6, label: 18}}*/}
+                                                       {/*title={labelStatus.title} item={labelStatus.item}*/}
+                                                       {/*key="labelStatus"/>*/}
+                                            {/*</Col>*/}
                                         </Row>
                                     </div>
                                     <div className="search-button">
@@ -311,6 +381,17 @@ class enterprise extends Component {
                         </Col>
                     </Row>
                 </div>
+                <Modal
+                    title="温馨提示"
+                    visible={this.state.viewVisible}
+                    onCancel={(type) => this.handleCancel("viewVisible")}
+                    width={1000}
+                    footer={null}
+                >
+                    {userTableData ?
+                        <Table columns={this.columns1} dataSource={userTableData.result} pagination={false}
+                               rowKey="id"/> : null}
+                </Modal>
                 <Modal
                     title="温馨提示"
                     visible={this.state.visible}
