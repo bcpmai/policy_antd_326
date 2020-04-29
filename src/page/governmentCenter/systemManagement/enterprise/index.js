@@ -218,8 +218,9 @@ class enterprise extends Component {
     handleCancel = type => {
         this.setState({
             [type]: false,
-            userTableData:[]
+            userTableData: type === "viewVisible" ? [] : this.state.userTableData
         });
+
     };
     getUserTableData = async (values = {}) => {
         if (cookie.load('userId')) {
