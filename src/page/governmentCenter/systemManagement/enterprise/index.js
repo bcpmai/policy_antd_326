@@ -49,7 +49,7 @@ class enterprise extends Component {
                 key: 'company_name',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}><a href={`/businessInformation/${record.id}`}>{text ? (text.length < 35 ? text : text.substr(0, 35) + "...") : text}</a></Tooltip>
+                                    title={text}>{text ? (text.length < 35 ? text : text.substr(0, 35) + "...") : text}</Tooltip>
                 }
             },
             {
