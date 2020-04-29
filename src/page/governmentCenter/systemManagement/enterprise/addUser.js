@@ -201,12 +201,7 @@ class AddUser extends Component {
                         <Row className="mt10">
                             <Col span={23}>
                                 <Form.Item label="初始密码" name="password">
-                                    {getFieldDecorator('password', {
-                                        rules: [{
-                                            required: true,
-                                            message: '请输入初始密码'
-                                        }]
-                                    })(
+                                    {getFieldDecorator('password')(
                                         <Input.Password/>
                                     )}
 
