@@ -10,6 +10,7 @@ import Top from '../../../../component/top/index';
 import cookie from 'react-cookies';
 import PolicyManagementMenu from "../../../../component/policyManagementMenu/index";
 import Title from "../../../../component/title/index";
+import AddContent from  './addContent';
 import './index.css';
 
 import E from 'wangeditor'
@@ -34,11 +35,10 @@ class AddProject extends Component {
             id:props.match.params ? props.match.params.id : null,
             policyVisible:false,
             tableData:[],
-            addressNum:1,
-            address:true,
+            addContentNum:1,
+            contentArr:[],
             set_up:true,
             knowledge:true,
-            address:true,
             invention:true,
             industry_label:true,
             declare:true,
@@ -50,14 +50,13 @@ class AddProject extends Component {
         if(!this.state.id) {
             this.createEditor("editorElem1", "support_direction");//扶持方向
             this.createEditor("editorElem2", "declare_condition");//申报条件
-            this.createEditor("editorElem3", "support_content");//扶持内容
+            // this.createEditor("editorElem3", "support_content");//扶持内容
             this.createEditor("editorElem4", "declare_material");//申报材料
             this.createEditor("editorElem5", "declare_process");//申报流程
             this.createEditor("editorElem6", "review_process");//评审流程
         }
         this.getDefalutData();
         this.getTableData();
-        this.getProvinceData();//获取省
         this.columns = [
             {
                 title: '政策标题',
@@ -195,36 +194,9 @@ class AddProject extends Component {
                     item.url = item.image_url;
                     fileList.push(item);
                 })
-                let addressList = [];
-                declare.register_address && declare.register_address.split("|").forEach((item, idx) => {
-                    const itemList = item.split(",");
-                    if (itemList.length > 0) {
-                        let {addressArr = []} = this.state;
-                        if (!addressArr[idx]) addressArr[idx] = {}
-                        addressArr[idx].province = parseInt(itemList[0]);
-                        if (itemList.length >= 3 && itemList[2]) {
-                            addressArr[idx].city = parseInt(itemList[1]);
-                            addressArr[idx].area = parseInt(itemList[2]);
-                        } else if (itemList.length == 2 && itemList[1]) {
-                            addressArr[idx].city = parseInt(itemList[1]);
-                        }
-                        this.setState({
-                            addressArr
-                        });
-                    }
-                    itemList.forEach((iItem, iIdx) => {
-                        if (iIdx == 1 && itemList[0]) {
-                            this.getCityData(parseInt(itemList[0]), idx);
-                        }
-                        if (iIdx == 2 && itemList[1]) {
-                            this.getAreaData(parseInt(itemList[1]), idx)
-                        }
-                    });
-                    addressList.push(itemList);
-                });
                 this.setState({
                     data,
-                    addressList,
+                    // addressList,
                     fileList,
                     release_date: declare.release_date,
                     content: declare.content,
@@ -233,15 +205,17 @@ class AddProject extends Component {
                     isSelectPolicy: true,
                     declare_net: declare.declare_net,
                     post_material: declare.post_material,
-                    addressNum: addressList.length <= 0 ? 1 : addressList.length,
+                    // addressNum: addressList.length <= 0 ? 1 : addressList.length,
                     declare_start_date: declare.declare_start_date,
                     declare_end_date: declare.declare_end_date,
                     support_direction: declare.support_direction,
                     declare_condition: declare.declare_condition,
-                    support_content: declare.support_content,
+                    // support_content: declare.support_content,
                     declare_material: declare.declare_material,
                     declare_process: declare.declare_process,
-                    review_process: declare.review_process
+                    review_process: declare.review_process,
+                    addContentNum:declare.declare_matching_details_list.length <= 0 ? 1 : declare.declare_matching_details_list.length,
+                    contentArr:declare.declare_matching_details_list
                 });
 
                 if (declare.declare_start_date && declare.declare_end_date) {
@@ -272,90 +246,74 @@ class AddProject extends Component {
                  }
                 declare.d_industry_label_ids = d_industry_label_ids;
                 declare.industry_label_ids = industry_label_ids;
-
+                declare.content = [];
+                declare.declare_matching_details_list.forEach((item,idx)=>{
+                    declare.content[idx] = item.content
+                })
+                console.log(declare);
                 this.props.form.setFieldsValue(declare);
 
-                if(declare.set_up_sign == "-1,0,1"){
-                    this.switchChange(false,"set_up");
-                }
-                if(declare.knowledge_sign== "-1,0,1"){
-                    this.switchChange(false,"knowledge");
-                }
-                if(declare.register_address== ""){
-                    this.switchChange(false,"address");
-                }
-                if(declare.invention_sign== "-1,0,1"){
-                    this.switchChange(false,"invention");
-                }
-                if(declare.industry_label_list.length <=0){
-                    this.switchChange(false,"industry_label");
-                }
-                if(declare.declare_sign== "-1,0,1"){
-                    this.switchChange(false,"declare");
-                }
-                if(declare.social_people_sign == "-1,0,1"){
-                    this.switchChange(false,"social");
-                }
+                // if(declare.set_up_sign == "-1,0,1"){
+                //     this.switchChange(false,"set_up");
+                // }
+                // if(declare.knowledge_sign== "-1,0,1"){
+                //     this.switchChange(false,"knowledge");
+                // }
+                // if(declare.register_address== ""){
+                //     this.switchChange(false,"address");
+                // }
+                // if(declare.invention_sign== "-1,0,1"){
+                //     this.switchChange(false,"invention");
+                // }
+                // if(declare.industry_label_list.length <=0){
+                //     this.switchChange(false,"industry_label");
+                // }
+                // if(declare.declare_sign== "-1,0,1"){
+                //     this.switchChange(false,"declare");
+                // }
+                // if(declare.social_people_sign == "-1,0,1"){
+                //     this.switchChange(false,"social");
+                // }
 
                 //editor.txt.html(policy.content);
                 this.belongChange(declare.belong); //请求发布机构
 
                 this.createEditor("editorElem1", "support_direction",declare.support_direction);//扶持方向
                 this.createEditor("editorElem2", "declare_condition",declare.declare_condition);//申报条件
-                this.createEditor("editorElem3", "support_content",declare.support_content);//扶持内容
+                // this.createEditor("editorElem3", "support_content",declare.support_content);//扶持内容
                 this.createEditor("editorElem4", "declare_material",declare.declare_material);//申报材料
                 this.createEditor("editorElem5", "declare_process",declare.declare_process);//申报流程
                 this.createEditor("editorElem6", "review_process",declare.review_process);//评审流程
             }
         }
     }
-    getProvinceData = async () =>{
-        const provinceData = await request('/common/get-province', 'POST'); //获取省
-        if(provinceData.status == 200){
-            this.setState({
-                provinceSelect: provinceData.data.data
-            });
-        }
 
-    }
-
-    getCityData = async (provinceId,i) =>{
-        const cityData = await request('/common/get-city', 'POST',{province_id:provinceId}); //获取市
-        if(cityData.status == 200){
-            this.setState({
-                ["citySelect"+i]: cityData.data.data
-            });
-        }
-
-    }
-
-    getAreaData = async (cityId,i) =>{
-        // console.log(this.state.addressArr);
-        const areaData = await request('/common/get-area', 'POST',{province_id:this.state["addressArr"][i].province,city_id:cityId}); //获取区县
-        if(areaData.status == 200){
-            this.setState({
-                ["areaSelect"+i]: areaData.data.data
-            });
-        }
-
-    }
 
     onSubmit = async(values,url) => {
-        const {policyTitle,id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date,release_date} = this.state;
-        if(policyTitle,support_direction && declare_condition && support_content && declare_material && declare_process) {
+        const {addContentNum,contentArr,policyTitle,id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date,release_date} = this.state;
+        if(policyTitle,support_direction && declare_condition && declare_material && declare_process) {
 
-            if (addressArr && addressArr.length) {
-                let register_address = addressArr.map((aitem, aidx) => {
-                    return (aitem.province ? aitem.province : '') + "," + (aitem.city ? aitem.city : '') + "," + (aitem.area ? aitem.area : '')
-                });
-                values.register_address = register_address.join("|"); //地址
+            // if (addressArr && addressArr.length) {
+            //     let register_address = addressArr.map((aitem, aidx) => {
+            //         return (aitem.province ? aitem.province : '') + "," + (aitem.city ? aitem.city : '') + "," + (aitem.area ? aitem.area : '')
+            //     });
+            //     values.register_address = register_address.join("|"); //地址
+            // }
+            //扶持内容 new
+            values.declare_matching_details_list = [];
+            for(let i = 0;i <addContentNum;i++){
+                values.declare_matching_details_list.push({
+                    content:values.content[i],
+                    ...contentArr[i]
+                })
             }
             if (selectedRowKeys && selectedRowKeys.length) {
                 values.policy_id = selectedRowKeys[0]; //政策id
             }
+            values.content = undefined;
             values.support_direction = support_direction;
             values.declare_condition = declare_condition;
-            values.support_content = support_content;
+            // values.support_content = support_content;
             values.declare_material = declare_material;
             values.declare_process = declare_process;
             values.review_process = review_process;
@@ -398,18 +356,18 @@ class AddProject extends Component {
             if(!declare_condition){
                 msg="申报条件不能为空！";
             }
-            if(!support_content){
-                msg="扶持内容不能为空！";
-            }
+            // if(!support_content){
+            //     msg="扶持内容不能为空！";
+            // }
             if(!declare_material){
                 msg="申报材料不能为空！";
             }
             if(!declare_process){
                 msg="申报流程不能为空！";
             }
-            if(!review_process){
-                msg="评审流程不能为空！";
-            }
+            // if(!review_process){
+            //     msg="评审流程不能为空！";
+            // }
             message.error(msg);
         }
     }
@@ -547,12 +505,6 @@ class AddProject extends Component {
         // }
     };
 
-    handleCancel = e => {
-        console.log(e);
-        this.setState({
-            policyVisible: false,
-        });
-    };
 
     onSelectChange = (selectedRowKeys, selectedRows,isSelect) => {
          console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows,isSelect);
@@ -644,52 +596,33 @@ class AddProject extends Component {
             }
         }
     }
-    //地址添加一项
-    addAddress = () =>{
+
+    addContent = () =>{
         this.setState({
-            addressNum:++this.state.addressNum
+            addContentNum:++this.state.addContentNum
         })
     }
-    //选择省
-    onProvinceChange = (value, option,i) =>{
-        let { addressArr=[] } = this.state;
-        addressArr[i] = {
-            province:value
-        };
+    showContentModal = (i,content) =>{
         this.setState({
-            addressArr,
-            ["citySelect"+i]:null,
-            ["areaSelect"+i]:null
-        },()=>{
-            this.getCityData(value,i);
-        });
+            contentVisible:true,
+            contentNumber:i,
+            content
+        })
     }
-    onCityChange = (value,option,i)=>{
-        let { addressArr=[] } = this.state;
-        if(!addressArr[i])addressArr[i] = {};
-        addressArr[i].city = value;
-        addressArr[i].area = '';
+    handleCancel = e => {
+        console.log(e);
         this.setState({
-            addressArr,
-            ["areaSelect"+i]:null
-        },()=>{
-            this.getAreaData(value,i);
+            [e ? e  : "policyVisible"]: false,
+            contentNumber:0,
+            content:null
         });
-    }
-    onAreaChange = (value,option,i) =>{
-        let { addressArr=[] } = this.state;
-        if(!addressArr[i])addressArr[i] = {};
-        addressArr[i].area = value;
-        this.setState({
-            addressArr
-        });
-    }
+    };
     //注册地址
     addressDom = () =>{
         const {provinceSelect,addressNum,addressArr=[],address} = this.state;
         let html=[];
         for(let i = 0; i<addressNum;i++){
-            html.push(<Row key={i}>
+            html.push(<Row key={i} style={i==0? {} : {marginTop:"10px"}}>
                 {provinceSelect ? <Col span={6}>
                     <div style={{marginRight:"40px"}}>
                         <Select
@@ -740,6 +673,43 @@ class AddProject extends Component {
         }
         return (html);
     }
+    //扶持内容
+    contentDom = () =>{
+        const {addContentNum,contentArr=[]} = this.state;
+        const { getFieldDecorator } = this.props.form;
+        let html=[];
+        for(let i = 0; i<addContentNum;i++){
+            html.push(<Row key={i} style={{marginBottom:"10px"}}>
+                <Col span={16}>
+                    <div style={{marginRight:"10px"}}>
+                        {getFieldDecorator(`content[${i}]`)(<TextArea type="textarea" rows={4} style={{width:"100%",height:"100px"}}/>)}
+                    </div>
+                </Col>
+                <Col span={4}>
+                    <div>
+                        <Button onClick={() =>this.showContentModal(i,contentArr[i])}>{contentArr && contentArr[i] ? "编辑条件" : "添加条件"}</Button>
+                    </div>
+                </Col>
+                {i==0 ? <Col span={4}>
+                    <Tag className="site-tag-plus content-tag" onClick={this.addContent}>
+                        {/*<PlusOutlined />*/}
+                        <Icon type="plus" />
+                        可多选
+                    </Tag>
+                </Col> : null}
+            </Row>)
+        }
+        return (html);
+    }
+    contentCallback = (e) =>{
+        const {contentArr,contentNumber} = this.state;
+        contentArr[contentNumber || 0] = e;
+        this.setState({
+            contentArr
+        })
+        console.log(contentArr,contentNumber,"2223333")
+        this.handleCancel("contentVisible");
+    }
     render() {
         const {industryData,policyTitle,belongData,typeData,productData,id,tableData,selectedRowKeys,formValues,post_material,declare_net,set_up=true,knowledge=true,invention=true,declare=true,industry_label=true,social=true,isSelectPolicy,
             support_direction,declare_condition,support_content,declare_material,declare_process,review_process,state,data={}
@@ -773,7 +743,6 @@ class AddProject extends Component {
             onShowSizeChange: this.onShowSizeChange,
             onChange:this.onPaginChange
         }
-        console.log(id,data.declare && data.declare.set_up_sign);
         return (
             <div className="addProject-template">
                 <Top />
@@ -938,12 +907,13 @@ class AddProject extends Component {
                                 </div>
                             </Form.Item>
                             <Form.Item name="content" label="扶持内容"
-                                       required
-                                       validateStatus={!support_content && state ? "error" : ""}
-                                       help={!support_content && state ? "必填项" : ""}
+                                       // required
+                                       // validateStatus={!support_content && state ? "error" : ""}
+                                       // help={!support_content && state ? "必填项" : ""}
                                        >
-                                <div ref="editorElem3">
-                                </div>
+                                {this.contentDom()}
+                                {/*<div ref="editorElem3">*/}
+                                {/*</div>*/}
                             </Form.Item>
                             <Form.Item name="content" label="申报材料"
                                        required
@@ -993,303 +963,11 @@ class AddProject extends Component {
                                     )}
                                 </Form.Item></Col>
                             </Row>
-                            <Row>
-                                <Col span={3} style={{paddingTop:"8px",paddingRight:"20px",textAlign:"right",color:"#000"}}>申报标签：</Col>
-                                <Col span={21}>
-                                <table style={{width:"100%"}} className="label-table">
-                                    <thead>
-                                    <tr>
-                                        <th style={{width:"100px"}}>标签</th>
-                                        <th>规则设置</th>
-                                        <th style={{width:"100px"}}>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>成立年限</td>
-                                        <td>
-                                            <Row>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('set_up_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                style={{ width: '90%' }}
-                                                                disabled={!set_up}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={19}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('set_up_value',{
-                                                            initialValue:2000
-                                                        })(
-                                                            <Input disabled={!set_up}/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                        </td>
-                                        <td>
-                                            <Switch checked={this.state.set_up} onChange={(checked)=>this.switchChange(checked,"set_up")}/>
-                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>注册地址</td>
-                                        <td>
-                                              {this.addressDom()}
-                                        </td>
-                                        <td><Switch checked={this.state.address} onChange={(checked)=>this.switchChange(checked,"address")}/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>知识产权</td>
-                                        <td>
-                                            <Row>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('knowledge_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!knowledge}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={19}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('knowledge_value',{
-                                                            initialValue:0
-                                                        })(
-                                                            <Input disabled={!knowledge} suffix="个"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                        </td>
-                                        <td>
-                                            <Switch checked={this.state.knowledge} onChange={(checked)=>this.switchChange(checked,"knowledge")}/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>发明专利</td>
-                                        <td>
-                                            <Row>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('invention_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!invention}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={19}>
-                                                    <Form.Item name="invention_value">
-                                                        {getFieldDecorator('invention_value',{
-                                                            initialValue:0
-                                                        })(
-                                                            <Input disabled={!invention} suffix="个"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                        </td>
-                                        <td><Switch checked={this.state.invention} onChange={(checked)=>this.switchChange(checked,"invention")}/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>所属行业</td>
-                                        <td>
-                                            <Form.Item>
-                                                {getFieldDecorator('industry_label_ids')(
-                                                    <Select
-                                                        disabled={!industry_label}
-                                                        mode="multiple"
-                                                        style={{ width: '100%' }}
-                                                        onChange={this.handleChange}
-                                                    >
-                                                        {industryData ? industryData.map((item, idx) => <Option value={item.id}
-                                                                                                                key={item.id}>{item.name}</Option>) : ''}
-
-                                                    </Select>
-                                                )}
-                                            </Form.Item>
-                                        </td>
-                                        <td><Switch checked={this.state.industry_label} onChange={(checked)=>this.switchChange(checked,"industry_label")}/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>财务数据</td>
-                                        <td>
-                                            <Row>
-                                                <Col span={7}>研发投入</Col>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('develop_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!declare}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={10}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('develop_value',{
-                                                            initialValue:0
-                                                        })(
-                                                            <Input disabled={!declare} suffix="万元"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                            <Row className="mt10">
-                                                <Col span={7}>企业报税收入</Col>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('declare_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!declare}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={10}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('declare_value',{
-                                                            initialValue:0
-                                                        })(
-                                                            <Input disabled={!declare} suffix="万元"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                            <Row className="mt10">
-                                                <Col span={7}>研发资产总额</Col>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('develop_assets_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!declare}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={10}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('develop_assets_value',{
-                                                            initialValue:0
-                                                        })(
-                                                            <Input disabled={!declare} suffix="万元"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                        </td>
-                                        <td><Switch checked={this.state.declare} onChange={(checked)=>this.switchChange(checked,"declare")}/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>人员数量</td>
-                                        <td>
-                                            <Row className="mt10">
-                                                <Col span={7}>最近一年缴纳社保人数</Col>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('social_people_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!social}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={10}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('social_people_value',{
-                                                            initialValue:0
-                                                        })(
-                                                            <Input disabled={!social} suffix="人"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                            <Row className="mt10">
-                                                <Col span={7}>研发人员</Col>
-                                                <Col span={4}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('develop_people_sign',{
-                                                            initialValue:"-1,0"
-                                                        })(
-                                                            <Select
-                                                                disabled={!social}
-                                                                style={{ width: '90%' }}
-                                                            >
-                                                                <Option value="-1,0" key="≥">≥</Option>
-                                                                <Option value="0" key="=">=</Option>
-                                                                <Option value="0,1" key="≤">≤</Option>
-                                                            </Select>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col span={10}>
-                                                    <Form.Item>
-                                                        {getFieldDecorator('develop_people_value',{
-                                                            initialValue:0
-                                                        },)(
-                                                            <Input disabled={!social} suffix="人"/>
-                                                        )}
-                                                    </Form.Item>
-                                                </Col>
-                                            </Row>
-                                        </td>
-                                        <td><Switch checked={this.state.social} onChange={(checked)=>this.switchChange(checked,"social")}/></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                </Col>
-                            </Row>
+                            {/*<Row>*/}
+                                {/*<Col span={3} style={{paddingTop:"8px",paddingRight:"20px",textAlign:"right",color:"#000"}}>申报标签：</Col>*/}
+                                {/*<Col span={21}>*/}
+                                {/*</Col>*/}
+                            {/*</Row>*/}
                             <div className="addProject-button">
                                 <Button type="primary" htmlType="submit" ref="finish">发布</Button>
                                 <Button type="primary" className="ml15" ref="save" onClick={this.onSave}>存为草稿</Button>
@@ -1316,6 +994,18 @@ class AddProject extends Component {
                     />
                     <Table rowSelection={rowSelection} columns={this.columns} dataSource={tableData ? tableData.result : []} pagination={pagination} rowKey="id"  />
                 </Modal>
+                {this.state.contentVisible ?<Modal
+                    title={this.state.content ? "编辑条件" : "添加条件"}
+                    visible
+                    onOk={this.contentCallback}
+                    onCancel={()=>this.handleCancel("contentVisible")}
+                    width="1000px"
+                    className="select-porject-modal"
+                    footer={null}
+                    maskClosable={false}
+                >
+                    <AddContent defaultValue={this.state.content} callback={this.contentCallback} onCancel={()=>this.handleCancel("contentVisible")} />
+                </Modal> : null}
             </div>
         );
     };
