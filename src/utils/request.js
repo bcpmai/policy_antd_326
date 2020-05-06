@@ -38,7 +38,8 @@ export const request = (api, method = MethodType.GET, params = {}, config = {}) 
         }).then(resolve)
             .catch(error => {
                 console.dir(error);
-                message.error(typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
+                console.log(typeof error.response.data === 'string' ? error.response.data : JSON.stringify(error.response.data));
+                message.error("系统错误！");
                 reject(error);
             });
     });

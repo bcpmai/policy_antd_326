@@ -85,8 +85,10 @@ class AddContent extends Component {
                 });
             });
 
-
-            this.props.form.setFieldsValue({...data,industry_label_ids:data.industry_label_list});
+            if(data.industry_label_list){
+                data.industry_label_ids = data.industry_label_list
+            }
+            this.props.form.setFieldsValue(data);
 
             if (data.set_up_sign == "-1,0,1" || data.set_up_sign === undefined) {
                 this.switchChange(false, "set_up");
@@ -405,15 +407,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('set_up_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!set_up}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -447,15 +449,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('knowledge_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!knowledge}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -481,15 +483,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('invention_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!invention}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -535,15 +537,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!declare}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -563,15 +565,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('declare_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!declare}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -591,15 +593,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_assets_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!declare}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -625,15 +627,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('social_people_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!social}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>
@@ -653,15 +655,15 @@ class AddContent extends Component {
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_people_sign',{
-                                        initialValue:"-1,0"
+                                        initialValue:"0,1"
                                     })(
                                         <Select
                                             disabled={!social}
                                             style={{ width: '90%' }}
                                         >
-                                            <Option value="-1,0" key="≥">≥</Option>
+                                            <Option value="0,1" key="≥">≥</Option>
                                             <Option value="0" key="=">=</Option>
-                                            <Option value="0,1" key="≤">≤</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
                                         </Select>
                                     )}
                                 </Form.Item>

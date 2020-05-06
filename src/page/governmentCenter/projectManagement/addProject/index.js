@@ -3,22 +3,40 @@
  * */
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { Input, Row, Col, Button, Select, DatePicker, Breadcrumb,Form,Upload,Icon, message, Modal, Table, Tooltip, Checkbox, Switch,Tag,InputNumber} from 'antd';
+import {
+    Input,
+    Row,
+    Col,
+    Button,
+    Select,
+    DatePicker,
+    Breadcrumb,
+    Form,
+    Upload,
+    Icon,
+    message,
+    Modal,
+    Table,
+    Tooltip,
+    Checkbox,
+    Switch,
+    Tag,
+    InputNumber
+} from 'antd';
 import moment from 'moment';
 import {request} from '../../../../utils/request';
 import Top from '../../../../component/top/index';
 import cookie from 'react-cookies';
 import PolicyManagementMenu from "../../../../component/policyManagementMenu/index";
 import Title from "../../../../component/title/index";
-import AddContent from  './addContent';
+import AddContent from './addContent';
 import './index.css';
 
 import E from 'wangeditor'
 
 
-
-const { Option } = Select;
-const {Search,TextArea} = Input;
+const {Option} = Select;
+const {Search, TextArea} = Input;
 const layout = {
     labelCol: {span: 3},
     wrapperCol: {span: 21},
@@ -26,28 +44,28 @@ const layout = {
 
 const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
 
-const { RangePicker } = DatePicker;
+const {RangePicker} = DatePicker;
 
 class AddProject extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            id:props.match.params ? props.match.params.id : null,
-            policyVisible:false,
-            tableData:[],
-            addContentNum:1,
-            contentArr:[],
-            set_up:true,
-            knowledge:true,
-            invention:true,
-            industry_label:true,
-            declare:true,
-            social:true
+            id: props.match.params ? props.match.params.id : null,
+            policyVisible: false,
+            tableData: [],
+            addContentNum: 1,
+            contentArr: [],
+            set_up: true,
+            knowledge: true,
+            invention: true,
+            industry_label: true,
+            declare: true,
+            social: true
         }
     }
 
-    componentDidMount(){
-        if(!this.state.id) {
+    componentDidMount() {
+        if (!this.state.id) {
             this.createEditor("editorElem1", "support_direction");//扶持方向
             this.createEditor("editorElem2", "declare_condition");//申报条件
             // this.createEditor("editorElem3", "support_content");//扶持内容
@@ -64,7 +82,8 @@ class AddProject extends Component {
                 key: 'title',
                 width: 280,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a onClick={()=>this.onSelectChange(record.id,record.title,true)}>{text.length < 15 ? text : text.substr(0,15)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a
+                        onClick={() => this.onSelectChange(record.id, record.title, true)}>{text.length < 15 ? text : text.substr(0, 15) + "..."}</a></Tooltip>
                 }
             },
             {
@@ -72,7 +91,8 @@ class AddProject extends Component {
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft"
+                                    title={text}><span>{text.length < 10 ? text : text.substr(0, 10) + "..."}</span></Tooltip>
                 }
             },
             {
@@ -84,33 +104,34 @@ class AddProject extends Component {
         ];
 
     }
-    getTableData = async (values={}) =>{
-        if(!values.max_line){
+
+    getTableData = async (values = {}) => {
+        if (!values.max_line) {
             values.max_line = 5;
         }
-        const tableData = await request('/policy/list', 'POST',values); //获取table
-        if(tableData.status == 200){
+        const tableData = await request('/policy/list', 'POST', values); //获取table
+        if (tableData.status == 200) {
             this.setState({
                 tableData: tableData.data,
-                formValues:values
+                formValues: values
             });
         }
     }
-    onShowSizeChange = (current, pageSize) =>{
+    onShowSizeChange = (current, pageSize) => {
         console.log(current, pageSize);
-        let {formValues={}} = this.state;
+        let {formValues = {}} = this.state;
         formValues.page = current;
         formValues.max_line = pageSize;
         this.getTableData(formValues);
     }
-    onPaginChange = (page, pageSize) =>{
+    onPaginChange = (page, pageSize) => {
         console.log(page, pageSize);
-        let {formValues={}} = this.state;
+        let {formValues = {}} = this.state;
         formValues.page = page;
         formValues.max_line = pageSize;
         this.getTableData(formValues);
     }
-    createEditor = (editorElem,editorContent,value) =>{
+    createEditor = (editorElem, editorContent, value) => {
         const elem = this.refs[editorElem]; //获取editorElem盒子
         //const submit = this.refs.submit; //获取提交按钮
         const editor = new E(elem)  //new 一个 editorElem富文本
@@ -143,7 +164,7 @@ class AddProject extends Component {
         editor.customConfig.uploadImgHooks = {
             customInsert: function (insertImg, result, editor) {
                 console.log(insertImg, result, editor, "file")
-                if(result.success) {
+                if (result.success) {
                     var url = result.data.image_url  //监听图片上传成功更新页面
                     insertImg(url)
                 }
@@ -151,11 +172,11 @@ class AddProject extends Component {
         };
         editor.create() //创建
 
-        if(value){
+        if (value) {
             editor.txt.html(value);
         }
     }
-    getDefalutData = async() =>{
+    getDefalutData = async () => {
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
         const labelTypeData = await request('/common/get-all-use-type-declare-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
@@ -182,10 +203,10 @@ class AddProject extends Component {
             })
         }
         //编辑时，获取默认值
-        if(this.state.id){
+        if (this.state.id) {
             const {data} = await request(`/declare/get-one/${this.state.id}`, 'GET'); //请求默认数据
-            console.log(data,"dddd")
-            if(data) {
+            console.log(data, "dddd")
+            if (data) {
                 const {declare, resource_file_list = []} = data;
                 let fileList = [];
                 resource_file_list.forEach((item, idx) => {
@@ -214,8 +235,8 @@ class AddProject extends Component {
                     declare_material: declare.declare_material,
                     declare_process: declare.declare_process,
                     review_process: declare.review_process,
-                    addContentNum:declare.declare_matching_details_list.length <= 0 ? 1 : declare.declare_matching_details_list.length,
-                    contentArr:declare.declare_matching_details_list
+                    addContentNum: declare.declare_matching_details_list.length <= 0 ? 1 : declare.declare_matching_details_list.length,
+                    contentArr: declare.declare_matching_details_list
                 });
 
                 if (declare.declare_start_date && declare.declare_end_date) {
@@ -238,16 +259,16 @@ class AddProject extends Component {
                     });
                 }
                 let industry_label_ids;
-                if (declare.industry_label_ids && declare.industry_label_ids != ''){
-                    industry_label_ids =[]
+                if (declare.industry_label_ids && declare.industry_label_ids != '') {
+                    industry_label_ids = []
                     declare.industry_label_ids.split(",").forEach((item) => {
                         industry_label_ids.push(parseInt(item));
                     })
-                 }
+                }
                 declare.d_industry_label_ids = d_industry_label_ids;
                 declare.industry_label_ids = industry_label_ids;
                 declare.content = [];
-                declare.declare_matching_details_list.forEach((item,idx)=>{
+                declare.declare_matching_details_list.forEach((item, idx) => {
                     declare.content[idx] = item.content
                 })
                 console.log(declare);
@@ -278,20 +299,20 @@ class AddProject extends Component {
                 //editor.txt.html(policy.content);
                 this.belongChange(declare.belong); //请求发布机构
 
-                this.createEditor("editorElem1", "support_direction",declare.support_direction);//扶持方向
-                this.createEditor("editorElem2", "declare_condition",declare.declare_condition);//申报条件
+                this.createEditor("editorElem1", "support_direction", declare.support_direction);//扶持方向
+                this.createEditor("editorElem2", "declare_condition", declare.declare_condition);//申报条件
                 // this.createEditor("editorElem3", "support_content",declare.support_content);//扶持内容
-                this.createEditor("editorElem4", "declare_material",declare.declare_material);//申报材料
-                this.createEditor("editorElem5", "declare_process",declare.declare_process);//申报流程
-                this.createEditor("editorElem6", "review_process",declare.review_process);//评审流程
+                this.createEditor("editorElem4", "declare_material", declare.declare_material);//申报材料
+                this.createEditor("editorElem5", "declare_process", declare.declare_process);//申报流程
+                this.createEditor("editorElem6", "review_process", declare.review_process);//评审流程
             }
         }
     }
 
 
-    onSubmit = async(values,url) => {
-        const {addContentNum,contentArr,policyTitle,id,fileList=[],addressArr,selectedRowKeys,support_direction,declare_condition,support_content,declare_material,declare_process,review_process,declare_start_date,declare_end_date,release_date} = this.state;
-        if(policyTitle,support_direction && declare_condition && declare_material && declare_process) {
+    onSubmit = async (values, url) => {
+        const {addContentNum, contentArr, policyTitle, id, fileList = [], addressArr, selectedRowKeys, support_direction, declare_condition, support_content, declare_material, declare_process, review_process, declare_start_date, declare_end_date, release_date} = this.state;
+        if (policyTitle, support_direction && declare_condition && declare_material && declare_process) {
 
             // if (addressArr && addressArr.length) {
             //     let register_address = addressArr.map((aitem, aidx) => {
@@ -301,9 +322,9 @@ class AddProject extends Component {
             // }
             //扶持内容 new
             values.declare_matching_details_list = [];
-            for(let i = 0;i <addContentNum;i++){
+            for (let i = 0; i < addContentNum; i++) {
                 values.declare_matching_details_list.push({
-                    content:values.content[i],
+                    content: values.content[i],
                     ...contentArr[i]
                 })
             }
@@ -341,29 +362,29 @@ class AddProject extends Component {
                     // if(url){
                     //     window.open(url + "/" + data.data.data.id);
                     // }else{
-                        this.props.history.push(url ? url + "/" + data.data.data.id : '/projectList');
+                    this.props.history.push(url ? url + "/" + data.data.data.id : '/projectList');
                     //}
                     // this.props.history.push(url ? url+"/"+data.data.data.id : '/projectList');
                 }, 2000);
             } else {
                 message.error(data.data.msg);
             }
-        }else{
+        } else {
             let msg;
-            if(!support_direction){
-                msg="扶持方向不能为空！";
+            if (!support_direction) {
+                msg = "扶持方向不能为空！";
             }
-            if(!declare_condition){
-                msg="申报条件不能为空！";
+            if (!declare_condition) {
+                msg = "申报条件不能为空！";
             }
             // if(!support_content){
             //     msg="扶持内容不能为空！";
             // }
-            if(!declare_material){
-                msg="申报材料不能为空！";
+            if (!declare_material) {
+                msg = "申报材料不能为空！";
             }
-            if(!declare_process){
-                msg="申报流程不能为空！";
+            if (!declare_process) {
+                msg = "申报流程不能为空！";
             }
             // if(!review_process){
             //     msg="评审流程不能为空！";
@@ -375,13 +396,13 @@ class AddProject extends Component {
         e.preventDefault();
         const _this = this;
         this.setState({
-            state:true
+            state: true
         });
         this.props.form.validateFields(async (err, values) => {
-            if(!err) {
+            if (!err) {
                 values.status = 2;
                 this.onSubmit(values);
-            }else{
+            } else {
                 message.error("请正确输入内容！");
                 window.scrollTo({
                     left: 0,
@@ -395,13 +416,13 @@ class AddProject extends Component {
         e.preventDefault();
         const _this = this;
         this.setState({
-            state:true
+            state: true
         });
         this.props.form.validateFields(async (err, values) => {
-            if(!err) {
+            if (!err) {
                 values.status = 1;
                 this.onSubmit(values);
-            }else{
+            } else {
                 message.error("请正确输入内容！");
                 window.scrollTo({
                     left: 0,
@@ -411,17 +432,17 @@ class AddProject extends Component {
             }
         });
     }
-    onView = (e) =>{
+    onView = (e) => {
         e.preventDefault();
         const _this = this;
         this.setState({
-            state:true
+            state: true
         });
         this.props.form.validateFields(async (err, values) => {
-            if(!err) {
+            if (!err) {
                 values.status = 1;
                 this.onSubmit(values, "/projectPreview");
-            }else{
+            } else {
                 message.error("请正确输入内容！");
                 window.scrollTo({
                     left: 0,
@@ -441,28 +462,28 @@ class AddProject extends Component {
         }
     }
     //发文日期
-    onDateChange = (date,dateString) =>{
-        console.log(date,dateString)
+    onDateChange = (date, dateString) => {
+        console.log(date, dateString)
         this.setState({
-            declare_start_date:dateString[0],
-            declare_end_date:dateString[1]
+            declare_start_date: dateString[0],
+            declare_end_date: dateString[1]
         })
     }
-    onDatePickerChange = (date,dateString) =>{
+    onDatePickerChange = (date, dateString) => {
         this.setState({
-            release_date  :dateString
+            release_date: dateString
         })
     }
-    onDateLifeChange = (date,dateString) =>{
+    onDateLifeChange = (date, dateString) => {
         this.setState({
-            life_date:dateString
+            life_date: dateString
         })
     }
-    handleChange = (value) =>{
+    handleChange = (value) => {
         console.log(`selected ${value}`);
     }
     handleUploadChange = info => {
-        console.log(info,"info")
+        console.log(info, "info")
         let fileList = [...info.fileList];
 
         // 1. Limit the number of uploaded files
@@ -478,17 +499,17 @@ class AddProject extends Component {
             return file;
         });
 
-        this.setState({ fileList });
+        this.setState({fileList});
     };
-    showPolicy = () =>{
+    showPolicy = () => {
         this.setState({
-            policyVisible:true
+            policyVisible: true
         })
     }
-    handleOk = async(e) => {
+    handleOk = async (e) => {
         this.setState({
             policyVisible: false,
-            isSelectPolicy:true
+            isSelectPolicy: true
         });
         // const deleteData = await request('/policy/del', 'POST',{id:this.state.id}); //删除数据
         // if(deleteData.data && deleteData.data.success){
@@ -506,36 +527,36 @@ class AddProject extends Component {
     };
 
 
-    onSelectChange = (selectedRowKeys, selectedRows,isSelect) => {
-         console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows,isSelect);
+    onSelectChange = (selectedRowKeys, selectedRows, isSelect) => {
+        console.log('selectedRowKeys changed: ', selectedRowKeys, selectedRows, isSelect);
 
-        if(isSelect){
-            this.setState({ selectedRowKeys:[selectedRowKeys],policyTitle:selectedRows });
+        if (isSelect) {
+            this.setState({selectedRowKeys: [selectedRowKeys], policyTitle: selectedRows});
             this.handleOk();
-        }else{
-            this.setState({ selectedRowKeys,policyTitle:selectedRows[0].title });
+        } else {
+            this.setState({selectedRowKeys, policyTitle: selectedRows[0].title});
         }
     };
     //复选框选中取消
-    setCheckBox = (e) =>{
-        const {checked,value} = e.target;
+    setCheckBox = (e) => {
+        const {checked, value} = e.target;
         this.setState({
-            [value]:checked
+            [value]: checked
         });
-        if(!checked){
+        if (!checked) {
             this.props.form.setFieldsValue({
-                [value]:undefined
+                [value]: undefined
             });
         }
     }
     //开关关闭开启
-    switchChange = (checked,string) =>{
+    switchChange = (checked, string) => {
         this.setState({
-            [string]:checked
+            [string]: checked
         })
 
-        if(!checked){
-            if(string === "declare"){
+        if (!checked) {
+            if (string === "declare") {
                 this.props.form.setFieldsValue({
                     ["develop_assets_value"]: undefined,
                     ["develop_assets_sign"]: undefined,
@@ -544,30 +565,30 @@ class AddProject extends Component {
                     ["develop_sign"]: undefined,
                     ["develop_value"]: undefined
                 });
-            }else if(string === "social"){
+            } else if (string === "social") {
                 this.props.form.setFieldsValue({
                     ["social_people_value"]: undefined,
                     ["social_people_sign"]: undefined,
                     ["develop_people_value"]: undefined,
                     ["develop_people_sign"]: undefined,
                 });
-            }else if(string === "address"){
+            } else if (string === "address") {
                 this.setState({
-                    addressArr:[],
-                    addressNum:1
+                    addressArr: [],
+                    addressNum: 1
                 })
-            }else if(string === "industry_label"){
+            } else if (string === "industry_label") {
                 this.props.form.setFieldsValue({
                     ["industry_label_ids"]: undefined
                 });
-            }else{
+            } else {
                 this.props.form.setFieldsValue({
-                    [string+"_value"]: undefined,
-                    [string+"_sign"]: undefined
+                    [string + "_value"]: undefined,
+                    [string + "_sign"]: undefined
                 });
             }
-        }else{
-            if(string === "declare"){
+        } else {
+            if (string === "declare") {
                 this.props.form.setFieldsValue({
                     ["develop_assets_value"]: 0,
                     ["develop_assets_sign"]: "-1,0",
@@ -576,96 +597,114 @@ class AddProject extends Component {
                     ["develop_sign"]: "-1,0",
                     ["develop_value"]: 0
                 });
-            }else if(string === "social"){
+            } else if (string === "social") {
                 this.props.form.setFieldsValue({
                     ["social_people_value"]: 0,
                     ["social_people_sign"]: "-1,0",
                     ["develop_people_value"]: 0,
                     ["develop_people_sign"]: "-1,0",
                 });
-            }else if(string === "set_up"){
+            } else if (string === "set_up") {
                 this.props.form.setFieldsValue({
                     [string + "_value"]: 2000,
                     [string + "_sign"]: "-1,0"
                 });
-            }else{
+            } else {
                 this.props.form.setFieldsValue({
-                    [string+"_value"]: 0,
-                    [string+"_sign"]: "-1,0"
+                    [string + "_value"]: 0,
+                    [string + "_sign"]: "-1,0"
                 });
             }
         }
     }
 
-    addContent = () =>{
+    addContent = () => {
         this.setState({
-            addContentNum:++this.state.addContentNum
+            addContentNum: ++this.state.addContentNum
         })
     }
-    showContentModal = (i,content) =>{
+    deleteContent = (idx) => {
+        const {contentArr,addContentNum} = this.state;
+        const newContent = contentArr.filter((item, tidx) => {
+            return tidx != idx;
+        });
+
+        let content = this.props.form.getFieldValue("content");
+        content = content.filter((item, tidx) => {
+            return tidx != idx;
+        });
+        this.props.form.setFieldsValue({content});
         this.setState({
-            contentVisible:true,
-            contentNumber:i,
+            addContentNum:--this.state.addContentNum,
+            contentArr:newContent
+        });
+    }
+    showContentModal = (i, content) => {
+        this.setState({
+            contentVisible: true,
+            contentNumber: i,
             content
         })
     }
     handleCancel = e => {
         console.log(e);
         this.setState({
-            [e ? e  : "policyVisible"]: false,
-            contentNumber:0,
-            content:null
+            [e ? e : "policyVisible"]: false,
+            contentNumber: 0,
+            content: null
         });
     };
     //注册地址
-    addressDom = () =>{
-        const {provinceSelect,addressNum,addressArr=[],address} = this.state;
-        let html=[];
-        for(let i = 0; i<addressNum;i++){
-            html.push(<Row key={i} style={i==0? {} : {marginTop:"10px"}}>
+    addressDom = () => {
+        const {provinceSelect, addressNum, addressArr = [], address} = this.state;
+        let html = [];
+        for (let i = 0; i < addressNum; i++) {
+            html.push(<Row key={i} style={i == 0 ? {} : {marginTop: "10px"}}>
                 {provinceSelect ? <Col span={6}>
-                    <div style={{marginRight:"40px"}}>
+                    <div style={{marginRight: "40px"}}>
                         <Select
-                            style={{ width: '100%',marginRight:"20px"}}
-                            onChange={(value, option)=>this.onProvinceChange(value, option,i)}
+                            style={{width: '100%', marginRight: "20px"}}
+                            onChange={(value, option) => this.onProvinceChange(value, option, i)}
                             value={addressArr[i] && addressArr[i].province}
                             disabled={!address}
                         >
-                            {provinceSelect.map((item,idx)=><Option value={item.id} key={idx}>{item.value}</Option>)}
+                            {provinceSelect.map((item, idx) => <Option value={item.id} key={idx}>{item.value}</Option>)}
                         </Select>
                     </div>
                     <span className="address-title">省</span>
                 </Col> : null}
-                {this.state["citySelect"+i] && address ? <Col span={6}>
-                    <div style={{marginRight:"40px"}}>
+                {this.state["citySelect" + i] && address ? <Col span={6}>
+                    <div style={{marginRight: "40px"}}>
                         <Select
                             disabled={!address}
-                            style={{ width: '100%',marginRight:"20px"}}
-                            onChange={(value, option)=>this.onCityChange(value, option,i)}
+                            style={{width: '100%', marginRight: "20px"}}
+                            onChange={(value, option) => this.onCityChange(value, option, i)}
                             value={addressArr[i] && addressArr[i].city}
                         >
-                            {this.state["citySelect"+i].map((item,idx)=><Option value={item.id} key={idx}>{item.value}</Option>)}
+                            {this.state["citySelect" + i].map((item, idx) => <Option value={item.id}
+                                                                                     key={idx}>{item.value}</Option>)}
                         </Select>
                     </div>
                     <span className="address-title">市</span>
                 </Col> : null}
-                {this.state["areaSelect"+i] && address ? <Col span={6}>
-                    <div style={{marginRight:"40px"}}>
+                {this.state["areaSelect" + i] && address ? <Col span={6}>
+                    <div style={{marginRight: "40px"}}>
                         <Select
                             disabled={!address}
-                            style={{ width: '100%'}}
-                            onChange={(value, option)=>this.onAreaChange(value, option,i)}
+                            style={{width: '100%'}}
+                            onChange={(value, option) => this.onAreaChange(value, option, i)}
                             value={addressArr[i] && addressArr[i].area}
                         >
-                            {this.state["areaSelect"+i].map((item,idx)=><Option value={item.id} key={idx}>{item.value}</Option>)}
+                            {this.state["areaSelect" + i].map((item, idx) => <Option value={item.id}
+                                                                                     key={idx}>{item.value}</Option>)}
                         </Select>
                     </div>
                     <span className="address-title">区县</span>
                 </Col> : null}
-                {i==0 ? <Col span={4}>
+                {i == 0 ? <Col span={4}>
                     <Tag className="site-tag-plus" onClick={this.addAddress}>
                         {/*<PlusOutlined />*/}
-                        <Icon type="plus" />
+                        <Icon type="plus"/>
                         可多选
                     </Tag>
                 </Col> : null}
@@ -674,310 +713,329 @@ class AddProject extends Component {
         return (html);
     }
     //扶持内容
-    contentDom = () =>{
-        const {addContentNum,contentArr=[]} = this.state;
-        const { getFieldDecorator } = this.props.form;
-        let html=[];
-        for(let i = 0; i<addContentNum;i++){
-            html.push(<Row key={i} style={{marginBottom:"10px"}}>
+    contentDom = () => {
+        const {addContentNum, contentArr = []} = this.state;
+        const {getFieldDecorator} = this.props.form;
+        let html = [];
+        for (let i = 0; i < addContentNum; i++) {
+            html.push(<Row key={i} style={{marginBottom: "10px"}}>
                 <Col span={16}>
-                    <div style={{marginRight:"10px"}}>
-                        {getFieldDecorator(`content[${i}]`)(<TextArea type="textarea" rows={4} style={{width:"100%",height:"100px"}}/>)}
+                    <div style={{marginRight: "10px"}}>
+                        {getFieldDecorator(`content[${i}]`)(<TextArea type="textarea" rows={4}
+                                                                      style={{width: "100%", height: "100px"}}/>)}
                     </div>
                 </Col>
                 <Col span={4}>
                     <div>
-                        <Button onClick={() =>this.showContentModal(i,contentArr[i])}>{contentArr && contentArr[i] ? "编辑条件" : "添加条件"}</Button>
+                        <Button
+                            onClick={() => this.showContentModal(i, contentArr[i])}>{contentArr && contentArr[i] ? "编辑条件" : "添加条件"}</Button>
                     </div>
                 </Col>
-                {i==0 ? <Col span={4}>
+                {i == 0 ? <Col span={4}>
                     <Tag className="site-tag-plus content-tag" onClick={this.addContent}>
                         {/*<PlusOutlined />*/}
-                        <Icon type="plus" />
+                        <Icon type="plus"/>
                         可多选
+                    </Tag>
+                </Col> : null}
+                {i >= 1 ? <Col span={4}>
+                    <Tag className="site-tag-plus content-tag" onClick={() => this.deleteContent(i)}>
+                        {/*<PlusOutlined />*/}
+                        <Icon type="minus"/>
+                        删除
                     </Tag>
                 </Col> : null}
             </Row>)
         }
         return (html);
     }
-    contentCallback = (e) =>{
-        const {contentArr,contentNumber} = this.state;
+    contentCallback = (e) => {
+        const {contentArr, contentNumber} = this.state;
         contentArr[contentNumber || 0] = e;
         this.setState({
             contentArr
         })
-        console.log(contentArr,contentNumber,"2223333")
+        console.log(contentArr, contentNumber, "2223333")
         this.handleCancel("contentVisible");
     }
+
     render() {
-        const {industryData,policyTitle,belongData,typeData,productData,id,tableData,selectedRowKeys,formValues,post_material,declare_net,set_up=true,knowledge=true,invention=true,declare=true,industry_label=true,social=true,isSelectPolicy,
-            support_direction,declare_condition,support_content,declare_material,declare_process,review_process,state,data={}
+        const {
+            industryData, policyTitle, belongData, typeData, productData, id, tableData, selectedRowKeys, formValues, post_material, declare_net, set_up = true, knowledge = true, invention = true, declare = true, industry_label = true, social = true, isSelectPolicy,
+            support_direction, declare_condition, support_content, declare_material, declare_process, review_process, state, data = {}
         } = this.state;
-        const { getFieldDecorator } = this.props.form;
+        const {getFieldDecorator} = this.props.form;
         const props = {
             //action: 'http://58.144.217.13:5002/api/common/upload-file',
-            action:uploadUrl,
+            action: uploadUrl,
             onChange: this.handleUploadChange,
             multiple: true,
-            data:{
-                userId:cookie.load("userId"),
-                userName:cookie.load("userName"),
-                userType:cookie.load("userType"),
+            data: {
+                userId: cookie.load("userId"),
+                userName: cookie.load("userName"),
+                userType: cookie.load("userType"),
             },
-            accept:".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,ppt,.pptx,.xls,.xlsx,.pdf,.zip,.rar"
+            accept: ".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,ppt,.pptx,.xls,.xlsx,.pdf,.zip,.rar"
         };
         const rowSelection = {
             selectedRowKeys,
-            type:"radio",
+            type: "radio",
             onChange: this.onSelectChange
         };
         const pagination = {
-            current:formValues && formValues.page ? formValues.page : 1,
+            current: formValues && formValues.page ? formValues.page : 1,
             showSizeChanger: true,
             defaultCurrent: 1,
-            defaultPageSize:5,
-            total:tableData.sum || 0,
-            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
+            defaultPageSize: 5,
+            total: tableData.sum || 0,
+            showTotal: (total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
             pageSizeOptions: ['10', '20', '30', '50', '100', '150'],
             onShowSizeChange: this.onShowSizeChange,
-            onChange:this.onPaginChange
+            onChange: this.onPaginChange
         }
         return (
             <div className="addProject-template">
-                <Top />
+                <Top/>
                 <div className="addProject-label-box max-weight-box">
-                <Row>
-                    <Col span={4}>
-                        <PolicyManagementMenu menu="projectList" current="projectList" />
-                    </Col>
-                    <Col span={20}>
-                    <Title name={id ? "编辑项目" : "添加项目"} />
-                    <Breadcrumb separator=">">
-                        <Breadcrumb.Item>项目管理</Breadcrumb.Item>
-                        <Breadcrumb.Item href="/projectList">项目列表</Breadcrumb.Item>
-                        <Breadcrumb.Item>{id ? "编辑项目" : "添加项目"} </Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className="label-box">
-                        <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}
-                        >
-                            <Form.Item label="项目标题">
-                                {getFieldDecorator('title', {
-                                    rules: [{
-                                        required: true,
-                                        message: '请输入项目标题'
-                                    }]
-                                })(
-                                    <Input/>
-                                )}
-                            </Form.Item>
-                            <Form.Item name="policy_id" label="关联政策"
-                                       required
-                                       validateStatus={!policyTitle && state ? "error" : ""}
-                                       help={!policyTitle && state ? "请选择关联政策" : ""}>
-                                {isSelectPolicy ? <span>{this.state.policyTitle}</span> : null}
-                                <Button onClick={this.showPolicy}>选择政策</Button>
-                            </Form.Item>
-                            <Form.Item label="所属层级">
-                                {getFieldDecorator('belong', {
-                                    rules: [{
-                                        required: true,
-                                        message: '请选择所属层级'
-                                    }]
-                                })(
-                                    <Select onChange={this.belongChange}>
-                                        {belongData ? belongData.map((item, idx) => <Option value={item.id}
-                                                                                            key={item.id}>{item.name}</Option>) : ''}
-                                    </Select>
-                                )}
-                            </Form.Item>
-                            <Form.Item label="发布机构">
-                                {getFieldDecorator('organization_label_ids', {
-                                    rules: [{
-                                        required: true,
-                                        message: '请选择发布机构'
-                                    }]
-                                })(
-                                    <Select
-                                        mode="multiple"
-                                        style={{ width: '100%' }}
-                                        onChange={this.handleChange}
-                                    >
-                                        {productData ? productData.map((item, idx) => <Option value={item.id}
-                                                                                              key={item.id}>{item.name}</Option>) : ''}
-                                    </Select>
-                                )}
-                            </Form.Item>
-                            <Form.Item label="应用类型">
-                                {getFieldDecorator('use_type', {
-                                    rules: [{
-                                        required: true,
-                                        message: '请选择应用类型'
-                                    }]
-                                })(
-                                    <Select
-                                        mode="multiple"
-                                        style={{ width: '100%' }}
-                                        onChange={this.handleChange}
-                                    >
-                                        {typeData ? typeData.map((item, idx) => <Option value={item.id}
-                                                                                        key={item.id}>{item.name}</Option>) : ''}
-
-                                    </Select>
-                                )}
-                            </Form.Item>
-                            <Form.Item label="所属行业">
-                                {getFieldDecorator('d_industry_label_ids', {
-                                    rules: [{
-                                        required: true,
-                                        message: '请选择所属行业'
-                                    }]
-                                })(
-                                    <Select
-                                        mode="multiple"
-                                        style={{ width: '100%' }}
-                                        onChange={this.handleChange}
-                                    >
-                                        {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                    <Row>
+                        <Col span={4}>
+                            <PolicyManagementMenu menu="projectList" current="projectList"/>
+                        </Col>
+                        <Col span={20}>
+                            <Title name={id ? "编辑项目" : "添加项目"}/>
+                            <Breadcrumb separator=">">
+                                <Breadcrumb.Item>项目管理</Breadcrumb.Item>
+                                <Breadcrumb.Item href="/projectList">项目列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>{id ? "编辑项目" : "添加项目"} </Breadcrumb.Item>
+                            </Breadcrumb>
+                            <div className="label-box">
+                                <Form ref="form" {...layout} name="dynamic_rule" onSubmit={this.onFinish}
+                                >
+                                    <Form.Item label="项目标题">
+                                        {getFieldDecorator('title', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请输入项目标题'
+                                            }]
+                                        })(
+                                            <Input/>
+                                        )}
+                                    </Form.Item>
+                                    <Form.Item name="policy_id" label="关联政策"
+                                               required
+                                               validateStatus={!policyTitle && state ? "error" : ""}
+                                               help={!policyTitle && state ? "请选择关联政策" : ""}>
+                                        {isSelectPolicy ? <span>{this.state.policyTitle}</span> : null}
+                                        <Button onClick={this.showPolicy}>选择政策</Button>
+                                    </Form.Item>
+                                    <Form.Item label="所属层级">
+                                        {getFieldDecorator('belong', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请选择所属层级'
+                                            }]
+                                        })(
+                                            <Select onChange={this.belongChange}>
+                                                {belongData ? belongData.map((item, idx) => <Option value={item.id}
+                                                                                                    key={item.id}>{item.name}</Option>) : ''}
+                                            </Select>
+                                        )}
+                                    </Form.Item>
+                                    <Form.Item label="发布机构">
+                                        {getFieldDecorator('organization_label_ids', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请选择发布机构'
+                                            }]
+                                        })(
+                                            <Select
+                                                mode="multiple"
+                                                style={{width: '100%'}}
+                                                onChange={this.handleChange}
+                                            >
+                                                {productData ? productData.map((item, idx) => <Option value={item.id}
+                                                                                                      key={item.id}>{item.name}</Option>) : ''}
+                                            </Select>
+                                        )}
+                                    </Form.Item>
+                                    <Form.Item label="应用类型">
+                                        {getFieldDecorator('use_type', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请选择应用类型'
+                                            }]
+                                        })(
+                                            <Select
+                                                mode="multiple"
+                                                style={{width: '100%'}}
+                                                onChange={this.handleChange}
+                                            >
+                                                {typeData ? typeData.map((item, idx) => <Option value={item.id}
                                                                                                 key={item.id}>{item.name}</Option>) : ''}
 
-                                    </Select>
-                                )}
-                            </Form.Item>
-                            <Form.Item label="联系方式">
-                                {getFieldDecorator('contact')(
-                                    <Input />
-                                )}
-                            </Form.Item>
-                            <Row>
-                                <Col span={12} className="release_date">
-                                    <Form.Item labelCol={{span: 6}} label="发布日期">
-                                        {getFieldDecorator('release_date', {
-                                            rules: [{
-                                                required: true,
-                                                message: '请选择发布日期'
-                                            }]
-                                        })(
-                                            <DatePicker style={{width:"300px"}} onChange={this.onDatePickerChange} />
+                                            </Select>
                                         )}
                                     </Form.Item>
+                                    <Form.Item label="所属行业">
+                                        {getFieldDecorator('d_industry_label_ids', {
+                                            rules: [{
+                                                required: true,
+                                                message: '请选择所属行业'
+                                            }]
+                                        })(
+                                            <Select
+                                                mode="multiple"
+                                                style={{width: '100%'}}
+                                                onChange={this.handleChange}
+                                            >
+                                                {industryData ? industryData.map((item, idx) => <Option value={item.id}
+                                                                                                        key={item.id}>{item.name}</Option>) : ''}
 
-                                </Col>
-                                <Col span={12} className="declare_start_date">
-                                    <Form.Item labelCol={{span: 6}} label="申报时间">
-                                        {getFieldDecorator('declare_start_date')(
-                                            <RangePicker style={{width:"300px"}} onChange={this.onDateChange} />
+                                            </Select>
                                         )}
                                     </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12} className="release_date">
-                                    <Form.Item labelCol={{span: 6}} label="扶持金额">
-                                        {getFieldDecorator('money')(
-                                            <Input prefix="￥" suffix="万元" style={{width:"300px"}} />
+                                    <Form.Item label="联系方式">
+                                        {getFieldDecorator('contact')(
+                                            <Input/>
                                         )}
                                     </Form.Item>
-                                </Col>
-                                <Col span={12} className="declare_start_date">
-                                    <Form.Item labelCol={{span: 6}} label="官文网址">
-                                        {getFieldDecorator('web_url', {
-                                            rules: [{
-                                                required: true,
-                                                message: '请输入官文网址'
-                                            }]
-                                        })(
-                                            <Input style={{width:"300px"}} />
-                                        )}
+                                    <Row>
+                                        <Col span={12} className="release_date">
+                                            <Form.Item labelCol={{span: 6}} label="发布日期">
+                                                {getFieldDecorator('release_date', {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: '请选择发布日期'
+                                                    }]
+                                                })(
+                                                    <DatePicker style={{width: "300px"}}
+                                                                onChange={this.onDatePickerChange}/>
+                                                )}
+                                            </Form.Item>
+
+                                        </Col>
+                                        <Col span={12} className="declare_start_date">
+                                            <Form.Item labelCol={{span: 6}} label="申报时间">
+                                                {getFieldDecorator('declare_start_date')(
+                                                    <RangePicker style={{width: "300px"}} onChange={this.onDateChange}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={12} className="release_date">
+                                            <Form.Item labelCol={{span: 6}} label="扶持金额">
+                                                {getFieldDecorator('money')(
+                                                    <Input prefix="￥" suffix="万元" style={{width: "300px"}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={12} className="declare_start_date">
+                                            <Form.Item labelCol={{span: 6}} label="官文网址">
+                                                {getFieldDecorator('web_url', {
+                                                    rules: [{
+                                                        required: true,
+                                                        message: '请输入官文网址'
+                                                    }]
+                                                })(
+                                                    <Input style={{width: "300px"}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Form.Item name="content" label="扶持方向"
+                                               required
+                                               validateStatus={!support_direction && state ? "error" : ""}
+                                               help={!support_direction && state ? "必填项" : ""}>
+                                        <div ref="editorElem1">
+                                        </div>
                                     </Form.Item>
-                                </Col>
-                            </Row>
-                            <Form.Item name="content" label="扶持方向"
-                                       required
-                                       validateStatus={!support_direction && state ? "error" : ""}
-                                       help={!support_direction && state ? "必填项" : ""}>
-                                <div ref="editorElem1">
-                                </div>
-                            </Form.Item>
-                            <Form.Item name="content" label="申报条件" required
-                                       validateStatus={!declare_condition && state ? "error" : ""}
-                                       help={!declare_condition && state ? "必填项" : ""}
-                            >
-                                <div ref="editorElem2">
-                                </div>
-                            </Form.Item>
-                            <Form.Item name="content" label="扶持内容"
-                                       // required
-                                       // validateStatus={!support_content && state ? "error" : ""}
-                                       // help={!support_content && state ? "必填项" : ""}
-                                       >
-                                {this.contentDom()}
-                                {/*<div ref="editorElem3">*/}
-                                {/*</div>*/}
-                            </Form.Item>
-                            <Form.Item name="content" label="申报材料"
-                                       required
-                                       validateStatus={!declare_material && state ? "error" : ""}
-                                       help={!declare_material && state ? "必填项" : ""}
-                                       >
-                                <div ref="editorElem4">
-                                </div>
-                            </Form.Item>
-                            <Form.Item name="content" label="申报流程"
-                                       required
-                                       validateStatus={!declare_process && state ? "error" : ""}
-                                       help={!declare_process && state ? "必填项" : ""}>
-                                <div ref="editorElem5">
-                                </div>
-                            </Form.Item>
-                            <Form.Item name="content" label="评审流程">
-                                <div ref="editorElem6">
-                                </div>
-                            </Form.Item>
-                            <Form.Item name="username" label="上传附件">
-                                <Upload {...props} fileList={this.state.fileList} defaultFileList={this.state.fileList}>
-                                    <Button>
-                                        {/*<UploadOutlined />*/}
-                                        <Icon type="upload" />
-                                        上传文件
-                                    </Button>
-                                </Upload>
-                                <span>支持扩展名为.doc/.docx/.ppt/.pptx/.xls/.xlsx/.pdf/.zip/.rar，大小不超过100M</span>
-                            </Form.Item>
-                            <p style={{fontWight:"bold",color:"#000",fontSize:"16px"}}><span style={{color: "#ff4d4f","padding-left":"25px"}}>*</span>申报方式（可多选）</p>
-                            <Row className="declare-box">
-                                <Col span={4} style={{paddingLeft:"13px"}}><Checkbox value="declare_net" checked={this.state.declare_net ? true : false} onChange={this.setCheckBox}>网上申报</Checkbox></Col>
-                                <Col span={10}><Form.Item>
-                                    {getFieldDecorator('declare_net')(
-                                        <Input disabled={!declare_net}/>
-                                    )}
-                                </Form.Item></Col>
-                            </Row>
-                            <Row className="declare-box">
-                                <Col span={4} style={{paddingLeft:"13px"}}>
-                                    <Checkbox value="post_material" checked={this.state.post_material ? true : false} onChange={this.setCheckBox}>纸质材料提交至</Checkbox>
-                                </Col>
-                                <Col span={20}><Form.Item>
-                                    {getFieldDecorator('post_material')(
-                                        <TextArea disabled={!post_material} rows={4}/>
-                                    )}
-                                </Form.Item></Col>
-                            </Row>
-                            {/*<Row>*/}
-                                {/*<Col span={3} style={{paddingTop:"8px",paddingRight:"20px",textAlign:"right",color:"#000"}}>申报标签：</Col>*/}
-                                {/*<Col span={21}>*/}
-                                {/*</Col>*/}
-                            {/*</Row>*/}
-                            <div className="addProject-button">
-                                <Button type="primary" htmlType="submit" ref="finish">发布</Button>
-                                <Button type="primary" className="ml15" ref="save" onClick={this.onSave}>存为草稿</Button>
-                                <Button type="primary" className="ml15" onClick={this.onView}>预览</Button>
-                                <Button className="ml15" onClick={()=>window.history.back()}>返回</Button>
+                                    <Form.Item name="content" label="申报条件" required
+                                               validateStatus={!declare_condition && state ? "error" : ""}
+                                               help={!declare_condition && state ? "必填项" : ""}
+                                    >
+                                        <div ref="editorElem2">
+                                        </div>
+                                    </Form.Item>
+                                    <Form.Item name="content" label="扶持内容"
+                                        // required
+                                        // validateStatus={!support_content && state ? "error" : ""}
+                                        // help={!support_content && state ? "必填项" : ""}
+                                    >
+                                        {this.contentDom()}
+                                        {/*<div ref="editorElem3">*/}
+                                        {/*</div>*/}
+                                    </Form.Item>
+                                    <Form.Item name="content" label="申报材料"
+                                               required
+                                               validateStatus={!declare_material && state ? "error" : ""}
+                                               help={!declare_material && state ? "必填项" : ""}
+                                    >
+                                        <div ref="editorElem4">
+                                        </div>
+                                    </Form.Item>
+                                    <Form.Item name="content" label="申报流程"
+                                               required
+                                               validateStatus={!declare_process && state ? "error" : ""}
+                                               help={!declare_process && state ? "必填项" : ""}>
+                                        <div ref="editorElem5">
+                                        </div>
+                                    </Form.Item>
+                                    <Form.Item name="content" label="评审流程">
+                                        <div ref="editorElem6">
+                                        </div>
+                                    </Form.Item>
+                                    <Form.Item name="username" label="上传附件">
+                                        <Upload {...props} fileList={this.state.fileList}
+                                                defaultFileList={this.state.fileList}>
+                                            <Button>
+                                                {/*<UploadOutlined />*/}
+                                                <Icon type="upload"/>
+                                                上传文件
+                                            </Button>
+                                        </Upload>
+                                        <span>支持扩展名为.doc/.docx/.ppt/.pptx/.xls/.xlsx/.pdf/.zip/.rar，大小不超过100M</span>
+                                    </Form.Item>
+                                    <p style={{fontWight: "bold", color: "#000", fontSize: "16px"}}><span
+                                        style={{color: "#ff4d4f", "padding-left": "25px"}}>*</span>申报方式（可多选）</p>
+                                    <Row className="declare-box">
+                                        <Col span={4} style={{paddingLeft: "13px"}}><Checkbox value="declare_net"
+                                                                                              checked={this.state.declare_net ? true : false}
+                                                                                              onChange={this.setCheckBox}>网上申报</Checkbox></Col>
+                                        <Col span={10}><Form.Item>
+                                            {getFieldDecorator('declare_net')(
+                                                <Input disabled={!declare_net}/>
+                                            )}
+                                        </Form.Item></Col>
+                                    </Row>
+                                    <Row className="declare-box">
+                                        <Col span={4} style={{paddingLeft: "13px"}}>
+                                            <Checkbox value="post_material"
+                                                      checked={this.state.post_material ? true : false}
+                                                      onChange={this.setCheckBox}>纸质材料提交至</Checkbox>
+                                        </Col>
+                                        <Col span={20}><Form.Item>
+                                            {getFieldDecorator('post_material')(
+                                                <TextArea disabled={!post_material} rows={4}/>
+                                            )}
+                                        </Form.Item></Col>
+                                    </Row>
+                                    {/*<Row>*/}
+                                    {/*<Col span={3} style={{paddingTop:"8px",paddingRight:"20px",textAlign:"right",color:"#000"}}>申报标签：</Col>*/}
+                                    {/*<Col span={21}>*/}
+                                    {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    <div className="addProject-button">
+                                        <Button type="primary" htmlType="submit" ref="finish">发布</Button>
+                                        <Button type="primary" className="ml15" ref="save"
+                                                onClick={this.onSave}>存为草稿</Button>
+                                        <Button type="primary" className="ml15" onClick={this.onView}>预览</Button>
+                                        <Button className="ml15" onClick={() => window.history.back()}>返回</Button>
+                                    </div>
+                                </Form>
                             </div>
-                        </Form>
-                    </div>
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
                 </div>
                 <Modal
                     title="选择政策"
@@ -988,23 +1046,25 @@ class AddProject extends Component {
                     className="select-porject-modal"
                 >
                     <Search
-                        onSearch={value => this.getTableData({title:value})}
-                        style={{ width: 300 }}
+                        onSearch={value => this.getTableData({title: value})}
+                        style={{width: 300}}
                         enterButton
                     />
-                    <Table rowSelection={rowSelection} columns={this.columns} dataSource={tableData ? tableData.result : []} pagination={pagination} rowKey="id"  />
+                    <Table rowSelection={rowSelection} columns={this.columns}
+                           dataSource={tableData ? tableData.result : []} pagination={pagination} rowKey="id"/>
                 </Modal>
-                {this.state.contentVisible ?<Modal
+                {this.state.contentVisible ? <Modal
                     title={this.state.content ? "编辑条件" : "添加条件"}
                     visible
                     onOk={this.contentCallback}
-                    onCancel={()=>this.handleCancel("contentVisible")}
+                    onCancel={() => this.handleCancel("contentVisible")}
                     width="1000px"
                     className="select-porject-modal"
                     footer={null}
                     maskClosable={false}
                 >
-                    <AddContent defaultValue={this.state.content} callback={this.contentCallback} onCancel={()=>this.handleCancel("contentVisible")} />
+                    <AddContent defaultValue={this.state.content} callback={this.contentCallback}
+                                onCancel={() => this.handleCancel("contentVisible")}/>
                 </Modal> : null}
             </div>
         );
