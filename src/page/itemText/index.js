@@ -178,7 +178,7 @@ class ItemText extends Component {
                         <div className="policyPreview-content">
                             <div className="policyPreview-content-text">
                                 {detailInfo.declare.declare_matching_details_list.map((item,idx)=>{
-                                    return (<div style={item.matching_bool ? {color:"red",borderBottom:"1px dotted #d9d9d9",paddingBottom:"10px"} : {borderBottom:"1px dotted #d9d9d9",paddingBottom:"10px"}}>{item.content}</div>)
+                                    return (<div style={item.matching_bool ? {fontWeight:"bold",borderBottom:"1px dotted #d9d9d9",paddingBottom:"20px"} : {borderBottom:"1px dotted #d9d9d9",paddingBottom:"20px"}}>{item.content}</div>)
                                 })}
 
                             </div>
