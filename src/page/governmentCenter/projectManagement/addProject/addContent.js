@@ -370,7 +370,19 @@ class AddContent extends Component {
             if(!err) {
                 if (addressArr && addressArr.length) {
                     let register_address = addressArr.map((aitem, aidx) => {
-                        return (aitem.province ? aitem.province : '') + "," + (aitem.city ? aitem.city : '') + "," + (aitem.area ? aitem.area : '')
+                        let address;
+                        if(aitem.province){
+                            address = aitem.province
+                        }
+                        if(aitem.city){
+                            address += ","+aitem.city
+                        }
+                        if(aitem.area){
+                            address += ","+aitem.area
+                        }
+
+                        return address;
+                        //(aitem.province ? aitem.province : '') + "," + (aitem.city ? aitem.city : '') + "," + (aitem.area ? aitem.area : '')
                     });
                     values.register_address = register_address.join("|"); //地址
                 }
