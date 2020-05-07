@@ -25,6 +25,8 @@
     border-top:1px solid #eeeeee;
     font-size: 16px;
     color: #333;
+    word-break:break-all;
+    word-wrap:break-word;
 }
 /*面包屑*/
 /*.policyText-template .ant-breadcrumb {*/

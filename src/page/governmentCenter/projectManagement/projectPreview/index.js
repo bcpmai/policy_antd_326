@@ -27,7 +27,7 @@ class policyPreview extends Component {
         this.getDefalutData();
     }
     getDefalutData = async() =>{
-        const responest = await request(`/declare/get-one/${this.state.id}`, 'GET'); //请求默认数据
+        const responest = await request(`/declare/get-one/${this.state.id}`, 'POST',{member_id:cookie.load('userId')}); //请求默认数据
         this.setState({
             detailInfo:responest.data
         })
@@ -135,28 +135,30 @@ class policyPreview extends Component {
                                 </table>
                             </div>
                         </div>
-                        {detailInfo && detailInfo.declare.support_direction ?
-                        <div className="policyPreview-content-box">
-                            <TitleTwo name="扶持方向" />
-                            <div className="policyPreview-content">
-                                <div className="policyPreview-content-text">
-                                    <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_direction }}></div>
-                                </div>
-                            </div>
-                        </div>:null}
-                        {detailInfo && detailInfo.declare.declare_condition ?<div className="policyPreview-content-box">
-                            <TitleTwo name="申报条件" />
-                            <div className="policyPreview-content">
-                                <div className="policyPreview-content-text">
-                                    <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_condition }}></div>
-                                </div>
-                            </div>
-                        </div>:null}
-                        {detailInfo && detailInfo.declare.support_content ?<div className="policyPreview-content-box">
+                        {/*{detailInfo && detailInfo.declare.support_direction ?*/}
+                        {/*<div className="policyPreview-content-box">*/}
+                            {/*<TitleTwo name="扶持方向" />*/}
+                            {/*<div className="policyPreview-content">*/}
+                                {/*<div className="policyPreview-content-text">*/}
+                                    {/*<div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_direction }}></div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                        {/*</div>:null}*/}
+                        {/*{detailInfo && detailInfo.declare.declare_condition ?<div className="policyPreview-content-box">*/}
+                            {/*<TitleTwo name="申报条件" />*/}
+                            {/*<div className="policyPreview-content">*/}
+                                {/*<div className="policyPreview-content-text">*/}
+                                    {/*<div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_condition }}></div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                        {/*</div>:null}*/}
+                        {detailInfo && detailInfo.declare.declare_matching_details_list ?<div className="policyPreview-content-box">
                             <TitleTwo name="扶持内容" />
                             <div className="policyPreview-content">
                                 <div className="policyPreview-content-text">
-                                    <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_content }}></div>
+                                    {detailInfo.declare.declare_matching_details_list.map((item,idx)=>{
+                                       return (<div style={item.matching_bool ? {color:"red"} : {}}>{item.content}</div>)
+                                    })}
                                 </div>
                             </div>
                         </div>:null}

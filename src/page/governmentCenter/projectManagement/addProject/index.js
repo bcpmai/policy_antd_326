@@ -66,8 +66,8 @@ class AddProject extends Component {
 
     componentDidMount() {
         if (!this.state.id) {
-            this.createEditor("editorElem1", "support_direction");//扶持方向
-            this.createEditor("editorElem2", "declare_condition");//申报条件
+            //this.createEditor("editorElem1", "support_direction");//扶持方向
+            //this.createEditor("editorElem2", "declare_condition");//申报条件
             // this.createEditor("editorElem3", "support_content");//扶持内容
             this.createEditor("editorElem4", "declare_material");//申报材料
             this.createEditor("editorElem5", "declare_process");//申报流程
@@ -299,8 +299,8 @@ class AddProject extends Component {
                 //editor.txt.html(policy.content);
                 this.belongChange(declare.belong); //请求发布机构
 
-                this.createEditor("editorElem1", "support_direction", declare.support_direction);//扶持方向
-                this.createEditor("editorElem2", "declare_condition", declare.declare_condition);//申报条件
+                //this.createEditor("editorElem1", "support_direction", declare.support_direction);//扶持方向
+                //this.createEditor("editorElem2", "declare_condition", declare.declare_condition);//申报条件
                 // this.createEditor("editorElem3", "support_content",declare.support_content);//扶持内容
                 this.createEditor("editorElem4", "declare_material", declare.declare_material);//申报材料
                 this.createEditor("editorElem5", "declare_process", declare.declare_process);//申报流程
@@ -312,7 +312,7 @@ class AddProject extends Component {
 
     onSubmit = async (values, url) => {
         const {addContentNum, contentArr, policyTitle, id, fileList = [], addressArr, selectedRowKeys, support_direction, declare_condition, support_content, declare_material, declare_process, review_process, declare_start_date, declare_end_date, release_date} = this.state;
-        if (policyTitle, support_direction && declare_condition && declare_material && declare_process) {
+        if (policyTitle && declare_material && declare_process) {
 
             // if (addressArr && addressArr.length) {
             //     let register_address = addressArr.map((aitem, aidx) => {
@@ -371,12 +371,12 @@ class AddProject extends Component {
             }
         } else {
             let msg;
-            if (!support_direction) {
-                msg = "扶持方向不能为空！";
-            }
-            if (!declare_condition) {
-                msg = "申报条件不能为空！";
-            }
+            // if (!support_direction) {
+            //     msg = "扶持方向不能为空！";
+            // }
+            // if (!declare_condition) {
+            //     msg = "申报条件不能为空！";
+            // }
             // if(!support_content){
             //     msg="扶持内容不能为空！";
             // }
@@ -943,20 +943,20 @@ class AddProject extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <Form.Item name="content" label="扶持方向"
-                                               required
-                                               validateStatus={!support_direction && state ? "error" : ""}
-                                               help={!support_direction && state ? "必填项" : ""}>
-                                        <div ref="editorElem1">
-                                        </div>
-                                    </Form.Item>
-                                    <Form.Item name="content" label="申报条件" required
-                                               validateStatus={!declare_condition && state ? "error" : ""}
-                                               help={!declare_condition && state ? "必填项" : ""}
-                                    >
-                                        <div ref="editorElem2">
-                                        </div>
-                                    </Form.Item>
+                                    {/*<Form.Item name="content" label="扶持方向"*/}
+                                               {/*required*/}
+                                               {/*validateStatus={!support_direction && state ? "error" : ""}*/}
+                                               {/*help={!support_direction && state ? "必填项" : ""}>*/}
+                                        {/*<div ref="editorElem1">*/}
+                                        {/*</div>*/}
+                                    {/*</Form.Item>*/}
+                                    {/*<Form.Item name="content" label="申报条件" required*/}
+                                               {/*validateStatus={!declare_condition && state ? "error" : ""}*/}
+                                               {/*help={!declare_condition && state ? "必填项" : ""}*/}
+                                    {/*>*/}
+                                        {/*<div ref="editorElem2">*/}
+                                        {/*</div>*/}
+                                    {/*</Form.Item>*/}
                                     <Form.Item name="content" label="扶持内容"
                                         // required
                                         // validateStatus={!support_content && state ? "error" : ""}

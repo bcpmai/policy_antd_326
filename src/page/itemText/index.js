@@ -26,7 +26,7 @@ class ItemText extends Component {
         this.getCollection(id);
     }
     getData = async(id) =>{
-        const responest = await request('/declare/get-one/' + id, 'POST'); //详情
+        const responest = await request('/declare/get-one/' + id, 'POST',{member_id:cookie.load('userId')}); //详情
         this.setState({
             detailInfo:responest.data
         })
@@ -161,22 +161,27 @@ class ItemText extends Component {
                             </tbody>
                         </table>
                     </div>
-                    {detailInfo && detailInfo.declare.support_direction ? <div className="item-box">
-                        <TitleTwo name="扶持方向" />
-                        <div className="item-desc">
-                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_direction }}></div>
-                        </div>
-                    </div>:null}
-                    {detailInfo && detailInfo.declare.declare_condition ? <div className="item-box">
-                        <TitleTwo name="申报条件" />
-                        <div className="item-desc">
-                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_condition }}></div>
-                        </div>
-                    </div>:null}
-                    {detailInfo && detailInfo.declare.support_content ?<div className="item-box">
+                    {/*{detailInfo && detailInfo.declare.support_direction ? <div className="item-box">*/}
+                        {/*<TitleTwo name="扶持方向" />*/}
+                        {/*<div className="item-desc">*/}
+                        {/*<div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_direction }}></div>*/}
+                        {/*</div>*/}
+                    {/*</div>:null}*/}
+                    {/*{detailInfo && detailInfo.declare.declare_condition ? <div className="item-box">*/}
+                        {/*<TitleTwo name="申报条件" />*/}
+                        {/*<div className="item-desc">*/}
+                        {/*<div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.declare_condition }}></div>*/}
+                        {/*</div>*/}
+                    {/*</div>:null}*/}
+                    {detailInfo && detailInfo.declare.declare_matching_details_list ?<div className="policyPreview-content-box">
                         <TitleTwo name="扶持内容" />
-                        <div className="item-desc">
-                        <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.support_content }}></div>
+                        <div className="policyPreview-content">
+                            <div className="policyPreview-content-text">
+                                {detailInfo.declare.declare_matching_details_list.map((item,idx)=>{
+                                    return (<div style={item.matching_bool ? {color:"red"} : {}}>{item.content}</div>)
+                                })}
+
+                            </div>
                         </div>
                     </div>:null}
                     {detailInfo && detailInfo.declare.contact ?<div className="item-box">
