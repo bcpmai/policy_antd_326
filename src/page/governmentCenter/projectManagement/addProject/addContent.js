@@ -90,25 +90,25 @@ class AddContent extends Component {
             }
             this.props.form.setFieldsValue(data);
 
-            if (data.set_up_sign == "-1,0,1" || data.set_up_sign === undefined) {
+            if (data.set_up_sign == "-1,0,1" || data.set_up_sign === undefined || data.set_up_sign === "") {
                 this.switchChange(false, "set_up");
             }
-            if (data.knowledge_sign == "-1,0,1" || data.knowledge_sign === undefined) {
+            if (data.knowledge_sign == "-1,0,1" || data.knowledge_sign === undefined || data.knowledge_sign === "") {
                 this.switchChange(false, "knowledge");
             }
-            if (data.register_address == "" || data.register_address === undefined) {
+            if (data.register_address == "" || data.register_address === undefined || data.register_address === "") {
                 this.switchChange(false, "address");
             }
-            if (data.invention_sign == "-1,0,1" || data.invention_sign === undefined) {
+            if (data.invention_sign == "-1,0,1" || data.invention_sign === undefined || data.invention_sign === "") {
                 this.switchChange(false, "invention");
             }
             if ((data.industry_label_ids && data.industry_label_ids.length <= 0) || data.industry_label_ids === undefined || data.industry_label_ids == "") {
                 this.switchChange(false, "industry_label");
             }
-            if (data.declare_sign == "-1,0,1" || data.declare_sign === undefined) {
+            if (data.declare_sign == "-1,0,1" || data.declare_sign === undefined || data.declare_sign === "") {
                 this.switchChange(false, "declare");
             }
-            if (data.social_people_sign == "-1,0,1" || data.social_people_sign === undefined) {
+            if (data.social_people_sign == "-1,0,1" || data.social_people_sign === undefined || data.social_people_sign === "") {
                 this.switchChange(false, "social");
             }
         }

@@ -69,6 +69,7 @@ class AddProject extends Component {
             //this.createEditor("editorElem1", "support_direction");//扶持方向
             //this.createEditor("editorElem2", "declare_condition");//申报条件
             // this.createEditor("editorElem3", "support_content");//扶持内容
+            this.createEditor("content0", "content0");//扶持内容
             this.createEditor("editorElem4", "declare_material");//申报材料
             this.createEditor("editorElem5", "declare_process");//申报流程
             this.createEditor("editorElem6", "review_process");//评审流程
@@ -132,6 +133,7 @@ class AddProject extends Component {
         this.getTableData(formValues);
     }
     createEditor = (editorElem, editorContent, value) => {
+        console.log(this.refs,editorElem, editorContent, value)
         const elem = this.refs[editorElem]; //获取editorElem盒子
         //const submit = this.refs.submit; //获取提交按钮
         const editor = new E(elem)  //new 一个 editorElem富文本
@@ -157,6 +159,7 @@ class AddProject extends Component {
         editor.customConfig.uploadFileName = 'file'; //置上传接口的文本流字段
         editor.customConfig.uploadImgServer = uploadUrl;//服务器接口地址
         editor.customConfig.onchange = html => {
+            console.log(editorContent,html)
             this.setState({
                 [editorContent]: html
             })
@@ -269,7 +272,8 @@ class AddProject extends Component {
                 declare.industry_label_ids = industry_label_ids;
                 declare.content = [];
                 declare.declare_matching_details_list.forEach((item, idx) => {
-                    declare.content[idx] = item.content
+                    declare.content[idx] = item.content;
+                    this.createEditor("content"+idx, "content"+idx,item.content);//扶持内容
                 })
                 console.log(declare);
                 this.props.form.setFieldsValue(declare);
@@ -323,8 +327,9 @@ class AddProject extends Component {
             //扶持内容 new
             values.declare_matching_details_list = [];
             for (let i = 0; i < addContentNum; i++) {
+                console.log(this.state["content"+i],values)
                 values.declare_matching_details_list.push({
-                    content: values.content[i],
+                    content: this.state["content"+i] || values.content[i],
                     ...contentArr[i]
                 })
             }
@@ -619,9 +624,14 @@ class AddProject extends Component {
     }
 
     addContent = () => {
+        const addContentNum = ++this.state.addContentNum;
         this.setState({
-            addContentNum: ++this.state.addContentNum
+            addContentNum
+        },()=>{
+            this.createEditor(`content${addContentNum-1}`, `content${addContentNum-1}`);//扶持内容
         })
+
+
     }
     deleteContent = (idx) => {
         const {contentArr,addContentNum} = this.state;
@@ -721,8 +731,8 @@ class AddProject extends Component {
             html.push(<Row key={i} style={{marginBottom: "10px"}}>
                 <Col span={16}>
                     <div style={{marginRight: "10px"}}>
-                        {getFieldDecorator(`content[${i}]`)(<TextArea type="textarea" rows={4}
-                                                                      style={{width: "100%", height: "100px"}}/>)}
+                        <div ref={`content${i}`}>
+                        </div>
                     </div>
                 </Col>
                 <Col span={4}>
