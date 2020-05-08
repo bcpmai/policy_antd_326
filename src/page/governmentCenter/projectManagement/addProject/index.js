@@ -178,6 +178,7 @@ class AddProject extends Component {
         if (value) {
             editor.txt.html(value);
         }
+        window[editorElem] = editor;
     }
     getDefalutData = async () => {
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
@@ -274,8 +275,11 @@ class AddProject extends Component {
                 declare.declare_matching_details_list.forEach((item, idx) => {
                     declare.content[idx] = item.content;
                     this.createEditor("content"+idx, "content"+idx,item.content);//扶持内容
+                    this.setState({
+                        ["content"+idx]:item.content
+                    })
                 })
-                console.log(declare);
+
                 this.props.form.setFieldsValue(declare);
 
                 // if(declare.set_up_sign == "-1,0,1"){
@@ -327,10 +331,11 @@ class AddProject extends Component {
             //扶持内容 new
             values.declare_matching_details_list = [];
             for (let i = 0; i < addContentNum; i++) {
-                console.log(this.state["content"+i],values)
+                const content = this.state["content"+i] || (values.content && values.content[i])
+                console.log(this.state["content"+i],values,content)
                 values.declare_matching_details_list.push({
-                    content: this.state["content"+i] || values.content[i],
-                    ...contentArr[i]
+                    ...contentArr[i],
+                    content:content
                 })
             }
             if (selectedRowKeys && selectedRowKeys.length) {
@@ -638,15 +643,26 @@ class AddProject extends Component {
         const newContent = contentArr.filter((item, tidx) => {
             return tidx != idx;
         });
-
-        let content = this.props.form.getFieldValue("content");
-        content = content.filter((item, tidx) => {
-            return tidx != idx;
-        });
-        this.props.form.setFieldsValue({content});
+        let newContentArr={};
+        for(let i = 0,j=0 ;i<addContentNum;i++){
+            if(i != idx) {
+                const content = this.state["content" + i];
+                console.log(content,j,i)
+                window["content" + j] && window["content" + j].txt.html(content);
+                newContentArr["content" + j] = content;
+                j++;
+            }
+        }
+        console.log(newContentArr,idx);
+        // let content = this.props.form.getFieldValue("content");
+        // content = content.filter((item, tidx) => {
+        //     return tidx != idx;
+        // });
+        // this.props.form.setFieldsValue({content});
         this.setState({
             addContentNum:--this.state.addContentNum,
-            contentArr:newContent
+            contentArr:newContent,
+            ...newContentArr
         });
     }
     showContentModal = (i, content) => {
