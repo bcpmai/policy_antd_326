@@ -49,7 +49,9 @@ class LatestPolicy extends Component {
                 render: (text, record) => {
                     return (
                         <div className="policy-title-box">
-                            <p className="policy-title"><a href={`/policyText/${record.id}`}>{text}</a></p>
+                            <p className="policy-title">
+                                <a href={`/policyText/${record.id}`}>
+                                    <span dangerouslySetInnerHTML = {{ __html:text }}></span></a></p>
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">发文字号：</span>{record.post_shop_name}</p>
                         </div>

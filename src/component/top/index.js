@@ -12,6 +12,7 @@ import cookie from 'react-cookies';
 // } from '@ant-design/icons';
 import './index.css';
 import Logo from './img/logo.jpg';
+import lingdang from './img/lingdang.png';
 import Logo1 from './img/logo1.jpg';
 
 
@@ -134,12 +135,14 @@ class Top extends Component {
                     {/*<Col span={3}>*/}
                         {/*/!*<div className="serach"><Search placeholder="请输入关键词" onSearch={this.serachLatestPolicy} enterButton /></div>*!/*/}
                     {/*</Col>*/}
-                    {!isLogin ? <Col span={7} className="right-button">
+                    <Col span={7} className="right-button">
+                    {!isLogin ? <span>
                         <Link to="/login"><Button icon="user">登录</Button></Link>
                         {/*<u className="line-u">|</u>*/}
                         <Link to="/register"><Button icon="export" className="ml15">注册</Button></Link>
-                    </Col> : <Col span={7} className="right-button"><span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></Col>}
-
+                    </span> : <span>
+                        <img src={lingdang} style={{width:18,marginRight:20}} /><span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></span>}
+                    </Col>
                 </Row>
                 </div>
                 {/*<div className={`logo-box ${current!="home" ? 'min-logo-box' : ''}`}>*/}
