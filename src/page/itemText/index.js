@@ -203,7 +203,7 @@ class ItemText extends Component {
                         </div>
                     </div>:null}
                     {detailInfo && detailInfo.declare.review_process ?<div className="item-box">
-                        <TitleTwo name="评审流程" />
+                        <TitleTwo name="其它内容" />
                         <div className="item-desc">
                         <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.review_process }}></div>
                         </div>

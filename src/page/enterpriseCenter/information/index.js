@@ -352,7 +352,7 @@ class Information extends Component {
                                     <div className="information-title">人员情况</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="近一年缴纳社保数">
+                                            <Form.Item label="公司总人数">
                                                 {getFieldDecorator('social_people_value')(
                                                     <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
                                                 )}

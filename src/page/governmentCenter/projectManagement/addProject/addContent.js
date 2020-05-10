@@ -635,7 +635,7 @@ class AddContent extends Component {
                     <td>人员数量</td>
                     <td>
                         <Row className="mt10">
-                            <Col span={7}>最近一年缴纳社保人数</Col>
+                            <Col span={7}>公司总人数</Col>
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('social_people_sign',{

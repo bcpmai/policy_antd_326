@@ -188,7 +188,7 @@ class policyPreview extends Component {
                         </div> : null}
                         {detailInfo && detailInfo.declare.review_process ?
                             <div className="policyPreview-content-box">
-                            <TitleTwo name="评审流程" />
+                            <TitleTwo name="其它内容" />
                             <div className="policyPreview-content">
                                 <div className="policyPreview-content-text">
                                     <div dangerouslySetInnerHTML = {{ __html:detailInfo.declare.review_process }}></div>

@@ -1007,7 +1007,7 @@ class AddProject extends Component {
                                         <div ref="editorElem5">
                                         </div>
                                     </Form.Item>
-                                    <Form.Item name="content" label="评审流程">
+                                    <Form.Item name="content" label="其它内容">
                                         <div ref="editorElem6">
                                         </div>
                                     </Form.Item>
