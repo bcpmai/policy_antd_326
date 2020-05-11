@@ -323,7 +323,7 @@ class Information extends Component {
                                     <div className="information-title">财务数据情况</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="研发投入">
+                                            <Form.Item label="去年研发投入额">
                                                 {getFieldDecorator('develop_value')(
                                                     <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
                                                 )}
@@ -332,7 +332,7 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="企业报税收入">
+                                            <Form.Item label="去年主营业务投入">
                                                 {getFieldDecorator('declare_value')(
                                                     <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
                                                 )}
@@ -341,7 +341,7 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="研发资产总额">
+                                            <Form.Item label="技术研发设备投入">
                                                 {getFieldDecorator('develop_assets_value')(
                                                     <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
                                                 )}
@@ -361,7 +361,7 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="研发人员">
+                                            <Form.Item label="研发人才数量">
                                                 {getFieldDecorator('develop_people_value')(
                                                     <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
                                                 )}

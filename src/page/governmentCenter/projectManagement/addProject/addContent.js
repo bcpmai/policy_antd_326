@@ -455,7 +455,7 @@ class AddContent extends Component {
                     <td><Switch checked={this.state.address} onChange={(checked)=>this.switchChange(checked,"address")}/></td>
                 </tr>
                 <tr>
-                    <td>知识产权</td>
+                    <td>专利总量</td>
                     <td>
                         <Row>
                             <Col span={4}>
@@ -479,7 +479,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('knowledge_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!knowledge} suffix="个"/>
+                                        <Input disabled={!knowledge} suffix="件"/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -489,7 +489,7 @@ class AddContent extends Component {
                         <Switch checked={this.state.knowledge} onChange={(checked)=>this.switchChange(checked,"knowledge")}/></td>
                 </tr>
                 <tr>
-                    <td>发明专利</td>
+                    <td>发明专利数量</td>
                     <td>
                         <Row>
                             <Col span={4}>
@@ -513,7 +513,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('invention_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!invention} suffix="个"/>
+                                        <Input disabled={!invention} suffix="件"/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -545,7 +545,7 @@ class AddContent extends Component {
                     <td>财务数据</td>
                     <td>
                         <Row>
-                            <Col span={7}>研发投入</Col>
+                            <Col span={7}>去年研发投入额</Col>
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_sign',{
@@ -573,7 +573,7 @@ class AddContent extends Component {
                             </Col>
                         </Row>
                         <Row className="mt10">
-                            <Col span={7}>企业报税收入</Col>
+                            <Col span={7}>去年主营业务收入</Col>
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('declare_sign',{
@@ -601,7 +601,7 @@ class AddContent extends Component {
                             </Col>
                         </Row>
                         <Row className="mt10">
-                            <Col span={7}>研发资产总额</Col>
+                            <Col span={7}>技术研发设备投入</Col>
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_assets_sign',{
@@ -663,7 +663,7 @@ class AddContent extends Component {
                             </Col>
                         </Row>
                         <Row className="mt10">
-                            <Col span={7}>研发人员</Col>
+                            <Col span={7}>研发人才数量</Col>
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_people_sign',{
