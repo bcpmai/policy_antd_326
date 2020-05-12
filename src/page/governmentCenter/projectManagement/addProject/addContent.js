@@ -479,7 +479,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('knowledge_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!knowledge} suffix="件"/>
+                                        <Input disabled={!knowledge} suffix="件" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -513,7 +513,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('invention_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!invention} suffix="件"/>
+                                        <Input disabled={!invention} suffix="件" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -567,7 +567,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('develop_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!declare} suffix="万元"/>
+                                        <Input disabled={!declare} suffix="万元" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -595,7 +595,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('declare_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!declare} suffix="万元"/>
+                                        <Input disabled={!declare} suffix="万元" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -623,7 +623,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('develop_assets_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!declare} suffix="万元"/>
+                                        <Input disabled={!declare} suffix="万元" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -657,7 +657,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('social_people_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!social} suffix="人"/>
+                                        <Input disabled={!social} suffix="人" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -685,7 +685,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('develop_people_value',{
                                         initialValue:0
                                     },)(
-                                        <Input disabled={!social} suffix="人"/>
+                                        <Input disabled={!social} suffix="人" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
