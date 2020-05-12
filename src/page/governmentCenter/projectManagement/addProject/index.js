@@ -332,9 +332,12 @@ class AddProject extends Component {
             values.declare_matching_details_list = [];
             for (let i = 0; i < addContentNum; i++) {
                 const content = this.state["content"+i] || (values.content && values.content[i])
-                console.log(this.state["content"+i],values,content)
+                let tcontentArr = contentArr[i];
+                if(tcontentArr && tcontentArr.industry_label_ids && typeof tcontentArr.industry_label_ids == "string" && tcontentArr.industry_label_list){
+                    tcontentArr.industry_label_ids = tcontentArr.industry_label_list;
+                }
                 values.declare_matching_details_list.push({
-                    ...contentArr[i],
+                    ...tcontentArr,
                     content:content
                 })
             }
