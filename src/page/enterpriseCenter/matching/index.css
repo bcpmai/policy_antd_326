@@ -93,7 +93,8 @@
 .main-box .matching-template .ant-table-tbody .gray-tr td .policy-title-box .title,
 .main-box .matching-template .ant-table-tbody .gray-tr td .policy-title-box p,
 .main-box .matching-template .ant-table-tbody .gray-tr td .release_date-year,
-.main-box .matching-template .ant-table-tbody .gray-tr td .release_date-date
+.main-box .matching-template .ant-table-tbody .gray-tr td .release_date-date,
+.main-box .matching-template .ant-table-tbody .gray-tr td .ant-progress-circle .ant-progress-text
 {
     color: #cfcfcf;
 }
