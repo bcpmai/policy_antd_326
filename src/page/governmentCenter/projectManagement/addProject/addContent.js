@@ -23,7 +23,7 @@ const layout = {
     wrapperCol: {span: 21},
 };
 
-const uploadUrl = window.location.href.indexOf("http://jlpzc.cicba.cn") ? 'http://jlpzc.cicba.cn/api/common/upload-file' : 'https://jlpzc.cicba.cn/api/common/upload-file';;
+const uploadUrl = window.location.href.indexOf("http://jlpzc.cicba.cn") != -1 ? 'http://jlpzc.cicba.cn/api/common/upload-file' : 'https://jlpzc.cicba.cn/api/common/upload-file';;
 
 const { RangePicker } = DatePicker;
 
