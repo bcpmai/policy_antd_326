@@ -72,9 +72,17 @@ class Matching extends Component {
                 dataIndex: 'title',
                 key: 'title',
                 render: (text, record) => {
+                    let style = {};
+                    if(record.is_gray){
+                        style.color = "gray";
+                    }
+                    else if(record.is_max){
+                        style.color = "#d13234";
+                        style.fontWeight = "bold";
+                    }
                     return (
                         <div className="policy-title-box">
-                            <p className="policy-title"><a href={`/itemText/${record.id}`}>{text}</a></p>
+                            <p className="policy-title"><a href={`/itemText/${record.id}`} style={style}>{text}</a></p>
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">应用类型：</span>{record.use_type_label_str}</p>
                             {record.money == "0" || record.money == "" ? <p><span className="title">扶持金额：</span>——</p>: <p><span className="title">扶持金额：</span>{record.money}万元</p>}
