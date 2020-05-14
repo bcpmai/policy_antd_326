@@ -399,6 +399,9 @@ class AddProject extends Component {
             if (!declare_process) {
                 msg = "申报流程不能为空！";
             }
+            if(!policyTitle){
+                msg = "关联政策不能为空！";
+            }
             // if(!review_process){
             //     msg="评审流程不能为空！";
             // }
