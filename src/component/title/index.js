@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Icon} from 'antd';
 import './index.css';
 
 class Title extends Component {
@@ -7,10 +8,17 @@ class Title extends Component {
     }
 
     render() {
-        const {name} = this.props;
+        const {name,remarks} = this.props;
 
         return (
-            <div className="title-component-template">{name}</div>
+            <div className="title-component-template">{name}
+            {remarks ?
+                <div className="alert-box">
+                    <Icon type="exclamation-circle" theme="filled" />
+                    <span>{remarks}</span>
+                </div>
+                : null}
+            </div>
         );
     };
 }

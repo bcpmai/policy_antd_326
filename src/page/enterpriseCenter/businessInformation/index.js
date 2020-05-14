@@ -255,7 +255,7 @@ class BusinessInformation extends Component {
                                         }}>取消</Button> : null}
                                     </div>
                                 }
-                                <Title name="企业工商信息"/>
+                                <Title name="企业工商信息" remarks="所有数据加密存放于九龙坡区大数局，保证企业数据安全" />
                                 <div className="b-information-item">
                                     <TitleTwo name="企业工商信息"/>
 

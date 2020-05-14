@@ -14,4 +14,23 @@
     margin-right: 10px;
     margin-top: 5px;
 }
-
+.title-component-template .remarks-text{
+    font-size: 12px;
+    font-weight: normal;
+    color: #aa2426;
+}
+.title-component-template .alert-box{
+    font-size: 12px;
+    color: #f8c54b;
+    border:1px solid #fad887;
+    padding: 4px 10px;
+    background: #fff;
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: 3px;
+}
+.title-component-template .alert-box .anticon-exclamation-circle{
+    font-size: 14px;
+    vertical-align: -3px;
+    margin-right: 5px;
+}

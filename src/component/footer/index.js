@@ -30,7 +30,7 @@ class Footer extends Component {
         return (
                 <div className="footer-component-template">
                     <div className="max-weight-box">
-                        <p>版权所有：重庆市九龙坡区民营经济发展局 &nbsp;&nbsp; 技术支持：重庆大数据人工智能创新中心<img src={Logo1} style={{width:"45px",marginLeft:"5px"}} /></p>
+                        <p>版权所有：重庆市九龙坡区民营经济发展局 &nbsp;&nbsp; 技术支持：重庆大数据人工智能创新中心&nbsp;&nbsp;联系电话：023-61739999<img src={Logo1} style={{width:"45px",marginLeft:"5px"}} /></p>
                     </div>
                 </div>
         );
