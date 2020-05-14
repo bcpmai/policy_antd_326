@@ -23,7 +23,7 @@ const layout = {
     wrapperCol: {span: 21},
 };
 
-const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
+const uploadUrl = 'http://jlpzc.cicba.cn/api/common/upload-file';
 
 const { RangePicker } = DatePicker;
 

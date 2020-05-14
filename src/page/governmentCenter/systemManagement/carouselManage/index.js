@@ -11,7 +11,7 @@ import './index.css';
 import cookie from "react-cookies";
 // import { UploadOutlined } from '@ant-design/icons';
 
-const uploadUrl = 'http://58.144.217.13:5001/api/common/upload-file';
+const uploadUrl = 'http://jlpzc.cicba.cn/api/common/upload-file';
 class CarouselManage extends Component {
     constructor(props) {
         super(props);
