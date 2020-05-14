@@ -60,12 +60,20 @@ class Matching extends Component {
                 dataIndex: 'score',
                 key: 'score',
                 width:100,
-                render: (text, record) =>
+                render: (text, record) =>{
+                    let strokeColor;
+                    if(record.is_gray){
+                        strokeColor = "#cfcfcf";
+                    }
+                    else if(record.is_max){
+                        strokeColor = undefined;
+                    }
+                    return (
                     <div align="center" className="score-box">
                         <p><Progress
-                            format={percent => `${percent}%`} type="circle" percent={record.score} width={60} /></p>
+                            format={percent => `${percent}%`} type="circle" percent={record.score} width={60} strokeColor={strokeColor} /></p>
                         <p>匹配度</p>
-                    </div>,
+                    </div>)},
             },
             {
                 title: '项目标题',
@@ -74,7 +82,7 @@ class Matching extends Component {
                 render: (text, record) => {
                     let style = {};
                     if(record.is_gray){
-                        style.color = "gray";
+                        style.color = "#cfcfcf";
                     }
                     else if(record.is_max){
                         style.color = "#d13234";
@@ -196,7 +204,7 @@ class Matching extends Component {
                                 </div>
                                 <Button onClick={()=>{window.location.href="/information"}} type="primary" icon="edit" className="button-edit">完善信息</Button>
                             </div>
-                            {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
+                            {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" rowClassName={(record,index)=> {return record.is_gray ? "gray-tr" : ""}} /> : null}
                         </Col>
                     </Row>
                 </div>

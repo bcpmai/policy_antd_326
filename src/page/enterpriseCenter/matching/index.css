@@ -86,3 +86,14 @@
     padding: 0;
     color: #999;
 }
+.main-box .matching-template .ant-table-tbody .gray-tr td{
+    background: #fcfcfc;
+    color: #cfcfcf66;
+}
+.main-box .matching-template .ant-table-tbody .gray-tr td .policy-title-box .title,
+.main-box .matching-template .ant-table-tbody .gray-tr td .policy-title-box p,
+.main-box .matching-template .ant-table-tbody .gray-tr td .release_date-year,
+.main-box .matching-template .ant-table-tbody .gray-tr td .release_date-date
+{
+    color: #cfcfcf;
+}
