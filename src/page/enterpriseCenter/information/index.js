@@ -307,9 +307,9 @@ class Information extends Component {
                                             <Form.Item label="企业规模">
                                                 {getFieldDecorator('scale')(
                                                     <Select disabled={isEdit} placeholder="请选择企业规模">
-                                                        <Option value="1" key="1">大型</Option>
-                                                        <Option value="2" key="2">中型</Option>
-                                                        <Option value="3" key="3">小微型</Option>
+                                                        <Option value={1} key="1">大型</Option>
+                                                        <Option value={2} key="2">中型</Option>
+                                                        <Option value={3} key="3">小微型</Option>
                                                     </Select>
                                                 )}
                                             </Form.Item>

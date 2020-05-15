@@ -25,7 +25,7 @@ const layout = {
 
 const uploadUrl = window.location.href.indexOf("http://jlpzc.cicba.cn") != -1 ? 'http://jlpzc.cicba.cn/api/common/upload-file' : 'https://jlpzc.cicba.cn/api/common/upload-file';;
 
-const { RangePicker } = DatePicker;
+const { MonthPicker,RangePicker } = DatePicker;
 
 class AddContent extends Component {
     constructor(props){
@@ -97,57 +97,55 @@ class AddContent extends Component {
             if(data.industry_label_list){
                 data.industry_label_ids = data.industry_label_list
             }
-            this.props.form.setFieldsValue(data);
-
-            if (data.set_up_sign == "-1,0,1" || data.set_up_sign === undefined || data.set_up_sign === "") {
-                this.switchChange(false, "set_up");
+            if(data.scale && typeof data.scale == "string"){
+                data.scale = data.scale.split(",")
             }
-            if (data.knowledge_sign == "-1,0,1" || data.knowledge_sign === undefined || data.knowledge_sign === "") {
-                this.switchChange(false, "knowledge");
+            if(data.set_up_value){
+                data.set_up_value = moment(data.set_up_value, 'YYYYMM');
+            }
+            this.props.form.setFieldsValue(data);
+            let switchState = {}
+            const setSwitch = (key) =>{
+                if (data[key+"_sign"] == "-1,0,1" || data[key+"_sign"] === undefined || data[key+"_sign"] === "") {
+                    this.switchChange(false, key);
+                }else{
+                    switchState[key] = true;
+                }
+            }
+
+            setSwitch("set_up");
+            setSwitch("knowledge");
+            setSwitch("invention");
+            setSwitch("declare");
+            setSwitch("develop_taking");
+            setSwitch("total_project");
+            setSwitch("profit_margin");
+            setSwitch("personnel_margin");
+            setSwitch("senior");
+            setSwitch("service_business");
+            setSwitch("area");
+            setSwitch("taking");
+            if (data.social_people_sign == "-1,0,1" || data.social_people_sign === undefined || data.social_people_sign === "") {
+                this.switchChange(false, "social");
+            }else{
+                switchState.social = true;
             }
             if (data.register_address == "" || data.register_address === undefined || data.register_address === "") {
                 this.switchChange(false, "address");
-            }
-            if (data.invention_sign == "-1,0,1" || data.invention_sign === undefined || data.invention_sign === "") {
-                this.switchChange(false, "invention");
+            }else{
+                switchState.address = true;
             }
             if ((data.industry_label_ids && data.industry_label_ids.length <= 0) || data.industry_label_ids === undefined || data.industry_label_ids == "") {
                 this.switchChange(false, "industry_label");
+            }else{
+                switchState.industry_label = true;
             }
-            if (data.declare_sign == "-1,0,1" || data.declare_sign === undefined || data.declare_sign === "") {
-                this.switchChange(false, "declare");
-            }
-            if (data.social_people_sign == "-1,0,1" || data.social_people_sign === undefined || data.social_people_sign === "") {
-                this.switchChange(false, "social");
-            }
-
-            if ((data.taking && data.taking.length <= 0) || data.taking === undefined || data.taking == "") {
-                this.switchChange(false, "taking");
-            }
-            if (data.develop_taking_sign == "-1,0,1" || data.develop_taking_sign === undefined || data.develop_taking_sign === "") {
-                this.switchChange(false, "develop_taking");
-            }
-            if (data.total_project_sign == "-1,0,1" || data.total_project_sign === undefined || data.total_project_sign === "") {
-                this.switchChange(false, "total_project");
-            }
-            if (data.profit_margin_sign == "-1,0,1" || data.profit_margin_sign === undefined || data.profit_margin_sign === "") {
-                this.switchChange(false, "profit_margin");
-            }
-            if (data.personnel_margin_sign == "-1,0,1" || data.personnel_margin_sign === undefined || data.personnel_margin_sign === "") {
-                this.switchChange(false, "personnel_margin");
-            }
-            if (data.scale_sign == "-1,0,1" || data.scale_sign === undefined || data.scale_sign === "") {
+            if ((data.scale && data.scale.length <= 0) || data.scale === undefined || data.scale == "") {
                 this.switchChange(false, "scale");
+            }else{
+                switchState.scale = true;
             }
-            if (data.senior_sign == "-1,0,1" || data.senior_sign === undefined || data.senior_sign === "") {
-                this.switchChange(false, "senior");
-            }
-            if (data.service_business_sign == "-1,0,1" || data.service_business_sign === undefined || data.service_business_sign === "") {
-                this.switchChange(false, "service_business");
-            }
-            if (data.area_sign == "-1,0,1" || data.area_sign === undefined || data.area_sign === "") {
-                this.switchChange(false, "area");
-            }
+            this.setState(switchState)
         }
     }
     getIndustry = async()=>{
@@ -241,32 +239,37 @@ class AddContent extends Component {
                     [string+"_sign"]: undefined
                 });
             }
+            if(string === "set_up"){
+                this.setState({
+                    set_up_value:undefined
+                })
+            }
         }else{
             if(string === "declare"){
                 this.props.form.setFieldsValue({
                     ["develop_assets_value"]: 0,
-                    ["develop_assets_sign"]: "-1,0",
+                    ["develop_assets_sign"]: undefined,
                     ["declare_value"]: 0,
-                    ["declare_sign"]: "-1,0",
-                    ["develop_sign"]: "-1,0",
+                    ["declare_sign"]: undefined,
+                    ["develop_sign"]: undefined,
                     ["develop_value"]: 0
                 });
             }else if(string === "social"){
                 this.props.form.setFieldsValue({
                     ["social_people_value"]: 0,
-                    ["social_people_sign"]: "-1,0",
+                    ["social_people_sign"]: undefined,
                     ["develop_people_value"]: 0,
-                    ["develop_people_sign"]: "-1,0",
+                    ["develop_people_sign"]: undefined,
                 });
             }else if(string === "set_up"){
                 this.props.form.setFieldsValue({
-                    [string + "_value"]: 2000,
-                    [string + "_sign"]: "-1,0"
+                    [string + "_value"]: moment("200001", 'YYYYMM'),
+                    [string + "_sign"]: undefined
                 });
             }else{
                 this.props.form.setFieldsValue({
                     [string+"_value"]: 0,
-                    [string+"_sign"]: "-1,0"
+                    [string+"_sign"]: undefined
                 });
             }
         }
@@ -427,6 +430,7 @@ class AddContent extends Component {
                     });
                     values.register_address = register_address.join("|"); //地址
                 }
+                values.set_up_value = this.state.set_up_value;
                 this.props.callback(values);
             }else{
                 message.error("请正确输入内容！");
@@ -438,6 +442,21 @@ class AddContent extends Component {
             }
 
         });
+    }
+    setDevelopTakingValue = (e) =>{
+        console.log(e);
+        let develop_value = this.props.form.getFieldValue("develop_value");
+        let declare_value = this.props.form.getFieldValue("declare_value");
+        console.log(develop_value,declare_value);
+        if(develop_value && !isNaN(develop_value) && declare_value && !isNaN(declare_value) && declare_value != "0"){
+            this.props.form.setFieldsValue({"develop_taking_value":parseInt(parseFloat(develop_value) / parseFloat(declare_value) * 100)});
+        }
+        //develop_taking_value
+    }
+    onMonthPickerChange = (date, dateString) => {
+        this.setState({
+            set_up_value: dateString
+        })
     }
     render() {
         const {industryData,set_up=true,knowledge=true,invention=true,declare=true,industry_label=true,social=true,area=true,service_business=true,senior=true,scale=true,personnel_margin=true,profit_margin=true,total_project=true,develop_taking=true,taking=true} = this.state;
@@ -460,9 +479,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('set_up_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('set_up_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!set_up}
@@ -476,10 +493,10 @@ class AddContent extends Component {
                             </Col>
                             <Col span={19}>
                                 <Form.Item>
-                                    {getFieldDecorator('set_up_value',{
-                                        initialValue:2000
-                                    })(
-                                        <Input disabled={!set_up}/>
+                                    {getFieldDecorator('set_up_value')(
+                                        <MonthPicker onChange={this.onMonthPickerChange} disabled={!set_up} format='YYYYMM' />
+
+                                        // <Input disabled={!set_up}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -497,9 +514,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('taking_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('taking_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!taking}
@@ -537,59 +552,12 @@ class AddContent extends Component {
                     </td>
                 </tr>
                 <tr>
-                    <td>研发投入占营业收入比重</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('develop_taking_sign',{
-                                        initialValue:"0,1"
-                                    })(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!develop_taking}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('develop_taking_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="%" disabled={!develop_taking}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.develop_taking} onChange={(checked)=>this.switchChange(checked,"develop_taking")}/>
-                    </td>
-                </tr>
-                <tr>
                     <td>项目总投入</td>
                     <td>
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('total_project_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('total_project_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!total_project}
@@ -632,9 +600,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('profit_margin_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('profit_margin_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!profit_margin}
@@ -677,9 +643,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('personnel_margin_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('personnel_margin_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!personnel_margin}
@@ -742,9 +706,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('senior_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('senior_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!senior}
@@ -787,9 +749,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('service_business_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('service_business_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!service_business}
@@ -832,9 +792,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('area_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('area_sign')(
                                         <Select
                                             style={{ width: '90%' }}
                                             disabled={!area}
@@ -886,9 +844,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('knowledge_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('knowledge_sign')(
                                         <Select
                                             disabled={!knowledge}
                                             style={{ width: '90%' }}
@@ -920,9 +876,7 @@ class AddContent extends Component {
                         <Row>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('invention_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('invention_sign')(
                                         <Select
                                             disabled={!invention}
                                             style={{ width: '90%' }}
@@ -973,9 +927,7 @@ class AddContent extends Component {
                             <Col span={7}>去年研发投入额</Col>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('develop_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('develop_sign')(
                                         <Select
                                             disabled={!declare}
                                             style={{ width: '90%' }}
@@ -992,7 +944,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('develop_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!declare} suffix="万元" maxLength={11}/>
+                                        <Input onBlur={this.setDevelopTakingValue}  disabled={!declare} suffix="万元" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -1001,9 +953,7 @@ class AddContent extends Component {
                             <Col span={7}>去年主营业务收入</Col>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('declare_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('declare_sign')(
                                         <Select
                                             disabled={!declare}
                                             style={{ width: '90%' }}
@@ -1020,7 +970,7 @@ class AddContent extends Component {
                                     {getFieldDecorator('declare_value',{
                                         initialValue:0
                                     })(
-                                        <Input disabled={!declare} suffix="万元" maxLength={11}/>
+                                        <Input onBlur={this.setDevelopTakingValue} disabled={!declare} suffix="万元" maxLength={11}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -1029,9 +979,7 @@ class AddContent extends Component {
                             <Col span={7}>技术研发设备投入</Col>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('develop_assets_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('develop_assets_sign')(
                                         <Select
                                             disabled={!declare}
                                             style={{ width: '90%' }}
@@ -1057,15 +1005,56 @@ class AddContent extends Component {
                     <td><Switch checked={this.state.declare} onChange={(checked)=>this.switchChange(checked,"declare")}/></td>
                 </tr>
                 <tr>
+                    <td>研发投入占营业收入比重</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('develop_taking_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!develop_taking}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('develop_taking_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="%" disabled={!develop_taking}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.develop_taking} onChange={(checked)=>this.switchChange(checked,"develop_taking")}/>
+                    </td>
+                </tr>
+                <tr>
                     <td>人员数量</td>
                     <td>
                         <Row className="mt10">
                             <Col span={7}>公司总人数</Col>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('social_people_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('social_people_sign')(
                                         <Select
                                             disabled={!social}
                                             style={{ width: '90%' }}
@@ -1091,9 +1080,7 @@ class AddContent extends Component {
                             <Col span={7}>研发人员数量</Col>
                             <Col span={4}>
                                 <Form.Item>
-                                    {getFieldDecorator('develop_people_sign',{
-                                        initialValue:"0,1"
-                                    })(
+                                    {getFieldDecorator('develop_people_sign')(
                                         <Select
                                             disabled={!social}
                                             style={{ width: '90%' }}
