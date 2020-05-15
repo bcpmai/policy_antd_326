@@ -526,7 +526,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!taking}/>
+                                        <Input maxLength={11} suffix="%" disabled={!taking}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -571,7 +571,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!develop_taking}/>
+                                        <Input maxLength={11} suffix="%" disabled={!develop_taking}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -616,7 +616,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!total_project}/>
+                                        <Input maxLength={11} suffix="万元" disabled={!total_project}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -661,7 +661,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!profit_margin}/>
+                                        <Input maxLength={11} suffix="万元" disabled={!profit_margin}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -706,7 +706,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!personnel_margin}/>
+                                        <Input maxLength={11} suffix="%" disabled={!personnel_margin}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -771,7 +771,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!senior}/>
+                                        <Input maxLength={11} suffix="人" disabled={!senior}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -816,7 +816,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!service_business}/>
+                                        <Input maxLength={11} suffix="家" disabled={!service_business}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -861,7 +861,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} disabled={!area}/>
+                                        <Input maxLength={11} suffix="平方米" disabled={!area}/>
                                     )}
                                 </Form.Item>
                             </Col>
@@ -1088,7 +1088,7 @@ class AddContent extends Component {
                             </Col>
                         </Row>
                         <Row className="mt10">
-                            <Col span={7}>研发人才数量</Col>
+                            <Col span={7}>研发人员数量</Col>
                             <Col span={4}>
                                 <Form.Item>
                                     {getFieldDecorator('develop_people_sign',{

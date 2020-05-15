@@ -302,6 +302,26 @@ class Information extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="企业规模">
+                                                {getFieldDecorator('scale')(
+                                                    <Select disabled={isEdit} placeholder="请选择企业规模">
+                                                        <Option value="1" key="1">大型</Option>
+                                                        <Option value="2" key="2">中型</Option>
+                                                        <Option value="3" key="3">小微型</Option>
+                                                    </Select>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                        <Col span={14}>
+                                            <Form.Item className="text-right" label="生产面积">
+                                                {getFieldDecorator('area_value')(
+                                                    <Input disabled={isEdit} suffix="平方米" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
                                     <div className="information-title">知识产权情况</div>
                                     <Row>
                                         <Col span={10}>
@@ -348,6 +368,51 @@ class Information extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="营业收入增长率">
+                                                {getFieldDecorator('taking_value')(
+                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="研发投入占营业收入比重">
+                                                {getFieldDecorator('develop_taking_value')(
+                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="项目总投入">
+                                                {getFieldDecorator('total_project_value')(
+                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="利润率">
+                                                {getFieldDecorator('profit_margin_value')(
+                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="服务企业数量">
+                                                {getFieldDecorator('service_business_value')(
+                                                    <Input disabled={isEdit} suffix="家" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
 
                                     <div className="information-title">人员情况</div>
                                     <Row>
@@ -361,8 +426,26 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="研发人才数量">
+                                            <Form.Item label="研发人员数量">
                                                 {getFieldDecorator('develop_people_value')(
+                                                    <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="研发人员占比率">
+                                                {getFieldDecorator('personnel_margin_value')(
+                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={10}>
+                                            <Form.Item label="高级人员占比">
+                                                {getFieldDecorator('senior_value')(
                                                     <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
                                                 )}
                                             </Form.Item>

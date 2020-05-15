@@ -214,7 +214,7 @@ class AddProject extends Component {
             if (data) {
                 const {declare, resource_file_list = []} = data;
                 let fileList = [];
-                resource_file_list.forEach((item, idx) => {
+                resource_file_list.length >= 1 && resource_file_list.forEach((item, idx) => {
                     item.name = item.file_ori_name;
                     item.uid = item.id;
                     item.url = item.image_url;
