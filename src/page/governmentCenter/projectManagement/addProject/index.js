@@ -84,8 +84,10 @@ class AddProject extends Component {
                 key: 'title',
                 width: 280,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a
-                        onClick={() => this.onSelectChange(record.id, record.title, true)}>{text.length < 15 ? text : text.substr(0, 15) + "..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`/policyText/${record.id}`} target="_blank">{text.length < 15 ? text : text.substr(0, 15) + "..."}</a></Tooltip>
+
+                    // return <Tooltip placement="topLeft" title={text}><a
+                    //     onClick={() => this.onSelectChange(record.id, record.title, true)}>{text.length < 15 ? text : text.substr(0, 15) + "..."}</a></Tooltip>
                 }
             },
             {
@@ -682,7 +684,7 @@ class AddProject extends Component {
     handleCancel = e => {
         console.log(e);
         this.setState({
-            [e ? e : "policyVisible"]: false,
+            [typeof e != "object" ? e : "policyVisible"]: false,
             contentNumber: 0,
             content: null
         });
@@ -764,14 +766,14 @@ class AddProject extends Component {
                             onClick={() => this.showContentModal(i, contentArr[i])}>{contentArr && contentArr[i] ? "编辑条件" : "添加条件"}</Button>
                     </div>
                 </Col>
-                {i == 0 ? <Col span={4}>
+                {i == addContentNum -1 ? <Col span={4}>
                     <Tag className="site-tag-plus content-tag" onClick={this.addContent}>
                         {/*<PlusOutlined />*/}
                         <Icon type="plus"/>
                         可多选
                     </Tag>
                 </Col> : null}
-                {i >= 1 ? <Col span={4}>
+                {i < addContentNum -1 ? <Col span={4}>
                     <Tag className="site-tag-plus content-tag" onClick={() => this.deleteContent(i)}>
                         {/*<PlusOutlined />*/}
                         <Icon type="minus"/>

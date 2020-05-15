@@ -96,7 +96,7 @@ class DeclarationItem extends Component {
                 render: (text, record) => {
                     return (
                         <div className="policy-title-box">
-                            <p className="policy-title"><a href={`/itemText/${record.id}`}>{text}</a></p>
+                            <p className="policy-title"><a href={`/itemText/${record.id}/${JSON.stringify(this.state.formValues)}`}>{text}</a></p>
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">应用类型：</span>{record.use_type_label_str}</p>
                             {record.money == "0" || record.money == "" ? <p><span className="title">扶持金额：</span>——</p>: <p><span className="title">扶持金额：</span>{record.money}万元</p>}
@@ -120,7 +120,13 @@ class DeclarationItem extends Component {
     }
 
     async componentWillMount() {
-        this.getTableData({});
+        let values = {};
+        if(this.props.match.params.key){
+            values = JSON.parse(this.props.match.params.key);
+            this.props.form.setFieldsValue(values);
+            this.setState(values)
+        }
+        this.getTableData(values);
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
         const labelTypeData = await request('/common/get-all-use-type-declare-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
@@ -178,6 +184,7 @@ class DeclarationItem extends Component {
             values.member_id = parseInt(cookie.load('userId'));
         }
         const tableData = await request('/declare/list', 'POST', {...values, status: 2}); //获取table
+        values.path = "declarationItem"; //保存路由，详情返回时保留搜索条件
         if (tableData.status == 200) {
             this.setState({
                 tableData: tableData.data,
@@ -287,7 +294,10 @@ class DeclarationItem extends Component {
             use_type_list: null,
             status: null,
             release_date: null,
-            created_date: null
+            created_date: null,
+            title:undefined,
+            belong:undefined,
+            industry_label_id_list:undefined
         }, () => {
             this.props.form.resetFields();
         })
@@ -339,7 +349,9 @@ class DeclarationItem extends Component {
                         <Col span={6}>
                             <Form ref="seachForm">
                                 <Form.Item name="title" ref="seachInput">
-                                    {getFieldDecorator('title')(
+                                    {getFieldDecorator('title',{
+                                        initialValue:this.state.title
+                                    })(
                                         <Search
                                             size="large"
                                             onSearch={value => this.onSearchTitle(value)}
@@ -373,7 +385,9 @@ class DeclarationItem extends Component {
                                         <Col span={4}>所属层级</Col>
                                         <Col span={20}>
                                             <Form.Item>
-                                                {getFieldDecorator('belong')(
+                                                {getFieldDecorator('belong',{
+                                                    initialValue:this.state.belong
+                                                })(
                                                     <Select style={{width: 300}} onChange={this.belongChange}>
                                                         {belongData ? belongData.map((item, idx) => <Option
                                                             value={item.id}
@@ -389,7 +403,9 @@ class DeclarationItem extends Component {
                                         <Col span={4}>所属行业</Col>
                                         <Col span={20}>
                                             <Form.Item>
-                                                {getFieldDecorator('industry_label_id_list')(
+                                                {getFieldDecorator('industry_label_id_list',{
+                                                    initialValue:this.state.industry_label_id_list
+                                                })(
                                                     <Select style={{width: 300}}>
                                                         {industryData ? industryData.map((item, idx) => <Option
                                                             value={item.id}

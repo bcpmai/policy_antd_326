@@ -10,6 +10,7 @@ import './index.css';
 import {request} from "../../utils/request";
 import cookie from "react-cookies";
 import {message} from "antd/lib/index";
+import moment from "moment/moment";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -50,7 +51,7 @@ class LatestPolicy extends Component {
                     return (
                         <div className="policy-title-box">
                             <p className="policy-title">
-                                <a href={`/policyText/${record.id}`}>
+                                <a href={`/policyText/${record.id}/${JSON.stringify(this.state.formValues)}`}>
                                     <span dangerouslySetInnerHTML = {{ __html:text }}></span></a></p>
                             <p><span className="title">发布机构：</span>{record.organization_label_str}</p>
                             <p><span className="title">发文字号：</span>{record.post_shop_name}</p>
@@ -105,10 +106,22 @@ class LatestPolicy extends Component {
     }
     async componentDidMount() {
         console.log(this.props);
-        const {keyString} = this.props.match.params;
-        // console.log(this.props.form)
-        this.props.form.setFieldsValue({title:keyString});
-        this.getTableData({title:keyString});
+        // const {keyString} = this.props.match.params;
+        // // console.log(this.props.form)
+        // this.props.form.setFieldsValue({title:keyString});
+        // this.getTableData({title:keyString});
+
+        let values = {};
+        if(this.props.match.params.key){
+            values = JSON.parse(this.props.match.params.key);
+            if(values.release_date){
+                values.release_date = [moment(values.release_date[0]),moment(values.release_date[1])]
+            }
+            //this.props.form.setFieldsValue(values);
+            this.setState(values)
+        }
+        this.getTableData(values);
+
         const labelThemeData = await request('/common/get-all-policy-theme-label', 'POST'); //政策主题
         const labelTypeData = await request('/common/get-all-use-type-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
@@ -163,6 +176,7 @@ class LatestPolicy extends Component {
             values.member_id = parseInt(cookie.load('userId'));
         }
         const tableData = await request('/policy/list', 'POST',{...values,status:2}); //获取table
+        values.path = "latestPolicy"; //保存路由，详情返回时保留搜索条件
         if(tableData.status == 200){
             this.setState({
                 tableData: tableData.data,
@@ -254,7 +268,10 @@ class LatestPolicy extends Component {
             organization_label_list:null,
             use_type_list:null,
             status:null,
-            release_date:null
+            release_date:null,
+            title:undefined,
+            belong:undefined,
+            industry_label_id_list:undefined
         },()=>{
             this.props.form.resetFields();
         })
@@ -305,7 +322,9 @@ class LatestPolicy extends Component {
                         <Col span={6}>
                             <Form ref="seachForm">
                                 <Form.Item ref="seachInput">
-                                    {getFieldDecorator('title')(
+                                    {getFieldDecorator('title',{
+                                        initialValue:this.state.title
+                                    })(
                                         <Search
                                             size="large"
                                             placeholder="请输入关键词查询政策标题"
@@ -339,7 +358,9 @@ class LatestPolicy extends Component {
                                         <Col span={4}>所属层级</Col>
                                         <Col span={20}>
                                             <Form.Item>
-                                                {getFieldDecorator('belong')(
+                                                {getFieldDecorator('belong',{
+                                                    initialValue:this.state.belong
+                                                })(
                                                     <Select style={{width: "360px"}} onChange={this.belongChange}>
                                                         {belongData ? belongData.map((item, idx) => <Option value={item.id}
                                                                                                             key={item.id}>{item.name}</Option>) : ''}
@@ -354,7 +375,9 @@ class LatestPolicy extends Component {
                                         <Col span={4}>所属行业</Col>
                                         <Col span={20}>
                                             <Form.Item>
-                                                {getFieldDecorator('industry_label_id_list')(
+                                                {getFieldDecorator('industry_label_id_list',{
+                                                    initialValue:this.state.industry_label_id_list
+                                                })(
                                                     <Select style={{width: "360px"}}>
                                                         {industryData ? industryData.map((item, idx) => <Option value={item.id}
                                                                                                                 key={item.id}>{item.name}</Option>) : ''}
@@ -384,7 +407,9 @@ class LatestPolicy extends Component {
                             <Col span={2}>发文日期</Col>
                             <Col span={22}>
                                 <Form.Item>
-                                    {getFieldDecorator('release_date')(
+                                    {getFieldDecorator('release_date',{
+                                        initialValue:this.state.release_date
+                                    })(
                                         <RangePicker style={{width: "360px"}} onChange={this.onDateChange} />
                                     )}
                                     {/*<DatePicker onChange={this.onDateChange} />*/}

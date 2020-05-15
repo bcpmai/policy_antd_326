@@ -83,6 +83,14 @@ class PolicyText extends Component {
             message.error(data.msg);
         }
     }
+    goBack = ()=>{
+        if(this.props.match.params.key){
+            const key= JSON.parse(this.props.match.params.key);
+            this.props.history.push("../../"+key.path+"/"+this.props.match.params.key);
+        }else{
+            this.props.history.back();
+        }
+    }
     render() {
         const {policy,resource_file_list=[],isCollection} = this.state;
         // const labelStr = policy.label_add_str ? policy.label_add_str.split(",") : null;
@@ -109,7 +117,7 @@ class PolicyText extends Component {
                    </div>
                     <div className="policy-butn">
                         {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection(policy.id)} type="primary" icon="star">{isCollection ? "已收藏" : "收藏" }</Button> : null}
-                        <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history.goBack()}}>返回</Button>
+                        <Button className="back-butn" icon="rollback" onClick={this.goBack}>返回</Button>
                     </div>
                     <Row gutter={16} className="policyText-content-box">
                         <Col span={24} className="policyText-content">

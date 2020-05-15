@@ -58,16 +58,16 @@ ReactDOM.render(
             <Route exact path="/register" component={Register} />
             <Route exact path="/forgotYour" component={ForgotYour} />
             <Route exact path="/declarePush/:keyString?" component={DeclarePush} />
-            <Route exact path="/latestPolicy/:keyString?" component={LatestPolicy} />
-            <Route exact path="/policyText/:id" component={PolicyText} />
+            <Route exact path="/latestPolicy/:key?" component={LatestPolicy} />
+            <Route exact path="/policyText/:id/:key?" component={PolicyText} />
             <Route exact path="/information" component={Information} />
             <Route exact path="/accountManagement" component={AccountManagement} />
             <Route exact path="/policyList" component={PolicyList} />
             <Route exact path="/addPolicy/:id?" component={AddPolicy} />
             <Route exact path="/policyPreview/:id" component={PolicyPreview} />
             <Route exact path="/policyUser" component={PolicyUser} />
-            <Route exact path="/declarationItem" component={DeclarationItem} />
-            <Route exact path="/itemText/:id" component={ItemText} />
+            <Route exact path="/declarationItem/:key?" component={DeclarationItem} />
+            <Route exact path="/itemText/:id/:key?" component={ItemText} />
             <Route exact path="/matching" component={Matching} />
             <Route exact path="/mySubscribe" component={MySubscribe} />
             <Route exact path="/myCollection" component={MyCollection} />

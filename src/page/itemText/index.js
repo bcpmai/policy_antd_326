@@ -92,6 +92,14 @@ class ItemText extends Component {
             visible: false,
         });
     }
+    goBack = ()=>{
+        if(this.props.match.params.key){
+            const key= JSON.parse(this.props.match.params.key);
+            this.props.history.push("../../"+key.path+"/"+this.props.match.params.key);
+        }else{
+            this.props.history.back();
+        }
+    }
     render() {
        const {detailInfo,butnText} = this.state;
         return (
@@ -113,7 +121,7 @@ class ItemText extends Component {
                     <div className="collection-butn">
                         <Button onClick={()=>this.showModal()} type="primary">立即申报</Button>
                         {cookie.load("userType") != 2 ? <Button onClick={()=>this.onCollection()} type="primary" icon="star" className="ml15">{butnText}</Button> : null}
-                        <Button className="back-butn" icon="rollback" onClick={()=>{this.props.history.goBack()}}>返回</Button>
+                        <Button className="back-butn" icon="rollback" onClick={this.goBack}>返回</Button>
                     </div>
                     <div className="itemText-infor item-box">
                         <TitleTwo name="基本信息" />

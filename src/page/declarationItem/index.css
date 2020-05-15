@@ -23,8 +23,8 @@
 .declarationItem-template .label-product-box .more-label{
     color:#333;
     position: absolute;
-    right:-20px;
-    top:4px;
+    right:0px;
+    top:20px;
     cursor: pointer;
 }
 .declarationItem-template .label-box .ant-col-4 {

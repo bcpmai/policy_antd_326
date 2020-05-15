@@ -522,7 +522,7 @@ class BusinessInformation extends Component {
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th style={{width: "200px"}}>当年缴纳社保员工总数</th>
+                                            <th style={{width: "200px"}}>企业总人数</th>
                                             <td colSpan={3}>
                                                 {getFieldDecorator('b1')(
                                                     <Input disabled={isEdit} style={{width: 200}}/>
@@ -546,7 +546,7 @@ class BusinessInformation extends Component {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>研发人才数量(人)</th>
+                                            <th>研发人员数量(人)</th>
                                             <td colSpan={1}>
                                                 {getFieldDecorator('b4')(
                                                     <Input disabled={isEdit} style={{width: 200}}/>
@@ -623,7 +623,7 @@ class BusinessInformation extends Component {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>去年研发投入率(%)</th>
+                                            <th>研发投入占营业收入比重</th>
                                             <td colSpan={4}>
                                                 {getFieldDecorator('d2')(
                                                     <Input disabled={isEdit} style={{width: 200}}/>
