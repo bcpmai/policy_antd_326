@@ -50,6 +50,7 @@ class AddContent extends Component {
             total_project:false,
             develop_taking:false,
             taking:false,
+            set_up_value:"200001",
             data: this.props.defaultValue || null
         }
     }
@@ -100,10 +101,10 @@ class AddContent extends Component {
             if(data.scale && typeof data.scale == "string"){
                 data.scale = data.scale.split(",")
             }
-            if(data.set_up_value){
-                data.set_up_value = moment(data.set_up_value, 'YYYYMM');
-            }
-            this.props.form.setFieldsValue(data);
+            // if(data.set_up_value){
+            //     data.set_up_value = moment(data.set_up_value, 'YYYYMM');
+            // }
+            this.props.form.setFieldsValue({...data,set_up_value:moment(data.set_up_value, 'YYYYMM')});
             let switchState = {}
             const setSwitch = (key) =>{
                 if (data[key+"_sign"] == "-1,0,1" || data[key+"_sign"] === undefined || data[key+"_sign"] === "") {
@@ -493,7 +494,9 @@ class AddContent extends Component {
                             </Col>
                             <Col span={19}>
                                 <Form.Item>
-                                    {getFieldDecorator('set_up_value')(
+                                    {getFieldDecorator('set_up_value',{
+                                        initialValue:moment("200001", 'YYYYMM')
+                                    })(
                                         <MonthPicker onChange={this.onMonthPickerChange} disabled={!set_up} format='YYYYMM' />
 
                                         // <Input disabled={!set_up}/>
@@ -911,6 +914,7 @@ class AddContent extends Component {
                                     mode="multiple"
                                     style={{ width: '100%' }}
                                 >
+                                    <Option value={1} key={1}>全部</Option>
                                     {industryData ? industryData.map((item, idx) => <Option value={item.id}
                                                                                             key={item.id}>{item.name}</Option>) : ''}
 
