@@ -81,15 +81,21 @@ class ProjectList extends Component {
                 dataIndex: 'title',
                 key: 'title',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`}>{text.length < 45 ? text : text.substr(0,45)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/itemText" : "/projectPreview"}/${record.id}`}>{text.length < 35 ? text : text.substr(0,35)+"..."}</a></Tooltip>
                 }
+            },
+            {
+                title: '发布时间',
+                dataIndex: 'release_date',
+                width:"120px",
+                key: 'release_date'
             },
             {
                 title: '发布机构',
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 6 ? text : text.substr(0,6)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
                 }
             },
             // {

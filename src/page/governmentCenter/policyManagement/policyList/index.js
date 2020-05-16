@@ -66,9 +66,9 @@ class PolicyList extends Component {
                 title: '政策标题',
                 dataIndex: 'title',
                 key: 'title',
-                width: 500,
+                width: 400,
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/policyText" : "/policyPreview"}/${record.id}`}>{text.length < 30 ? text : text.substr(0,30)+"..."}</a></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><a href={`${record.status == 2 ? "/policyText" : "/policyPreview"}/${record.id}`}>{text.length < 25 ? text : text.substr(0,25)+"..."}</a></Tooltip>
                 }
             },
             {
@@ -93,6 +93,12 @@ class PolicyList extends Component {
                 render: (text, record) => {
                     return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
                 }
+            },
+            {
+                title: '发布时间',
+                dataIndex: 'release_date',
+                width:"120px",
+                key: 'release_date'
             },
             // {
             //     title: '政策主题',

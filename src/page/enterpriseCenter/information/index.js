@@ -417,7 +417,7 @@ class Information extends Component {
                                     <div className="information-title">人员情况</div>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="公司总人数">
+                                            <Form.Item label="企业总人数">
                                                 {getFieldDecorator('social_people_value')(
                                                     <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
                                                 )}
@@ -435,7 +435,7 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="研发人员占比率">
+                                            <Form.Item label="研发人才占比率">
                                                 {getFieldDecorator('personnel_margin_value')(
                                                     <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
                                                 )}
@@ -444,7 +444,7 @@ class Information extends Component {
                                     </Row>
                                     <Row>
                                         <Col span={10}>
-                                            <Form.Item label="高级人员占比">
+                                            <Form.Item label="高级职称、博士、硕士人数">
                                                 {getFieldDecorator('senior_value')(
                                                     <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
                                                 )}

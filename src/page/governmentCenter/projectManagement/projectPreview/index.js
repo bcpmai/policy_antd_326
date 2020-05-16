@@ -108,7 +108,7 @@ class policyPreview extends Component {
                                     {detailInfo && detailInfo.declare.web_url ?
                                     <tr>
                                         <td>官文网址</td>
-                                        <td>{detailInfo ? <a href={detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</td>
+                                        <td>{detailInfo ? <a href={detailInfo.declare.web_url.indexOf("http") == -1 ? "http://"+detailInfo.declare.web_url.trim() : detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</td>
                                     </tr> : null}
                                     {detailInfo && detailInfo.declare.declare_net ?
                                     <tr>

@@ -226,8 +226,8 @@ class Matching extends Component {
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
-                            <span>{record!=undefined ? record.declare_net : null}</span>
-                            {record!=undefined ? <a className="model-button" href={record.declare_net} target="_blank" style={{margin:"0 0 0 5px"}}>网上申报</a> : null}
+                            <a href={record.declare_net.indexOf("http") == -1 ? "http://"+record.declare_net.trim() : record.declare_net} target="_blank">{record!=undefined ? record.declare_net : null}</a>
+                            {record!=undefined ? <a className="model-button" href={record.declare_net.indexOf("http") == -1 ? "http://"+record.declare_net.trim() : record.declare_net} target="_blank" style={{margin:"0 0 0 5px"}}>网上申报</a> : null}
                         </Col>
                     </Row> : null}
                     {record!=undefined && record.post_material ?

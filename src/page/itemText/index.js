@@ -96,8 +96,10 @@ class ItemText extends Component {
         if(this.props.match.params.key){
             const key= JSON.parse(this.props.match.params.key);
             this.props.history.push("../../"+key.path+"/"+this.props.match.params.key);
+        }else if(this.props.history){
+            this.props.history.goBack();
         }else{
-            this.props.history.back();
+            window.history.go(-1);
         }
     }
     render() {
@@ -141,7 +143,7 @@ class ItemText extends Component {
                             {detailInfo && detailInfo.declare.web_url ?
                             <tr>
                                 <td>官文网址</td>
-                                <td><div style={{wordBreak:"break-all"}}>{detailInfo ? <a href={detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</div></td>
+                                <td><div style={{wordBreak:"break-all"}}>{detailInfo ? <a href={detailInfo.declare.web_url.indexOf("http") == -1 ? "http://"+detailInfo.declare.web_url.trim() : detailInfo.declare.web_url} target="_blank">{detailInfo.declare.web_url}</a> : "/"}</div></td>
                             </tr>:null}
                             {detailInfo && detailInfo.declare.money ?
                             <tr>
@@ -243,8 +245,8 @@ class ItemText extends Component {
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
-                            <span>{detailInfo!=undefined ? detailInfo.declare.declare_net : null}</span>
-                            {detailInfo!=undefined ? <a className="model-button" href={detailInfo.declare.declare_net} target="_blank">网上申报</a> : null}
+                            <a href={detailInfo.declare.declare_net.indexOf("http") == -1 ? "http://"+detailInfo.declare.declare_net.trim() : detailInfo.declare.declare_net} target="_blank">{detailInfo!=undefined ? detailInfo.declare.declare_net : null}</a>
+                            {detailInfo!=undefined ? <a className="model-button" href={detailInfo.declare.declare_net.indexOf("http") == -1 ? "http://"+detailInfo.declare.declare_net.trim() : detailInfo.declare.declare_net} target="_blank">网上申报</a> : null}
                         </Col>
                     </Row> : null}
                     {detailInfo!=undefined && detailInfo.declare.post_material ?

@@ -509,331 +509,6 @@ class AddContent extends Component {
                         <Switch checked={this.state.set_up} onChange={(checked)=>this.switchChange(checked,"set_up")}/>
                     </td>
                 </tr>
-
-
-                <tr>
-                    <td>营业收入增长率</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('taking_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!taking}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('taking_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="%" disabled={!taking}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.taking} onChange={(checked)=>this.switchChange(checked,"taking")}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>项目总投入</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('total_project_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!total_project}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('total_project_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="万元" disabled={!total_project}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.total_project} onChange={(checked)=>this.switchChange(checked,"total_project")}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>利润率</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('profit_margin_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!profit_margin}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('profit_margin_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="万元" disabled={!profit_margin}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.profit_margin} onChange={(checked)=>this.switchChange(checked,"profit_margin")}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>研发人员占比率</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('personnel_margin_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!personnel_margin}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('personnel_margin_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="%" disabled={!personnel_margin}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.personnel_margin} onChange={(checked)=>this.switchChange(checked,"personnel_margin")}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>企业规模</td>
-                    <td>
-                        <Form.Item>
-                            {getFieldDecorator('scale')(
-                                <Select
-                                    disabled={!scale}
-                                    mode="multiple"
-                                    style={{ width: '100%' }}
-                                >
-                                    <Option value="1" key="1">大型</Option>
-                                    <Option value="2" key="2">中型</Option>
-                                    <Option value="3" key="3">小微型</Option>
-
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </td>
-                    <td><Switch checked={this.state.scale} onChange={(checked)=>this.switchChange(checked,"scale")}/></td>
-                </tr>
-                <tr>
-                    <td>高级人员占比</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('senior_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!senior}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('senior_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="人" disabled={!senior}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.senior} onChange={(checked)=>this.switchChange(checked,"senior")}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>服务企业数量</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('service_business_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!service_business}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('service_business_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="家" disabled={!service_business}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.service_business} onChange={(checked)=>this.switchChange(checked,"service_business")}/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>生产面积</td>
-                    <td>
-                        <Row>
-                            <Col span={4}>
-                                <Form.Item>
-                                    {getFieldDecorator('area_sign')(
-                                        <Select
-                                            style={{ width: '90%' }}
-                                            disabled={!area}
-                                        >
-                                            <Option value="0,1" key="≥">≥</Option>
-                                            <Option value="0" key="=">=</Option>
-                                            <Option value="-1,0" key="≤">≤</Option>
-                                        </Select>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                            <Col span={19}>
-                                <Form.Item>
-                                    {getFieldDecorator('area_value',{
-                                        rules: [
-                                            {
-                                                validator:
-                                                    async (rule, value, callback) => {
-                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
-                                                            return Promise.reject("请输入整数！");
-                                                        }
-                                                        return Promise.resolve();
-                                                    }
-                                            }
-                                        ],
-                                    })(
-                                        <Input maxLength={11} suffix="平方米" disabled={!area}/>
-                                    )}
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Switch checked={this.state.area} onChange={(checked)=>this.switchChange(checked,"area")}/>
-                    </td>
-                </tr>
-
-
                 <tr>
                     <td>注册地址</td>
                     <td>
@@ -1009,6 +684,49 @@ class AddContent extends Component {
                     <td><Switch checked={this.state.declare} onChange={(checked)=>this.switchChange(checked,"declare")}/></td>
                 </tr>
                 <tr>
+                    <td>营业收入增长率</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('taking_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!taking}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('taking_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="%" disabled={!taking}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.taking} onChange={(checked)=>this.switchChange(checked,"taking")}/>
+                    </td>
+                </tr>
+                <tr>
                     <td>研发投入占营业收入比重</td>
                     <td>
                         <Row>
@@ -1049,6 +767,92 @@ class AddContent extends Component {
                     </td>
                     <td>
                         <Switch checked={this.state.develop_taking} onChange={(checked)=>this.switchChange(checked,"develop_taking")}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>项目总投入</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('total_project_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!total_project}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('total_project_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="万元" disabled={!total_project}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.total_project} onChange={(checked)=>this.switchChange(checked,"total_project")}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>利润率</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('profit_margin_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!profit_margin}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('profit_margin_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="万元" disabled={!profit_margin}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.profit_margin} onChange={(checked)=>this.switchChange(checked,"profit_margin")}/>
                     </td>
                 </tr>
                 <tr>
@@ -1109,6 +913,201 @@ class AddContent extends Component {
                     </td>
                     <td><Switch checked={this.state.social} onChange={(checked)=>this.switchChange(checked,"social")}/></td>
                 </tr>
+                <tr>
+                    <td>研发人员占比率</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('personnel_margin_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!personnel_margin}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('personnel_margin_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="%" disabled={!personnel_margin}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.personnel_margin} onChange={(checked)=>this.switchChange(checked,"personnel_margin")}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>企业规模</td>
+                    <td>
+                        <Form.Item>
+                            {getFieldDecorator('scale')(
+                                <Select
+                                    disabled={!scale}
+                                    mode="multiple"
+                                    style={{ width: '100%' }}
+                                >
+                                    <Option value="1" key="1">大型</Option>
+                                    <Option value="2" key="2">中型</Option>
+                                    <Option value="3" key="3">小微型</Option>
+
+                                </Select>
+                            )}
+                        </Form.Item>
+                    </td>
+                    <td><Switch checked={this.state.scale} onChange={(checked)=>this.switchChange(checked,"scale")}/></td>
+                </tr>
+                <tr>
+                    <td>高级职称、博士、硕士人数</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('senior_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!senior}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('senior_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="人" disabled={!senior}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.senior} onChange={(checked)=>this.switchChange(checked,"senior")}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>服务企业数量</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('service_business_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!service_business}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('service_business_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="家" disabled={!service_business}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.service_business} onChange={(checked)=>this.switchChange(checked,"service_business")}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>生产面积</td>
+                    <td>
+                        <Row>
+                            <Col span={4}>
+                                <Form.Item>
+                                    {getFieldDecorator('area_sign')(
+                                        <Select
+                                            style={{ width: '90%' }}
+                                            disabled={!area}
+                                        >
+                                            <Option value="0,1" key="≥">≥</Option>
+                                            <Option value="0" key="=">=</Option>
+                                            <Option value="-1,0" key="≤">≤</Option>
+                                        </Select>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            <Col span={19}>
+                                <Form.Item>
+                                    {getFieldDecorator('area_value',{
+                                        rules: [
+                                            {
+                                                validator:
+                                                    async (rule, value, callback) => {
+                                                        if(value && value.length >= 1 && !(/(^[1-9]\d*$)/.test(value))){
+                                                            return Promise.reject("请输入整数！");
+                                                        }
+                                                        return Promise.resolve();
+                                                    }
+                                            }
+                                        ],
+                                    })(
+                                        <Input maxLength={11} suffix="平方米" disabled={!area}/>
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </td>
+                    <td>
+                        <Switch checked={this.state.area} onChange={(checked)=>this.switchChange(checked,"area")}/>
+                    </td>
+                </tr>
+
+
+
                 </tbody>
             </table>
                 <div className="addProject-button">

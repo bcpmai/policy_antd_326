@@ -112,6 +112,7 @@ class Home extends Component {
             visible: true,
             idx
         });
+        console.log(idx);
     };
     handleOk = e => {
         console.log(e);
@@ -276,8 +277,8 @@ class Home extends Component {
                     <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
-                            <span>{idx!=undefined ? dataList[idx].declare_net : null}</span>
-                            {idx!=undefined ? <a className="model-button" href={dataList[idx].declare_net} target="_blank">网上申报</a> : null}
+                            <a href={dataList[idx].declare_net.indexOf("http") == -1 ? "http://"+dataList[idx].declare_net.trim() : dataList[idx].declare_net} target="_blank">{idx!=undefined ? dataList[idx].declare_net : null}</a>
+                            {idx!=undefined ? <a className="model-button" href={dataList[idx].declare_net.indexOf("http") == -1 ? "http://"+dataList[idx].declare_net.trim() : dataList[idx].declare_net} target="_blank">网上申报</a> : null}
                         </Col>
                     </Row>
                         : null}
