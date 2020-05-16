@@ -242,7 +242,7 @@ class AddProject extends Component {
                     declare_material: declare.declare_material,
                     declare_process: declare.declare_process,
                     review_process: declare.review_process,
-                    addContentNum: declare.declare_matching_details_list.length <= 0 ? 1 : declare.declare_matching_details_list.length,
+                    addContentNum: declare.declare_matching_details_list ? (declare.declare_matching_details_list.length <= 0 ? 1 : declare.declare_matching_details_list.length) : 1,
                     contentArr: declare.declare_matching_details_list
                 });
 
@@ -275,7 +275,7 @@ class AddProject extends Component {
                 declare.d_industry_label_ids = d_industry_label_ids;
                 declare.industry_label_ids = industry_label_ids;
                 declare.content = [];
-                declare.declare_matching_details_list.forEach((item, idx) => {
+                declare.declare_matching_details_list && declare.declare_matching_details_list.forEach((item, idx) => {
                     declare.content[idx] = item.content;
                     this.createEditor("content"+idx, "content"+idx,item.content);//扶持内容
                     this.setState({
@@ -923,6 +923,7 @@ class AddProject extends Component {
                                                 style={{width: '100%'}}
                                                 onChange={this.handleChange}
                                             >
+                                                <Option value={1} key={1}>全部</Option>
                                                 {industryData ? industryData.map((item, idx) => <Option value={item.id}
                                                                                                         key={item.id}>{item.name}</Option>) : ''}
 
