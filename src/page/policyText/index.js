@@ -87,8 +87,10 @@ class PolicyText extends Component {
         if(this.props.match.params.key){
             const key= JSON.parse(this.props.match.params.key);
             this.props.history.push("../../"+key.path+"/"+this.props.match.params.key);
+        }else if(this.props.history){
+            this.props.history.goBack();
         }else{
-            this.props.history.back();
+            window.history.go(-1);
         }
     }
     render() {

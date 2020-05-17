@@ -845,7 +845,7 @@ class AddContent extends Component {
                                             }
                                         ],
                                     })(
-                                        <Input maxLength={11} suffix="万元" disabled={!profit_margin}/>
+                                        <Input maxLength={11} suffix="%" disabled={!profit_margin}/>
                                     )}
                                 </Form.Item>
                             </Col>

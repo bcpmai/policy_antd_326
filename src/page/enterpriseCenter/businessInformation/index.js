@@ -399,20 +399,19 @@ class BusinessInformation extends Component {
                                         <tr>
                                             <th>经营场地面积（平方米）</th>
                                             <td colSpan={4}>
-                                                {getFieldDecorator('a20')(
-                                                    <Input disabled={isEdit} style={{width: 200}}/>
+                                                {getFieldDecorator('area_value')(
+                                                    <Input disabled={true} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>经营规模</th>
                                             <td colSpan={4}>
-                                                {getFieldDecorator('a5')(
-                                                    <Radio.Group disabled={isEdit}>
-                                                        <Radio value={1}>微型</Radio>
-                                                        <Radio value={2}>小型</Radio>
-                                                        <Radio value={3}>中型</Radio>
-                                                        <Radio value={4}>大型</Radio>
+                                                {getFieldDecorator('scale')(
+                                                    <Radio.Group disabled={true}>
+                                                        <Radio value={1}>小微型</Radio>
+                                                        <Radio value={2}>中型</Radio>
+                                                        <Radio value={3}>大型</Radio>
                                                     </Radio.Group>
                                                 )}
                                             </td>
@@ -466,7 +465,7 @@ class BusinessInformation extends Component {
                                         </tr>
                                         <tr>
                                             <th>主营业务投入(万元)</th>
-                                            <th>去年主营业务投入</th>
+                                            <th>去年主营业务收入</th>
                                             <td colSpan={4}>{getFieldDecorator('declare_value')(
                                                 <Input disabled={true} suffix="万元" style={{width: 200}}/>
                                             )}</td>

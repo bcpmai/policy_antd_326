@@ -860,7 +860,7 @@ class AddProject extends Component {
                                                required
                                                validateStatus={!policyTitle && state ? "error" : ""}
                                                help={!policyTitle && state ? "请选择关联政策" : ""}>
-                                        {isSelectPolicy ? <span>{this.state.policyTitle}</span> : null}
+                                        {isSelectPolicy ? <span style={{marginRight:"10px"}}>{this.state.policyTitle}</span> : null}
                                         <Button onClick={this.showPolicy}>选择政策</Button>
                                     </Form.Item>
                                     <Form.Item label="所属层级">
@@ -1082,7 +1082,7 @@ class AddProject extends Component {
                     className="select-porject-modal"
                 >
                     <Search
-                        onSearch={value => this.getTableData({title: value})}
+                        onSearch={value => this.getTableData({title: value,is_hide:true})}
                         style={{width: 300}}
                         enterButton
                     />

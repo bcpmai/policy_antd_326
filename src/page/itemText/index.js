@@ -246,7 +246,7 @@ class ItemText extends Component {
                         <Col span={8}>1.点击进入网上申报：</Col>
                         <Col span={16}>
                             <a href={detailInfo.declare.declare_net.indexOf("http") == -1 ? "http://"+detailInfo.declare.declare_net.trim() : detailInfo.declare.declare_net} target="_blank">{detailInfo!=undefined ? detailInfo.declare.declare_net : null}</a>
-                            {detailInfo!=undefined ? <a className="model-button" href={detailInfo.declare.declare_net.indexOf("http") == -1 ? "http://"+detailInfo.declare.declare_net.trim() : detailInfo.declare.declare_net} target="_blank">网上申报</a> : null}
+                            {detailInfo!=undefined ? <a className="model-button" href={detailInfo.declare.declare_net.indexOf("http") == -1 ? "http://"+detailInfo.declare.declare_net.trim() : detailInfo.declare.declare_net} target="_blank" style={{marginTop:0}}>网上申报</a> : null}
                         </Col>
                     </Row> : null}
                     {detailInfo!=undefined && detailInfo.declare.post_material ?
