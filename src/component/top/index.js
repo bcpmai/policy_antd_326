@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {Link } from "react-router-dom";
-import {Input, Button, Row, Col, Menu,Icon} from 'antd';
+import {Input, Button, Row, Col, Menu,Icon,Badge,Tooltip} from 'antd';
 import cookie from 'react-cookies';
 // import {
 //     MailOutlined,
@@ -14,6 +14,7 @@ import './index.css';
 import Logo from './img/logo.jpg';
 import lingdang from './img/lingdang.png';
 import Logo1 from './img/logo1.jpg';
+import {request} from "../../utils/request";
 
 
 const { SubMenu } = Menu;
@@ -69,6 +70,7 @@ class Top extends Component {
         this.state = {
             isLogin:cookie.load('userId'),
             userType:cookie.load('userType'),
+            num:0,
             current
         }
 
@@ -81,13 +83,21 @@ class Top extends Component {
         // }
         console.log(window.location.pathname ? window.location.pathname.replace("/","") : "home")
     }
-    componentWillMount() {
+    async componentWillMount() {
         const {current,isLogin} = this.state;
         const cHref = window.location.pathname.replace("/","");
         if(current == "login" && !isLogin && cHref!= "login" && cHref!= "register" && cHref!= "forgotYour"){
             window.location.href = '/login'
             // this.props.history.push('/login');
         }
+        const res = await request('/common/get-message', 'POST'); //是否收茂
+        console.log(res);
+        if (res.status == 200 && res.data.num > 0){
+            this.setState({
+                num: res.data.num
+            });
+        }
+
     }
 
     handleClick = () => {
@@ -105,7 +115,7 @@ class Top extends Component {
     }
 
     render() {
-        const { isLogin, current, userType } = this.state;
+        const { isLogin, current, userType,num } = this.state;
         return (
             <div className="top-component-template">
                 <div className="welcome-box">
@@ -141,7 +151,7 @@ class Top extends Component {
                         {/*<u className="line-u">|</u>*/}
                         <Link to="/register"><Button icon="export" className="ml15">注册</Button></Link>
                     </span> : <span>
-                        <img src={lingdang} style={{width:18,marginRight:20}} /><span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></span>}
+                        {num >0 && cookie.load("userType") == 1 ?<Tooltip placement="bottom" title={`即将到期的申报项目有${num}个，请完善信息进行并进行匹配`}><a href="/matching" style={{display:"inline-block",width:"50px",textAlign:"left",lineHeight:0}}><Badge count={num}><img src={lingdang} style={{width:18,marginRight:"10px"}} /></Badge></a></Tooltip>:null}<span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></span>}
                     </Col>
                 </Row>
                 </div>
