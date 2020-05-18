@@ -167,7 +167,7 @@ class DeclarationItem extends Component {
         if (cookie.load('userId')) {
             values.member_id = parseInt(cookie.load('userId'));
         }
-        const tableData = await request(cookie.load('userType') == 1 ? '/declare/list-client' : '/declare/list', 'POST', {...values, status: 2}); //获取table
+        const tableData = await request('/declare/list-client', 'POST', {...values, status: 2}); //获取table
         values.path = "declarationItem"; //保存路由，详情返回时保留搜索条件
         if (tableData.status == 200) {
             this.setState({
