@@ -29,6 +29,8 @@ class PolicyList extends Component {
             current:1,
             arrdown: true,
             arrProduct: false,
+            condition_data_count: 0, //新采集政策
+            spider_data_count: 0, //申报或认定
             labelStatus: {
                 title: "状 态",
                 item: [
@@ -169,9 +171,9 @@ class PolicyList extends Component {
         const labelTypeData = await request('/common/get-all-use-type-declare-label', 'POST'); //应用类型
         const selectBelongData = await request('/common/get-all-belong-label', 'POST'); //所属层级
         const selectIndustryData = await request('/common/get-all-industry-label', 'POST'); //所属行业
+        const count = await request('/common/spider-count', 'GET'); //统计
 
-
-
+    console.log(count);
         const themData = labelThemeData.data;
         const typeData = labelTypeData.data;
         const belongData = selectBelongData.data;
@@ -193,8 +195,9 @@ class PolicyList extends Component {
                     item: typeData.data
                 },
                 belongData: belongData.data,
-                industryData: industryData.data
-
+                industryData: industryData.data,
+                condition_data_count:count.data.condition_data_count,
+                spider_data_count:count.data.spider_data_count
             })
         }
     }
@@ -479,7 +482,11 @@ class PolicyList extends Component {
                                 </div>
                                 </Form>
                             </div>
-                            <p align="right" className="operation-button"><Link to="/addPolicy"><Button type="primary">添加政策</Button></Link></p>
+                            <div><span style={{
+                                float: "left",
+                                display: "inline-block",
+                                padding: "20px 0"
+                            }}>上一次新采集政策{this.state.condition_data_count}条，其中申报或认定{this.state.spider_data_count}条</span><p align="right" className="operation-button"><Link to="/addPolicy"><Button type="primary">添加政策</Button></Link></p></div>
                             {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                         </Col>
                     </Row>
