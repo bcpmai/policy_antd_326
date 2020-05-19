@@ -199,7 +199,7 @@ class DeclarePush extends Component {
                         </Button>
                     ]}
                 >
-                    <p>该项目网上申报后，需提交纸质材料。</p>
+                    <p>本项目采用以下申报方式：</p>
                     {record!=undefined && record.declare_net ?
                         <Row>
                         <Col span={8}>1.点击进入网上申报：</Col>
