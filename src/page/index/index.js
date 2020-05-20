@@ -33,7 +33,7 @@ class Home extends Component {
     }
     async componentWillMount() {
         const numberData = await request('/common/get-bananer','POST');
-        const listData = await request('/declare/list','POST',{ page: 1, max_line: 3,status:2 }); //获取最新政策数据
+        const listData = await request('/declare/list-client','POST',{ page: 1, max_line: 3,status:2 }); //获取最新政策数据
 
         if (listData && listData.status==200 && numberData.status == 200) {
 
