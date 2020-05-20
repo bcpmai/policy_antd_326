@@ -90,7 +90,7 @@ class Top extends Component {
             window.location.href = '/login'
             // this.props.history.push('/login');
         }
-        const res = await request('/common/get-message', 'POST'); //是否收茂
+        const res = await request('/common/get-message', 'POST',{member_id: cookie.load('userId')}); //是否收茂
         console.log(res);
         if (res.status == 200 && res.data.num > 0){
             this.setState({

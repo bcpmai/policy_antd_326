@@ -486,7 +486,7 @@ class PolicyList extends Component {
                                 float: "left",
                                 display: "inline-block",
                                 padding: "20px 0"
-                            }}>上一次新采集政策{this.state.condition_data_count}条，其中申报或认定{this.state.spider_data_count}条</span><p align="right" className="operation-button"><Link to="/addPolicy"><Button type="primary">添加政策</Button></Link></p></div>
+                            }}>上一次新采集政策{this.state.spider_data_count}条，其中申报或认定{this.state.condition_data_count}条</span><p align="right" className="operation-button"><Link to="/addPolicy"><Button type="primary">添加政策</Button></Link></p></div>
                             {tableData ? <Table columns={this.columns} dataSource={tableData.result} pagination={pagination} rowKey="id" /> : null}
                         </Col>
                     </Row>
