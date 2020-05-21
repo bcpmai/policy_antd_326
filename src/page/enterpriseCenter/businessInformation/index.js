@@ -409,9 +409,9 @@ class BusinessInformation extends Component {
                                             <td colSpan={4}>
                                                 {getFieldDecorator('scale')(
                                                     <Radio.Group disabled={true}>
-                                                        <Radio value={1}>小微型</Radio>
+                                                        <Radio value={1}>大型</Radio>
                                                         <Radio value={2}>中型</Radio>
-                                                        <Radio value={3}>大型</Radio>
+                                                        <Radio value={3}>小微型</Radio>
                                                     </Radio.Group>
                                                 )}
                                             </td>
