@@ -400,7 +400,7 @@ class BusinessInformation extends Component {
                                             <th>经营场地面积（平方米）</th>
                                             <td colSpan={4}>
                                                 {getFieldDecorator('area_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
@@ -408,7 +408,7 @@ class BusinessInformation extends Component {
                                             <th>经营规模</th>
                                             <td colSpan={4}>
                                                 {getFieldDecorator('scale')(
-                                                    <Radio.Group disabled={true}>
+                                                    <Radio.Group disabled={isEdit}>
                                                         <Radio value={1}>大型</Radio>
                                                         <Radio value={2}>中型</Radio>
                                                         <Radio value={3}>小微型</Radio>
@@ -467,7 +467,7 @@ class BusinessInformation extends Component {
                                             <th>主营业务投入(万元)</th>
                                             <th>去年主营业务收入</th>
                                             <td colSpan={4}>{getFieldDecorator('declare_value')(
-                                                <Input disabled={true} suffix="万元" style={{width: 200}}/>
+                                                <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
                                             )}</td>
                                         </tr>
                                         <tr>
@@ -526,7 +526,7 @@ class BusinessInformation extends Component {
                                             <th style={{width: "200px"}}>企业总人数</th>
                                             <td colSpan={3}>
                                                 {getFieldDecorator('social_people_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
@@ -550,13 +550,13 @@ class BusinessInformation extends Component {
                                             <th>研发人员数量(人)</th>
                                             <td colSpan={1}>
                                                 {getFieldDecorator('develop_people_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                             <th>研发人才占比(%)</th>
                                             <td colSpan={1}>
                                                 {getFieldDecorator('personnel_margin_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
@@ -564,7 +564,7 @@ class BusinessInformation extends Component {
                                             <th>高级职称、博士、硕士人数(人)</th>
                                             <td colSpan={1}>
                                                 {getFieldDecorator('senior_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                             <th>高级职称、博士、硕士占比(%)</th>
@@ -603,7 +603,7 @@ class BusinessInformation extends Component {
                                             <th>技术研发设备投入(万元)</th>
                                             <td colSpan={3}>
                                                 {getFieldDecorator('develop_assets_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
@@ -619,7 +619,7 @@ class BusinessInformation extends Component {
                                             <th style={{width: "250px"}}>去年研发投入额(万元)</th>
                                             <td colSpan={4}>
                                                 {getFieldDecorator('develop_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
@@ -627,7 +627,7 @@ class BusinessInformation extends Component {
                                             <th>研发投入占营业收入比重</th>
                                             <td colSpan={4}>
                                                 {getFieldDecorator('develop_taking_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>
@@ -710,7 +710,7 @@ class BusinessInformation extends Component {
                                             <th>专利总量(件)</th>
                                             <td colSpan={4}>
                                                 {getFieldDecorator('knowledge_value')(
-                                                    <Input disabled={true} style={{width: 200}}/>
+                                                    <Input disabled={isEdit} style={{width: 200}}/>
                                                 )}
                                             </td>
                                         </tr>

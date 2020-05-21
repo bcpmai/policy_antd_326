@@ -93,7 +93,7 @@ class PolicyList extends Component {
                 dataIndex: 'organization_label_str',
                 key: 'organization_label_str',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 10 ? text : text.substr(0,10)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 8 ? text : text.substr(0,8)+"..."}</span></Tooltip>
                 }
             },
             {
@@ -367,7 +367,7 @@ class PolicyList extends Component {
             defaultCurrent: 1,
             defaultPageSize:20,
             total:tableData.sum || 0,
-            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条政策`,
+            showTotal:(total, range) => `共 ${tableData.page_num} 页 总计 ${tableData.sum} 条数据`,
             pageSizeOptions: ['10', '20', '30', '50', '100', '150'],
             onShowSizeChange: this.onShowSizeChange,
             onChange:this.onPaginChange
