@@ -4,6 +4,7 @@
 .login-template .login-form-box{
     margin: 0 auto;
     background: url("./img/bg.jpg") center top no-repeat;
+    background-size: auto 100%;
     /*height: 797px;*/
 }
 .login-template .login-title{

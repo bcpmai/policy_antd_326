@@ -238,7 +238,7 @@ class Information extends Component {
                                 <EnterpriseMenu menuKey="information"/>
                             </Col>
                             <Col span={20}>
-                                <Title name="企业信息"/>
+                                <Title name="基本信息"/>
                                 <div className="information-title-h1">
                                     <div className="alert-box">
                                         <Icon type="exclamation-circle" theme="filled" />
@@ -252,7 +252,7 @@ class Information extends Component {
                                     { !isEdit ? <Button type="primary" htmlType="submit" className="button-edit">保存</Button> : null}
                                 </div>
                                 <div className="information-form">
-                                    <div className="information-title">基本信息</div>
+                                    {/*<div className="information-title">基本信息</div>*/}
                                     <Row>
                                         <Col span={10}>
                                             <Form.Item label="企业名称">
@@ -322,135 +322,136 @@ class Information extends Component {
                                             </Form.Item>
                                         </Col>
                                     </Row>
-                                    <div className="information-title">知识产权情况</div>
-                                    <Row>
-                                        <Col span={10}>
-                                            <Form.Item label="知识产权数量">
-                                                {getFieldDecorator('knowledge_value')(
-                                                    <Input disabled={isEdit} suffix="个" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                        <Col span={14}>
-                                            <Form.Item className="text-right" label="其中，发明专利数量">
-                                                {getFieldDecorator('invention_value')(
-                                                    <Input disabled={isEdit} suffix="个" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
 
-                                    <div className="information-title">财务数据情况</div>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="去年研发投入额">
-                                                {getFieldDecorator('develop_value')(
-                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="去年主营业务收入">
-                                                {getFieldDecorator('declare_value')(
-                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="技术研发设备投入">
-                                                {getFieldDecorator('develop_assets_value')(
-                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="营业收入增长率">
-                                                {getFieldDecorator('taking_value')(
-                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="研发投入占营业收入比重">
-                                                {getFieldDecorator('develop_taking_value')(
-                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="项目总投入">
-                                                {getFieldDecorator('total_project_value')(
-                                                    <Input disabled={isEdit} suffix="万元" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="利润率">
-                                                {getFieldDecorator('profit_margin_value')(
-                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="服务企业数量">
-                                                {getFieldDecorator('service_business_value')(
-                                                    <Input disabled={isEdit} suffix="家" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
+                                    {/*<div className="information-title">知识产权情况</div>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={10}>*/}
+                                            {/*<Form.Item label="知识产权数量">*/}
+                                                {/*{getFieldDecorator('knowledge_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="个" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item className="text-right" label="其中，发明专利数量">*/}
+                                                {/*{getFieldDecorator('invention_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="个" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
 
-                                    <div className="information-title">人员情况</div>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="企业总人数">
-                                                {getFieldDecorator('social_people_value')(
-                                                    <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="研发人员数量">
-                                                {getFieldDecorator('develop_people_value')(
-                                                    <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="研发人才占比率">
-                                                {getFieldDecorator('personnel_margin_value')(
-                                                    <Input disabled={isEdit} suffix="%" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col span={14}>
-                                            <Form.Item label="高级职称、博士、硕士人数">
-                                                {getFieldDecorator('senior_value')(
-                                                    <Input disabled={isEdit} suffix="人" style={{width: 200}}/>
-                                                )}
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
+                                    {/*<div className="information-title">财务数据情况</div>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="去年研发投入额">*/}
+                                                {/*{getFieldDecorator('develop_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="万元" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="去年主营业务收入">*/}
+                                                {/*{getFieldDecorator('declare_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="万元" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="技术研发设备投入">*/}
+                                                {/*{getFieldDecorator('develop_assets_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="万元" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="营业收入增长率">*/}
+                                                {/*{getFieldDecorator('taking_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="%" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="研发投入占营业收入比重">*/}
+                                                {/*{getFieldDecorator('develop_taking_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="%" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="项目总投入">*/}
+                                                {/*{getFieldDecorator('total_project_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="万元" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="利润率">*/}
+                                                {/*{getFieldDecorator('profit_margin_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="%" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="服务企业数量">*/}
+                                                {/*{getFieldDecorator('service_business_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="家" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+
+                                    {/*<div className="information-title">人员情况</div>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="企业总人数">*/}
+                                                {/*{getFieldDecorator('social_people_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="人" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="研发人员数量">*/}
+                                                {/*{getFieldDecorator('develop_people_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="人" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="研发人才占比率">*/}
+                                                {/*{getFieldDecorator('personnel_margin_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="%" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
+                                    {/*<Row>*/}
+                                        {/*<Col span={14}>*/}
+                                            {/*<Form.Item label="高级职称、博士、硕士人数">*/}
+                                                {/*{getFieldDecorator('senior_value')(*/}
+                                                    {/*<Input disabled={isEdit} suffix="人" style={{width: 200}}/>*/}
+                                                {/*)}*/}
+                                            {/*</Form.Item>*/}
+                                        {/*</Col>*/}
+                                    {/*</Row>*/}
                                 </div>
                             </Col>
                         </Row>

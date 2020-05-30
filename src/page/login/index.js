@@ -79,7 +79,7 @@ class Login extends Component {
                                     {getFieldDecorator('password', {
                                         rules: [{ required: true, message: '请输入密码!' }],
                                     })(
-                                        <Input.Password placeholder="请输入密码"/>
+                                        <Input type="password" placeholder="请输入密码"/>
                                     )}
                                 </Form.Item>
                                 <Form.Item wrapperCol={{span: 24, offset: 0}} className="login-button">

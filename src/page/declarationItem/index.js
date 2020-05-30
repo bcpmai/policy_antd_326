@@ -456,7 +456,7 @@ class DeclarationItem extends Component {
                         <Col span={16}>
                             <a href={record.declare_net.indexOf("http") == -1 ? "http://"+record.declare_net.trim() : record.declare_net} target="_blank">{record != undefined ? record.declare_net : null}</a>
                             {record != undefined ?
-                                <a className="model-button" href={record.declare_net.indexOf("http") == -1 ? "http://"+record.declare_net.trim() : record.declare_net} target="_blank" style={{marginTop:0}}>网上申报</a> : null}
+                                <a className="model-button" href={record.declare_net.indexOf("http") == -1 ? "http://"+record.declare_net.trim() : record.declare_net} target="_blank" style={{marginTop:0,marginRight:0,marginLeft:0}}>网上申报</a> : null}
                         </Col>
                     </Row> : null}
                     {record != undefined && record.post_material ?

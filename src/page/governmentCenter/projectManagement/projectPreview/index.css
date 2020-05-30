@@ -81,3 +81,14 @@
     font-size: 14px;
     border-radius: 0px;
 }
+.policyPreview-template .policyPreview-content-text,
+.policyPreview-template .policyPreview-content-text p,
+.policyPreview-template .policyPreview-content-text div,
+.policyPreview-template .item-desc,
+.policyPreview-template .item-desc p,
+.policyPreview-template .item-desc div
+{
+    font-family: 'Microsoft YaHei' !important;
+    font-size: 14px;
+    color: #000;
+}

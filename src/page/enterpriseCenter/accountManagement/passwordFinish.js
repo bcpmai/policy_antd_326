@@ -60,7 +60,7 @@ class PasswordFinish extends Component {
                             message: '请输入原登录密码'
                         }]
                     })(
-                        <Input.Password placeholder="请输入原登录密码" style={{width: 300}}/>
+                        <Input type="password" placeholder="请输入原登录密码" style={{width: 300}}/>
                     )}
                 </Form.Item>
                 <Form.Item label="新登录密码">
@@ -80,7 +80,7 @@ class PasswordFinish extends Component {
                                 }
                         }]
                     })(
-                        <Input.Password placeholder="字母、数字和符号两种以上的6-25字符组合" style={{width: 300}}/>
+                        <Input type="password" placeholder="字母、数字和符号两种以上的6-25字符组合" style={{width: 300}}/>
                     )}
                 </Form.Item>
                 <Form.Item label="确认登录密码">
@@ -99,7 +99,7 @@ class PasswordFinish extends Component {
                             }
                         }]
                     })(
-                        <Input.Password placeholder="再次输入密码" style={{width: 300}}/>
+                        <Input type="password" placeholder="再次输入密码" style={{width: 300}}/>
                     )}
                 </Form.Item>
                 <Form.Item wrapperCol={{...layout.wrapperCol, offset: 8}}>

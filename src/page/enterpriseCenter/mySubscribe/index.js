@@ -57,6 +57,7 @@ class MySubscribe extends Component {
             {
                 title: '操作',
                 key: 'action',
+                width:140,
                 render: (text, record) => (<span><a onClick={()=>this.showModal(record)}>立即申报</a><a className="ml15" onClick={()=>this.onCollection(record.id,record.resource_id != "0")}>{record.resource_id != "0" ? "已收藏": "收藏"}</a></span>),
             },
         ];

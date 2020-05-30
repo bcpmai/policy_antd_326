@@ -1,5 +1,6 @@
 .register-template{
-    background: url("./img/bg.jpg") center bottom no-repeat;
+    background: url("./img/bg.jpg") center top no-repeat;
+    background-size: auto 100%;
 }
 .register-template .register-form-box{
     padding: 50px 0;

@@ -133,7 +133,7 @@ class ForgotYour extends Component {
                                             }
                                     }]
                             })(
-                                <Input.Password placeholder="字母、数字和符号两种以上的6-25字符组合"/>
+                                <Input type="password" placeholder="字母、数字和符号两种以上的6-25字符组合"/>
                             )}
                         </Form.Item>
                         <Form.Item>
@@ -152,7 +152,7 @@ class ForgotYour extends Component {
                                     }
                                 }]
                             })(
-                                <Input.Password placeholder="再次输入密码"/>
+                                <Input type="password" placeholder="再次输入密码"/>
                             )}
                         </Form.Item>
                         <Form.Item wrapperCol={{span: 24, offset: 0}} className="forgotYour-button">

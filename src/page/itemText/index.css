@@ -86,3 +86,14 @@
     margin-top: 30px;
     border-top:1px solid #e2e2e2;
 }
+.itemText-template .policyPreview-content-text,
+.itemText-template .policyPreview-content-text p,
+.itemText-template .policyPreview-content-text div,
+.itemText-template .item-desc,
+.itemText-template .item-desc p,
+.itemText-template .item-desc div
+{
+    font-family: 'Microsoft YaHei' !important;
+    font-size: 14px;
+    color: #000;
+}
