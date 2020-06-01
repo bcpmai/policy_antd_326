@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {Link } from "react-router-dom";
-import {Input, Button, Row, Col, Menu,Icon,Badge,Tooltip} from 'antd';
+import {Input, Button, Row, Col, Menu,Icon,Badge,Tooltip,Modal,message} from 'antd';
 import cookie from 'react-cookies';
 // import {
 //     MailOutlined,
@@ -66,10 +66,11 @@ class Top extends Component {
                 current = "declarationItem";
             }
         }
-        console.log(current,"current");
         this.state = {
             isLogin:cookie.load('userId'),
             userType:cookie.load('userType'),
+            visible:false,
+            loading:false,
             num:0,
             current
         }
@@ -91,7 +92,7 @@ class Top extends Component {
             // this.props.history.push('/login');
         }
         const res = await request('/common/get-message', 'POST',{member_id: cookie.load('userId')}); //是否收茂
-        console.log(res);
+        //console.log(res);
         if (res.status == 200 && res.data.num > 0){
             this.setState({
                 num: res.data.num
@@ -103,24 +104,41 @@ class Top extends Component {
     handleClick = () => {
 
     }
+    handleCancel = () => {
+        this.setState({ visible: false });
+    };
     removeCookie = (e) =>{
-        e.preventDefault();
+        e && e.preventDefault();
         cookie.remove('userId',{ path: '/' });
         cookie.remove('userName',{ path: '/' });
         cookie.remove('userType',{ path: '/' });
         window.location.href='/login';
+    }
+    showVisible = (e) =>{
+        this.setState({ visible: true });
+    }
+    deleteCookie = async (e) =>{
+        this.setState({ loading: true });
+        const res = await request('/common/company-delete', 'POST',{member_id: cookie.load('userId')}); //是否收茂
+        if (res.status == 200 && res.data.success){
+            message.success(res.data.msg);
+            setTimeout(()=>{
+                this.setState({ loading: false, visible:false});
+                this.removeCookie();
+            },2000)
+        }
     }
     serachLatestPolicy = (keyString) =>{
         window.location.href=`/latestPolicy/${keyString}`
     }
 
     render() {
-        const { isLogin, current, userType,num } = this.state;
+        const { isLogin, current, userType,num,visible,loading} = this.state;
         return (
             <div className="top-component-template">
                 <div className="welcome-box">
                 <Row className="max-weight-box">
-                    <Col span={7}><div className="top-name">
+                    <Col span={6}><div className="top-name">
                         <img src={Logo} style={{width:"35px",marginRight:"10px",borderRadius: "5px"}} />
                         政策与企业匹配服务平台
                         {/*<img src={Logo1} style={{width:"50px",marginLeft:"5px",marginRight:"0px"}} />*/}
@@ -145,13 +163,13 @@ class Top extends Component {
                     {/*<Col span={3}>*/}
                         {/*/!*<div className="serach"><Search placeholder="请输入关键词" onSearch={this.serachLatestPolicy} enterButton /></div>*!/*/}
                     {/*</Col>*/}
-                    <Col span={7} className="right-button">
+                    <Col span={8} className="right-button">
                     {!isLogin ? <span>
                         <Link to="/login"><Button icon="user">登录</Button></Link>
                         {/*<u className="line-u">|</u>*/}
                         <Link to="/register"><Button icon="export" className="ml15">注册</Button></Link>
                     </span> : <span>
-                        {num >0 && cookie.load("userType") == 1 ?<Tooltip placement="bottom" title={`即将到期的申报项目有${num}个，请完善信息进行并进行匹配`}><a href="/matching/true" style={{display:"inline-block",width:"50px",textAlign:"left",lineHeight:0}}><Badge count={num}><img src={lingdang} style={{width:18,marginRight:"10px"}} /></Badge></a></Tooltip>:null}<span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></span>}
+                        {num >0 && cookie.load("userType") == 1 ?<Tooltip placement="bottom" title={`即将到期的申报项目有${num}个，请完善信息进行并进行匹配`}><a href="/matching/true" style={{display:"inline-block",width:"50px",textAlign:"left",lineHeight:0}}><Badge count={num}><img src={lingdang} style={{width:18,marginRight:"10px"}} /></Badge></a></Tooltip>:null}<span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button><Button icon="logout" className="ml15" onClick={this.showVisible}>注销</Button></span>}
                     </Col>
                 </Row>
                 </div>
@@ -179,7 +197,22 @@ class Top extends Component {
                         {/*</Menu>*/}
                     {/*</div>*/}
                 {/*</div>*/}
-
+                <Modal
+                    visible={visible}
+                    title="Title"
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>
+                            取消
+                        </Button>,
+                        <Button key="submit" type="primary" loading={loading} onClick={this.deleteCookie}>
+                            确定
+                        </Button>,
+                    ]}
+                >
+                    <p>是否确定注销？注销后不可撤回！并无法登录</p>
+                </Modal>
             </div>
         );
     };
