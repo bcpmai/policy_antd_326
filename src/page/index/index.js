@@ -197,7 +197,7 @@ class Home extends Component {
                                     <Col span={8}>
                                         <Link to="/declarationItem">
                                         <div className="item">
-                                            <img src={Icon1_red} />
+                                            <img src={Icon2_red} />
                                             <p className="title">申报项目</p>
                                             <p className="desc">获取项目政策扶持</p>
                                         </div>
@@ -206,7 +206,7 @@ class Home extends Component {
                                     <Col span={8}>
                                         <Link to="/matching">
                                         <div className="item">
-                                            <img src={Icon1_red} />
+                                            <img src={Icon3_red} />
                                             <p className="title">精准匹配</p>
                                             <p className="desc">结合情况进行匹配</p>
                                         </div>
