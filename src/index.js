@@ -68,7 +68,7 @@ ReactDOM.render(
             <Route exact path="/policyUser" component={PolicyUser} />
             <Route exact path="/declarationItem/:key?" component={DeclarationItem} />
             <Route exact path="/itemText/:id/:key?" component={ItemText} />
-            <Route exact path="/matching" component={Matching} />
+            <Route exact path="/matching/:isExpire?" component={Matching} />
             <Route exact path="/mySubscribe" component={MySubscribe} />
             <Route exact path="/myCollection" component={MyCollection} />
             <Route exact path="/collectionList" component={CollectionList} />

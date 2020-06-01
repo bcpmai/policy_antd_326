@@ -129,7 +129,8 @@ class Matching extends Component {
         }
     }
     getTableData = async (values) =>{
-        const tableData = await request('/declare/matching', 'POST',{member_id:cookie.load('userId')}); //获取table
+        console.log(this.props.match.params);
+        const tableData = await request('/declare/matching', 'POST',{member_id:cookie.load('userId'),is_expire:this.props.match.params.isExpire ? true : false}); //获取table
         if(tableData.status == 200){
             this.setState({
                 tableData: tableData.data,

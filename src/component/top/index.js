@@ -151,7 +151,7 @@ class Top extends Component {
                         {/*<u className="line-u">|</u>*/}
                         <Link to="/register"><Button icon="export" className="ml15">注册</Button></Link>
                     </span> : <span>
-                        {num >0 && cookie.load("userType") == 1 ?<Tooltip placement="bottom" title={`即将到期的申报项目有${num}个，请完善信息进行并进行匹配`}><a href="/matching" style={{display:"inline-block",width:"50px",textAlign:"left",lineHeight:0}}><Badge count={num}><img src={lingdang} style={{width:18,marginRight:"10px"}} /></Badge></a></Tooltip>:null}<span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></span>}
+                        {num >0 && cookie.load("userType") == 1 ?<Tooltip placement="bottom" title={`即将到期的申报项目有${num}个，请完善信息进行并进行匹配`}><a href="/matching/true" style={{display:"inline-block",width:"50px",textAlign:"left",lineHeight:0}}><Badge count={num}><img src={lingdang} style={{width:18,marginRight:"10px"}} /></Badge></a></Tooltip>:null}<span title={cookie.load('userName')}><Icon type="user" style={{marginRight:"5px"}} />{cookie.load('userName').length > 10 ? cookie.load('userName').substr(0,10)+"..." : cookie.load('userName')}</span><Button icon="logout" className="ml15" onClick={this.removeCookie}>退出</Button></span>}
                     </Col>
                 </Row>
                 </div>

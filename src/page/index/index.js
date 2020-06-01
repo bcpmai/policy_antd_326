@@ -12,6 +12,9 @@ import Label from "../../component/label";
 import bannerImg1 from "./img/new_banner.jpg";
 import policyImg from "./img/policy.jpg";
 import projectImg from "./img/project.jpg";
+import Icon1_red from "./img/icon1_red.png";
+import Icon2_red from "./img/icon2_red.png";
+import Icon3_red from "./img/icon3_red.png";
 import Icon1 from "./img/icon1.png";
 import Icon2 from "./img/icon2.png";
 import Icon3 from "./img/icon3.png";
@@ -54,8 +57,8 @@ class Home extends Component {
             const macthingCount = this.state.macthing_declare + parseInt(macthing_declare/time)+1;
             const clickCount = this.state.policy_click_count + parseInt(policy_click_count/time)+1;
             const spiderCount = this.state.policy_spider_count + parseInt(policy_spider_count/time)+1;
-            console.log(company_count,macthing_declare,policy_click_count,policy_spider_count)
-            console.log(companyCount,macthingCount,clickCount,spiderCount);
+            // console.log(company_count,macthing_declare,policy_click_count,policy_spider_count)
+            // console.log(companyCount,macthingCount,clickCount,spiderCount);
             if(companyCount>=company_count && macthingCount>=macthing_declare && clickCount >= policy_click_count && spiderCount >=policy_spider_count){
                 this.setState({
                     company_count:company_count ,
@@ -149,24 +152,32 @@ class Home extends Component {
                     <div className="center-banner">
                         <Row className="max-weight-box">
                             <Col span={6}>
-                                <img src={Icon1} />
-                                <p className="number">{policy_spider_count}<span>条</span></p>
-                                <p className="desc">政策采集条数</p>
+                                <img className="img" src={Icon1} />
+                                <div className="content">
+                                    <p className="number">{policy_spider_count}<span>条</span></p>
+                                    <p className="desc">政策采集条数</p>
+                                </div>
                             </Col>
                             <Col span={6}>
-                                <img src={Icon2} />
+                                <img className="img" src={Icon2} />
+                                <div className="content">
                                 <p className="number">{policy_click_count}<span>次</span></p>
                                 <p className="desc">政策点击次数</p>
+                                </div>
                             </Col>
                             <Col span={6}>
-                                <img src={Icon3} />
+                                <img className="img" src={Icon3} />
+                                <div className="content">
                                 <p className="number">{macthing_declare}<span>次</span></p>
                                 <p className="desc">精准匹配次数</p>
+                                </div>
                             </Col>
                             <Col span={6}>
-                                <img src={Icon4} />
+                                <img className="img" src={Icon4} />
+                                <div className="content">
                                 <p className="number">{company_count}<span>家</span></p>
                                 <p className="desc">服务企业总数</p>
+                                </div>
                             </Col>
                         </Row>
                     </div>
@@ -177,6 +188,7 @@ class Home extends Component {
                                     <Col span={8}>
                                         <Link to="/latestPolicy">
                                             <div className="item">
+                                                <img src={Icon1_red} />
                                                 <p className="title">查找政策</p>
                                                 <p className="desc">快速查询相关政策</p>
                                             </div>
@@ -185,6 +197,7 @@ class Home extends Component {
                                     <Col span={8}>
                                         <Link to="/declarationItem">
                                         <div className="item">
+                                            <img src={Icon1_red} />
                                             <p className="title">申报项目</p>
                                             <p className="desc">获取项目政策扶持</p>
                                         </div>
@@ -193,6 +206,7 @@ class Home extends Component {
                                     <Col span={8}>
                                         <Link to="/matching">
                                         <div className="item">
+                                            <img src={Icon1_red} />
                                             <p className="title">精准匹配</p>
                                             <p className="desc">结合情况进行匹配</p>
                                         </div>
