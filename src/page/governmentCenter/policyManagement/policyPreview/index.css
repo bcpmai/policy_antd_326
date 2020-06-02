@@ -30,6 +30,9 @@
     font-size: 14px;
     color: #000;
     line-height: 30px;
+    word-break:break-all;
+    word-wrap:break-word;
+    font-family: 'Microsoft YaHei' !important;
 }
 .policyPreview-template .policyPreview-content .policyPreview-content-text div{
     text-indent: 30px;

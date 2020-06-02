@@ -90,5 +90,9 @@
 {
     font-family: 'Microsoft YaHei' !important;
     font-size: 14px;
+}
+.policyPreview-template .policyPreview-content-text,
+.policyPreview-template .item-desc
+{
     color: #000;
 }
