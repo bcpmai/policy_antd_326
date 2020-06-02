@@ -94,10 +94,26 @@
 .itemText-template .item-desc div
 {
     font-family: 'Microsoft YaHei' !important;
-    font-size: 14px;
-
+    font-size: 14px!important;
+    color:#000!important;
+}
+.itemText-template .policyPreview-content-text .red_content,
+.itemText-template .policyPreview-content-text .red_content p,
+.itemText-template .policyPreview-content-text .red_content div,
+.itemText-template .policyPreview-content-text .red_content span{
+    color:#1890ff!important;
+}
+.itemText-template .policyPreview-content-text .red_content{
+    text-decoration: underline;
+    font-weight:bold;
+    border-bottom:1px dotted #d9d9d9;
+    padding-bottom:20px
 }
 .itemText-template .policyPreview-content-text,
 .itemText-template .item-desc{
     color: #000;
+}
+.itemText-template .policyPreview-content-text .def_content{
+    border-bottom:1px dotted #d9d9d9;
+    padding-bottom:20px
 }

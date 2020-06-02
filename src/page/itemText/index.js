@@ -188,7 +188,7 @@ class ItemText extends Component {
                         <div className="policyPreview-content">
                             <div className="policyPreview-content-text">
                                 {detailInfo.declare.declare_matching_details_list.map((item,idx)=>{
-                                    return (<div style={item.matching_bool ? {color:"#1890ff",textDecoration: "underline",fontWeight:"bold",borderBottom:"1px dotted #d9d9d9",paddingBottom:"20px"} : {borderBottom:"1px dotted #d9d9d9",paddingBottom:"20px"}}  dangerouslySetInnerHTML = {{ __html:item.content }}></div>)
+                                    return (<div className={item.matching_bool ? "red_content" : "def_content"}  dangerouslySetInnerHTML = {{ __html:item.content }}></div>)
                                 })}
 
                             </div>

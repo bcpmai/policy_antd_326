@@ -27,6 +27,12 @@
     color: #333;
     word-break:break-all;
     word-wrap:break-word;
+}
+.policyText-template .policyText-content .policyText-content-text span,
+.policyText-template .policyText-content .policyText-content-text div,
+.policyText-template .policyText-content .policyText-content-text p{
+    font-size: 16px!important;
+    color: #333!important;
     font-family: 'Microsoft YaHei' !important;
 }
 /*面包屑*/

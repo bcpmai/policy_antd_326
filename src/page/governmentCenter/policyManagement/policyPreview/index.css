@@ -38,6 +38,13 @@
     text-indent: 30px;
     margin-bottom: 20px;
 }
+.policyPreview-template .policyPreview-content .policyPreview-content-text span,
+.policyPreview-template .policyPreview-content .policyPreview-content-text div,
+.policyPreview-template .policyPreview-content .policyPreview-content-text p{
+    font-size: 16px!important;
+    color: #333!important;
+    font-family: 'Microsoft YaHei' !important;
+}
 .policyPreview-template .title-component-template{
     padding-top: 30px;
     margin-bottom: 0px;
