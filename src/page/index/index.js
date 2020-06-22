@@ -31,10 +31,12 @@ class Home extends Component {
             company_count: 0,
             macthing_declare: 0,
             policy_click_count: 0,
-            policy_spider_count: 0
+            policy_spider_count: 0,
+            fileList:[]
         }
     }
     async componentWillMount() {
+        this.getDefalut(); //轮播图
         const numberData = await request('/common/get-bananer','POST');
         const listData = await request('/declare/list-client','POST',{ page: 1, max_line: 3,status:2 }); //获取最新政策数据
 
@@ -76,6 +78,12 @@ class Home extends Component {
                 })
             }
         },1)
+    }
+    getDefalut = async() =>{
+        const responest = await request('/common/get-slideshow', 'POST');
+        this.setState({
+            fileList:responest.data
+        })
     }
     getListData = () =>{
 
@@ -134,19 +142,18 @@ class Home extends Component {
         const { label, dataList,idx,company_count,
             macthing_declare,
             policy_click_count,
-            policy_spider_count } = this.state;
+            policy_spider_count,fileList } = this.state;
         return (
             <div className="index-template">
                 <Top />
                 <div className="index-box">
                     <div className="carousel-box">
                         <Carousel autoplay>
-                            <div>
-                                <img src={bannerImg1} />
-                            </div>
-                            <div>
-                                <img src={bannerImg1} />
-                            </div>
+                            {fileList.map((item,idx)=>{
+                                return <div>
+                                    <img src={item.url} />
+                                </div>
+                            })}
                         </Carousel>
                     </div>
                     <div className="center-banner">

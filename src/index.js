@@ -42,6 +42,7 @@ import LabelManage from "./page/governmentCenter/systemManagement/labelManage/in
 import CarouselManage from "./page/governmentCenter/systemManagement/carouselManage/index.js"; //轮播图管理
 import BusinessInformation from "./page/enterpriseCenter/businessInformation/index.js"; //轮播图管理
 import DeclarationForm from "./page/declarationForm/index.js";
+// import SwiperManagement from "./page/governmentCenter/systemManagement/swiperManagement/index.js"; //轮播图管理
 
 import Footer from "./component/footer";
 
@@ -81,7 +82,7 @@ ReactDOM.render(
             <Route exact path="/carouselManage" component={CarouselManage} />
             <Route exact path="/businessInformation/:id?" component={BusinessInformation} />
             <Route exact path="/declarationForm/:id" component={DeclarationForm} />
-
+            {/*<Route exact path="/swiperManagement" component={SwiperManagement} />*/}
         </div>
             <Footer />
             <BackTop />

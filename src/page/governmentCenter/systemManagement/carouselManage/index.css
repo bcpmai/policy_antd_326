@@ -59,6 +59,7 @@
     width: 100%;
     display: block;
     margin-bottom: 5px;
+    max-height: 200px;
 }
 .carouselManage-template .img-list a{
     color: #ae242b;
