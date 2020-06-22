@@ -137,8 +137,8 @@ class CarouselManage extends Component {
         const {fileList,defaultFileList=[]} = this.state;
         console.log(defaultFileList)
         const props = {
-            action: 'http://106.75.17.129:5000/api/common/upload-file',
-            // action:uploadUrl,
+            // action: 'http://106.75.17.129:5000/api/common/upload-file',
+            action:uploadUrl,
             onChange: this.handleUploadChange,
             multiple: true,
             data:{
