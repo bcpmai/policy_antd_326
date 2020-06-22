@@ -137,8 +137,8 @@ class CarouselManage extends Component {
         const {fileList,defaultFileList=[]} = this.state;
         console.log(defaultFileList)
         const props = {
-            // action: 'http://106.75.17.129:5000/api/common/upload-file',
-            action:uploadUrl,
+            action: 'http://106.75.17.129:5000/api/common/upload-file',
+            // action:uploadUrl,
             onChange: this.handleUploadChange,
             multiple: true,
             data:{
@@ -178,7 +178,7 @@ class CarouselManage extends Component {
                             </Breadcrumb>
                             <Row gutter={16} className="img-list">
                                 {fileList.length ? fileList.map((item,idx)=>{
-                                        return <Col span={8} key={idx} style={{border:"1px solid #f1f1f1"}}>
+                                        return <Col span={8} key={idx} style={{border:"1px solid #f1f1f1",paddingTop:"7px"}}>
                                             <img src={item.url} />
                                             <Row>
                                                 <Col span={8}>

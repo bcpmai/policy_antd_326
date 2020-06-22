@@ -75,7 +75,7 @@ class PolicyMenu extends Component {
                         <Menu.Item key="labelManage"><a href="/labelManage"><img src={Icon7} />标签管理</a></Menu.Item>
                         {/*<Menu.Item key="carouselManage"><a href="/carouselManage">轮播图管理</a></Menu.Item>*/}
                         <Menu.Item key="accountManagement"><a href="/accountManagement"><img src={Icon8} />账户管理</a></Menu.Item>
-                        <Menu.Item key="carouselManage"><a href="/carouselManage"><img src={Icon8} />轮播图管理</a></Menu.Item>
+                        <Menu.Item key="carouselManage"><a href="/carouselManage"><Icon type="fund" />轮播图管理</a></Menu.Item>
                     </SubMenu>
                 </Menu>
             </div>
