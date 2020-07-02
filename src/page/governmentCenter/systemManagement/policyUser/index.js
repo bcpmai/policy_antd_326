@@ -35,7 +35,7 @@ class policyUser extends Component {
                 dataIndex: 'real_name',
                 key: 'real_name',
                 render: (text, record) => {
-                    return <Tooltip placement="topLeft" title={text}><span>{text.length < 5 ? text : text.substr(0,5)+"..."}</span></Tooltip>
+                    return <Tooltip placement="topLeft" title={text}><span>{text ? (text.length < 5 ? text : text.substr(0,5)+"...") : ''}</span></Tooltip>
                 }
             },
             {
@@ -57,9 +57,12 @@ class policyUser extends Component {
             {
                 title: '操作',
                 key: 'action',
+                width:250,
                 render: (text, record) => (
                     <span>
-                        <a onClick={(type,id)=>this.showModal("addVisible",record)}>修改</a>
+                        <Tooltip placement="topLeft"
+                                 title="切换至政府权限"><a onClick={(type, id) => this.setAuth(record)}>切换权限</a></Tooltip>
+                        <a className="ml15" onClick={(type,id)=>this.showModal("addVisible",record)}>修改</a>
                         <a className="ml15" onClick={(type,id)=>this.showModal("visible",record)}>{record.status == 0 ? "禁用" : "启用"}</a>
                         <a className="ml15" onClick={(type,id)=>this.showModal("passwordVisible",record)}>重置密码</a>
                     </span>),
@@ -79,6 +82,18 @@ class policyUser extends Component {
                 tableData: tableData.data,
                 formValues:values
             });
+        }
+    }
+
+    setAuth = async(record) => {
+        const req = await request('/admin/update-member-type', 'POST', {member_id:record.id}); //获取table
+        if (req.data.success) {
+            message.success(req.data.msg);
+            setTimeout(()=>{
+                this.getTableData(this.state.formValues);
+            },2000);
+        }else{
+            message.error(req.data.msg);
         }
     }
     onShowSizeChange = (current, pageSize) =>{

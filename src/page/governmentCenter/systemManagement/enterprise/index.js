@@ -49,7 +49,7 @@ class enterprise extends Component {
                 key: 'company_name',
                 render: (text, record) => {
                     return <Tooltip placement="topLeft"
-                                    title={text}>{text ? (text.length < 35 ? text : text.substr(0, 35) + "...") : text}</Tooltip>
+                                    title={text}>{text ? (text.length < 35 ? text : text.substr(0, 35) + "...") : record.username}</Tooltip>
                 }
             },
             {
@@ -103,10 +103,12 @@ class enterprise extends Component {
             {
                 title: '操作',
                 key: 'action',
-                width: 80,
+                width: 140,
                 render: (text, record) => (
                     <span>
-                        <a onClick={(type, id) => this.showModal("viewVisible", record)}>查看</a>
+                        <Tooltip placement="topLeft"
+                                 title="切换至政府权限"><a onClick={(type, id) => this.setAuth(record)}>切换权限</a></Tooltip>
+                        <a onClick={(type, id) => this.showModal("viewVisible", record)} style={{marginLeft:"15px"}}>查看</a>
                         {/*<a onClick={(type, id) => this.showModal("addVisible", record)}>修改</a>*/}
                         {/*<a className="ml15"*/}
                            {/*onClick={(type, id) => this.showModal("visible", record)}>{record.status == 0 ? "禁用" : "启用"}</a>*/}
@@ -214,7 +216,17 @@ class enterprise extends Component {
             this.getUserTableData(record);
         }
     };
-
+    setAuth = async(record) => {
+        const req = await request('/admin/update-member-type', 'POST', {member_id:record.member_id}); //获取table
+        if (req.data.success) {
+            message.success(req.data.msg);
+            setTimeout(()=>{
+                this.getTableData(this.state.formValues);
+            },2000);
+        }else{
+            message.error(req.data.msg);
+        }
+    }
     handleCancel = type => {
         this.setState({
             [type]: false,
