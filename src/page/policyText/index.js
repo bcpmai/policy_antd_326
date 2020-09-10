@@ -107,7 +107,7 @@ class PolicyText extends Component {
                    <div className="policyText-descriptions">
                        <Descriptions>
                            <Descriptions.Item label="政策标题" span={3}><span>{policy.title}</span></Descriptions.Item>
-                           <Descriptions.Item label="发布机构"><span title="重庆市发改委重庆市发改委重庆市发改委">重庆市发改委</span></Descriptions.Item>
+                           <Descriptions.Item label="发布机构"><span title={policy.organization_label_str}>{policy.organization_label_str}</span></Descriptions.Item>
                            <Descriptions.Item label="发文日期">{policy.release_date}</Descriptions.Item>
                            <Descriptions.Item label="发文字号">{policy.post_shop_name}</Descriptions.Item>
                            {policy.label_add_str ? <Descriptions.Item label="政策标签" span={3} className="labelAdd">
